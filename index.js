@@ -68,13 +68,6 @@ var loggerProto = Object.create(
 				},
 				{ cacheName: "_nsTokens" }
 			),
-			_children: d(
-				"",
-				function () {
-					return {};
-				},
-				{ cacheName: "__children" }
-			),
 			enable: d(
 				function () {
 					return setEnabledState.bind(this, true);
@@ -98,6 +91,13 @@ var loggerProto = Object.create(
 					return getNs.bind(this);
 				},
 				{ cacheName: "_getNs" }
+			),
+			_children: d(
+				"",
+				function () {
+					return {};
+				},
+				{ cacheName: "__children" }
 			)
 		})
 	)
