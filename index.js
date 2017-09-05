@@ -10,7 +10,7 @@ var assign         = require("es5-ext/object/assign")
   , lazy           = require("d/lazy")
   , ee             = require("event-emitter");
 
-var emitter = ee(), cache = Object.create(null);
+var emitter = ee(), levelCache = Object.create(null);
 var isValidLevel = RegExp.prototype.test.bind(/^[a-z]+$/);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
@@ -135,7 +135,7 @@ createLogger = function () {
 
 createLevelLogger = function (level) {
 	if (levelAliases[level]) level = levelAliases[level];
-	if (cache[level]) return cache[level];
+	if (levelCache[level]) return levelCache[level];
 	if (!isValidLevel(level)) {
 		throw new TypeError(
 			toShortString(level) + " is not a valid level name (only 'a-z' chars are allowed)"
@@ -150,7 +150,7 @@ createLevelLogger = function (level) {
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
 		level: d("e", level)
 	});
-	cache[level] = logger;
+	levelCache[level] = logger;
 	var directLevelAccessConf = {};
 	directLevelAccessConf[level] = d(
 		"e",
