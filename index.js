@@ -111,7 +111,7 @@ var loggerProto = Object.create(
 			_children: d(
 				"",
 				function () {
-					return {};
+					return Object.create(null);
 				},
 				{ cacheName: "__children" }
 			)
