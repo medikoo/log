@@ -11,7 +11,7 @@ var assign         = require("es5-ext/object/assign")
   , lazy           = require("d/lazy")
   , ee             = require("event-emitter");
 
-var emitter = ee(), cache = {};
+var emitter = ee(), cache = Object.create(null);
 var isValidLevel = RegExp.prototype.test.bind(/^[a-z]+$/);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
@@ -23,11 +23,6 @@ var createLogger, createLevelLogger, createNsLogger;
 
 var getLevel = function (newLevel) {
 	newLevel = ensureString(newLevel);
-	if (!isValidLevel(newLevel)) {
-		throw new TypeError(
-			toShortString(newLevel) + " is not a valid level name (only 'a-z' chars are allowed)"
-		);
-	}
 	if (this.level === newLevel) return this;
 	var levelLogger = createLevelLogger(newLevel);
 	return this.nsTokens.reduce(function (currentLogger, token) {
@@ -124,10 +119,30 @@ createLogger = function () {
 
 createLevelLogger = function (level) {
 	if (cache[level]) return cache[level];
+	if (!isValidLevel(level)) {
+		throw new TypeError(
+			toShortString(level) + " is not a valid level name (only 'a-z' chars are allowed)"
+		);
+	}
+	if (level in loggerProto) {
+		throw new TypeError(
+			toShortString(level) +
+				" is not a valid level name (should not override existing property)"
+		);
+	}
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
 		level: d("e", level)
 	});
 	cache[level] = logger;
+	var directLevelAccessConf = {};
+	directLevelAccessConf[level] = d(
+		"e",
+		function () {
+			return getLevel.call(this, level);
+		},
+		{ cacheName: "_" + level }
+	);
+	Object.defineProperties(loggerProto, lazy(directLevelAccessConf));
 	emitter.emit("init", { logger: logger });
 	return logger;
 };

@@ -15,6 +15,8 @@ test("Logger", function (t) {
 		t.end();
 	});
 
+	t.equal(log.debug, log, "Should expose default 'debug' level at 'debug' property");
+
 	t.test(
 		"When invoked should emit 'log' events on log.emitter, where event should expose",
 		function (t) {
@@ -34,8 +36,11 @@ test("Logger", function (t) {
 			t.equal(currentLog.level, "error", "expected level");
 			t.equal(currentLog.ns, "foo", "expected namespace");
 			t.deepEqual(currentLog.nsTokens, ["foo"], "expected namespace tokens list");
+			t.equal(currentLog.debug, log.getNs("foo"), "Other levels in same namespace");
+			t.equal(currentLog.error, currentLog, "Current level at it's name property");
 			t.end();
 		});
+		t.equal(log.error, log.getLevel("error"), "which are automatically on other loggers");
 
 		t.test("which when invoked should emit 'log' event on log.emitter that exposes", function (
 			t
@@ -57,6 +62,13 @@ test("Logger", function (t) {
 		},
 		TypeError,
 		"Should throw on invalid level names"
+	);
+	t.throws(
+		function () {
+			log.getLevel("name");
+		},
+		TypeError,
+		"Should throw on level names that override existing properties"
 	);
 
 	t.test(
