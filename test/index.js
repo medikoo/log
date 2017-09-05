@@ -28,33 +28,36 @@ test("Logger", function (t) {
 		}
 	);
 
-	t.test(
-		"Should allow to create loggers of other levels via .getLevel(name)", function (t) {
-			var currentLog = log.getNs("foo").getLevel("error");
-			t.test("which expose", function (t) {
-				t.equal(currentLog.level, "error", "expected level");
-				t.equal(currentLog.ns, "foo", "expected namespace");
-				t.deepEqual(currentLog.nsTokens, ["foo"], "expected namespace tokens list");
+	t.test("Should allow to create loggers of other levels via .getLevel(name)", function (t) {
+		var currentLog = log.getNs("foo").getLevel("error");
+		t.test("which expose", function (t) {
+			t.equal(currentLog.level, "error", "expected level");
+			t.equal(currentLog.ns, "foo", "expected namespace");
+			t.deepEqual(currentLog.nsTokens, ["foo"], "expected namespace tokens list");
+			t.end();
+		});
+
+		t.test("which when invoked should emit 'log' event on log.emitter that exposes", function (
+			t
+		) {
+			emitter.once("log", function (event) {
+				t.equal(event.logger, currentLog, "target logger");
+				t.equal(isDate(event.date), true, "current date");
+				t.deepEqual(aFrom(event.messageTokens), testArgs, "message tokens");
 				t.end();
 			});
+			currentLog.apply(null, testArgs);
+		});
+		t.end();
+	});
 
-			t.test("which when invoked should emit 'log' event on log.emitter that exposes",
-				function (t) {
-				emitter.once("log", function (event) {
-					t.equal(event.logger, currentLog, "target logger");
-					t.equal(isDate(event.date), true, "current date");
-					t.deepEqual(aFrom(event.messageTokens), testArgs, "message tokens");
-					t.end();
-				});
-				currentLog.apply(null, testArgs);
-			});
-			t.end();
-		}
+	t.throws(
+		function () {
+			log.getLevel("marko elo");
+		},
+		TypeError,
+		"Should throw on invalid level names"
 	);
-
-	t.throws(function () {
-		log.getLevel("marko elo");
-	}, TypeError, "Should throw on invalid level names");
 
 	t.test(
 		"Should allow to create namespaced loggers (debug library style) via .getNs(name)",
