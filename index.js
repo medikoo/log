@@ -68,12 +68,12 @@ var loggerProto = Object.create(
 				},
 				{ cacheName: "_nsTokens" }
 			),
-			children: d(
+			_children: d(
 				"",
 				function () {
 					return {};
 				},
-				{ cacheName: "_children" }
+				{ cacheName: "__children" }
 			),
 			enable: d(
 				function () {
@@ -148,11 +148,11 @@ createLevelLogger = function (level) {
 };
 
 createNsLogger = function (parent, nsToken) {
-	if (parent.children[nsToken]) return parent.children[nsToken];
+	if (parent._children[nsToken]) return parent._children[nsToken];
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), parent), {
 		_nsToken: d("", nsToken)
 	});
-	parent.children[nsToken] = logger;
+	parent._children[nsToken] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
 };
