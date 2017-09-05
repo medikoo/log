@@ -4,6 +4,8 @@
 "use strict";
 
 var assign         = require("es5-ext/object/assign")
+  , objMap         = require("es5-ext/object/map")
+  , primitiveSet   = require("es5-ext/object/primitive-set")
   , setPrototypeOf = require("es5-ext/object/set-prototype-of")
   , ensureString   = require("es5-ext/object/validate-stringifiable-value")
   , toShortString  = require("es5-ext/to-short-string-representation")
@@ -14,6 +16,18 @@ var assign         = require("es5-ext/object/assign")
 var emitter = ee(), cache = Object.create(null);
 var isValidLevel = RegExp.prototype.test.bind(/^[a-z]+$/);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
+
+var predefinedLevels = primitiveSet(
+	"debug",
+	"info",
+	"notice",
+	"warning",
+	"error",
+	"critical",
+	"alert",
+	"emergency"
+);
+var levelAliases = Object.create(null, { warn: d("cew", "warning") });
 
 var setEnabledState = function (state) {
 	Object.defineProperty(this, "isEnabled", d("ce", state));
@@ -51,6 +65,11 @@ var loggerProto = Object.create(
 	Function.prototype,
 	assign(
 		{ isEnabled: d("e", true), emitter: d("", emitter), _nsToken: d("", null) },
+		objMap(predefinedLevels, function (ignore, level) {
+			return d.gs(function () {
+				return this.getLevel(level);
+			});
+		}),
 		lazy({
 			ns: d(
 				"e",
@@ -118,13 +137,14 @@ createLogger = function () {
 };
 
 createLevelLogger = function (level) {
+	if (levelAliases[level]) level = levelAliases[level];
 	if (cache[level]) return cache[level];
 	if (!isValidLevel(level)) {
 		throw new TypeError(
 			toShortString(level) + " is not a valid level name (only 'a-z' chars are allowed)"
 		);
 	}
-	if (level in loggerProto) {
+	if (!predefinedLevels[level] && level in loggerProto) {
 		throw new TypeError(
 			toShortString(level) +
 				" is not a valid level name (should not override existing property)"

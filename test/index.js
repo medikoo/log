@@ -170,6 +170,19 @@ test("Logger", function (t) {
 		}
 	);
 
+	t.test("Should expose known (syslog) levels with predefined properties", function (t) {
+		t.equal(log.info, log.getLevel("info"));
+		t.equal(log.notice, log.getLevel("notice"));
+		t.equal(log.warning, log.getLevel("warning"));
+		t.equal(log.error, log.getLevel("error"));
+		t.equal(log.critical, log.getLevel("critical"));
+		t.equal(log.alert, log.getLevel("alert"));
+		t.equal(log.emergency, log.getLevel("emergency"));
+		t.end();
+	});
+
+	t.equal(log.getLevel("warn"), log.warning, "Should alias 'warn' level to 'warning'");
+
 	t.test("Should provide enable/disable functionality on level/name configuration", function (t) {
 		t.equal(log.getNs("enabletest").isEnabled, true, "Should be enabled by default");
 
