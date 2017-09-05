@@ -19,7 +19,7 @@
 		"eslint-config-medikoo-es5": "^1.4.1",
 		"istanbul": "^0.4.5",
 		"tape": "^4.8",
-		"tape-index": "^1.1"
+		"tape-index": "^1.1.1"
 	},
 	"eslintConfig": {
 		"extends": "medikoo-es5",
