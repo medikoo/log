@@ -1,0 +1,69 @@
+{
+	"name": "log4",
+	"version": "0.1.0",
+	"description": "Universal pluggable logging utility",
+	"author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
+	"keywords": ["log", "logger", "debug", "bunyan", "winston"],
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/medikoo/log4.git"
+	},
+	"dependencies": {
+		"es5-ext": "^0.10.30",
+		"event-emitter": "^0.3.5"
+	},
+	"devDependencies": {
+		"browserstack-tape-runner": "^1.0.1",
+		"eslint": "^4.5",
+		"eslint-config-medikoo-es5": "^1.4.1",
+		"istanbul": "^0.4.5",
+		"tape": "^4.8",
+		"tape-index": "^1.1"
+	},
+	"eslintConfig": {
+		"extends": "medikoo-es5",
+		"root": true
+	},
+	"scripts": {
+		"coverage": "tape-index && istanbul cover test.index.js",
+		"check-coverage":
+			"npm run coverage && istanbul check-coverage --statements 100 --function 100 --branches 100 --lines 100",
+		"lint": "eslint --ignore-path=.gitignore .",
+		"test": "tape-index && node test.index.js",
+		"test-browsers": "tape-index && browserstack-tape-runner test.index.js"
+	},
+	"browserstack": {
+		"browsers": [
+			{
+				"browser": "chrome",
+				"browser_version": "latest",
+				"os": "OS X",
+				"os_version": "Sierra"
+			},
+			{
+				"browser": "firefox",
+				"browser_version": "latest",
+				"os": "OS X",
+				"os_version": "Sierra"
+			},
+			{
+				"browser": "opera",
+				"browser_version": "latest",
+				"os": "OS X",
+				"os_version": "Sierra"
+			},
+			{
+				"browser": "safari",
+				"browser_version": "latest",
+				"os": "OS X",
+				"os_version": "Sierra"
+			},
+			{
+				"os": "ios",
+				"os_version": "10.3",
+				"device": "iPhone 7 Plus"
+			}
+		]
+	},
+	"license": "MIT"
+}
