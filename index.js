@@ -41,19 +41,19 @@ var getLevel = function (newLevel) {
 	}, levelLogger);
 };
 
-var getNs = function (newNs) {
-	newNs = ensureString(newNs);
-	var newNsTokens = newNs.split(":");
-	newNsTokens.forEach(function (newNsToken) {
-		if (!isValidNsToken(newNsToken)) {
+var getNs = function (ns) {
+	ns = ensureString(ns);
+	var nsTokens = ns.split(":");
+	nsTokens.forEach(function (nsToken) {
+		if (!isValidNsToken(nsToken)) {
 			throw new TypeError(
-				toShortString(newNs) +
+				toShortString(ns) +
 					" is not a valid ns string " +
 					"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
 			);
 		}
 	});
-	return newNsTokens.reduce(function (currentLogger, token) {
+	return nsTokens.reduce(function (currentLogger, token) {
 		return createNsLogger(currentLogger, token);
 	}, this);
 };
