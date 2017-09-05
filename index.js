@@ -1,6 +1,3 @@
-// Written with support for all ES5+ engines
-// Eventual support for ES3+ engines can be figured out in later turn
-
 "use strict";
 
 var assign         = require("es5-ext/object/assign")
