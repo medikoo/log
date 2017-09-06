@@ -11,7 +11,7 @@ test("Setup enviroment", function (t) {
 	log.getLevel("envtestb").getNs("e2");
 
 	setupEnv({
-		envtesta: ["-*", "e1", "-e1:d", "-e1:dn", "e2:e", "e2:n", "n1", "-n1:d", "n2:n"],
+		envtesta: ["-*", "e1", "-e1:d", "-e1:dn", "", " e2:e", "e2:n", "n1", "-n1:d", "n2:n"],
 		envtestb: ["-e1:d", "-n1:d", "-e2", "-n2"],
 		envtestc: ["-*"],
 		envtestd: ["-n1", "-n2:elo"]

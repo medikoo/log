@@ -15,7 +15,8 @@ module.exports = function (conf) {
 		var levelLogger;
 		if (logger.hasLevel(level)) levelLogger = logger.getLevel(level);
 		aFrom(levelConf).forEach(function (ns) {
-			ns = ensureString(ns);
+			ns = ensureString(ns).trim();
+			if (!ns) return;
 			var isEnabled = ns[0] !== "-";
 			if (!isEnabled) ns = ns.slice(1);
 			map[ns] = isEnabled;
