@@ -61,7 +61,12 @@ var getNs = function (ns) {
 var loggerProto = Object.create(
 	Function.prototype,
 	assign(
-		{ isEnabled: d("e", true), emitter: d("", emitter), _nsToken: d("", null) },
+		{
+			isEnabled: d("e", true),
+			emitter: d("", emitter),
+			predefinedLevels: d("e", Object.keys(predefinedLevels)),
+			_nsToken: d("", null)
+		},
 		objMap(predefinedLevels, function (ignore, level) {
 			return d.gs(function () {
 				return this.getLevel(level);
