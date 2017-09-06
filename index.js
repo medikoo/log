@@ -1,6 +1,7 @@
 "use strict";
 
-var identity       = require("es5-ext/function/identity")
+var aFrom          = require("es5-ext/array/from")
+  , identity       = require("es5-ext/function/identity")
   , assign         = require("es5-ext/object/assign")
   , objMap         = require("es5-ext/object/map")
   , objToArray     = require("es5-ext/object/to-array")
@@ -162,7 +163,7 @@ createLogger = function () {
 		var event = {
 			logger: self,
 			date: new Date(),
-			messageTokens: arguments
+			messageTokens: aFrom(arguments)
 		};
 		emitter.emit("log:before", event);
 		emitter.emit("log", event);

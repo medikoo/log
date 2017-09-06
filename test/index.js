@@ -1,7 +1,6 @@
 "use strict";
 
-var aFrom  = require("es5-ext/array/from")
-  , isDate = require("es5-ext/date/is-date")
+var isDate = require("es5-ext/date/is-date")
   , test   = require("tape")
   , log    = require("../index");
 
@@ -24,7 +23,7 @@ test("Logger", function (t) {
 			emitter.once("log", function (event) {
 				t.equal(event.logger, log, "target logger at 'event.logger' property");
 				t.equal(isDate(event.date), true, "current date");
-				t.deepEqual(aFrom(event.messageTokens), testArgs, "message tokens");
+				t.deepEqual(event.messageTokens, testArgs, "message tokens");
 				t.end();
 			});
 			log.apply(null, testArgs);
@@ -49,7 +48,7 @@ test("Logger", function (t) {
 			emitter.once("log", function (event) {
 				t.equal(event.logger, currentLog, "target logger");
 				t.equal(isDate(event.date), true, "current date");
-				t.deepEqual(aFrom(event.messageTokens), testArgs, "message tokens");
+				t.deepEqual(event.messageTokens, testArgs, "message tokens");
 				t.end();
 			});
 			currentLog.apply(null, testArgs);
@@ -110,7 +109,7 @@ test("Logger", function (t) {
 					emitter.once("log", function (event) {
 						t.equal(event.logger, currentLog, "target logger");
 						t.equal(isDate(event.date), true, "current date");
-						t.deepEqual(aFrom(event.messageTokens), testArgs, "message tokens");
+						t.deepEqual(event.messageTokens, testArgs, "message tokens");
 						t.end();
 					});
 					currentLog.apply(null, testArgs);
@@ -142,7 +141,7 @@ test("Logger", function (t) {
 					emitter.once("log", function (event) {
 						t.equal(event.logger, currentLog, "target logger");
 						t.equal(isDate(event.date), true, "date");
-						t.deepEqual(aFrom(event.messageTokens), testArgs, "message tokens");
+						t.deepEqual(event.messageTokens, testArgs, "message tokens");
 						t.end();
 					});
 					currentLog.apply(null, testArgs);
@@ -168,7 +167,7 @@ test("Logger", function (t) {
 					emitter.once("log", function (event) {
 						t.equal(event.logger, currentLog, "target logger");
 						t.equal(isDate(event.date), true, "date");
-						t.deepEqual(aFrom(event.messageTokens), testArgs, "message tokens");
+						t.deepEqual(event.messageTokens, testArgs, "message tokens");
 						t.end();
 					});
 					log.getNs("marko").getNs("barko").apply(null, testArgs);
@@ -269,7 +268,7 @@ test("Logger", function (t) {
 				t.equal(isEnabled, true);
 				t.equal(event.logger, log);
 				t.equal(isDate(event.date), true);
-				t.deepEqual(aFrom(event.messageTokens), testArgs);
+				t.deepEqual(event.messageTokens, testArgs);
 				if (++passes === 2) {
 					emitter.off("log", self);
 					t.end();
