@@ -27,7 +27,7 @@ var predefinedLevels = primitiveSet(
 var levelAliases = Object.create(null, { warn: d("cew", "warning") });
 
 var setEnabledState = function (state) {
-	Object.defineProperty(this, "isEnabled", d("ce", state));
+	return Object.defineProperty(this, "isEnabled", d("ce", state));
 };
 
 var createLogger, createLevelLogger, createNsLogger;

@@ -207,14 +207,16 @@ test("Logger", function (t) {
 	t.test("Should provide enable/disable functionality on level/name configuration", function (t) {
 		t.equal(log.getNs("enabletest").isEnabled, true, "Should be enabled by default");
 
-		log.getNs("enabletest").disable();
+		t.equal(log.getNs("enabletest").disable(), log.getNs("enabletest"),
+			"disable() should return target logger");
 		t.equal(log.getNs("enabletest").isEnabled, false,
 			"Should be disabled after `disable()` call");
 
 		t.equal(log.getNs("enabletest").getNs("foo").isEnabled, false,
 			"New nested names should inherit setting");
 
-		log.getNs("enabletest").enable();
+		t.equal(log.getNs("enabletest").enable(), log.getNs("enabletest"),
+			"enable() should return target logger");
 		t.equal(log.getNs("enabletest").isEnabled, true,
 			"Should be enabled after `enable()` call");
 		log.getNs("enabletest").enable();
