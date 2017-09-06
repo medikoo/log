@@ -187,6 +187,18 @@ test("Logger", function (t) {
 		t.end();
 	});
 
+	t.test("Should expose .getAllNs() method that expose", function (t) {
+		t.deepEqual(log.getAllNs(),
+			[
+				log.getNs("foo"),
+				log.getNs("foorkot"),
+				log.getNs("getlevel-test"),
+				log.getNs("marko")
+			],
+			"All child namespaces");
+		t.end();
+	});
+
 	t.test(
 		"Should create single (reusable) logger instances per level/name configuration",
 		function (t) {

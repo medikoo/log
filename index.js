@@ -1,7 +1,9 @@
 "use strict";
 
-var assign         = require("es5-ext/object/assign")
+var identity       = require("es5-ext/function/identity")
+  , assign         = require("es5-ext/object/assign")
   , objMap         = require("es5-ext/object/map")
+  , objToArray     = require("es5-ext/object/to-array")
   , primitiveSet   = require("es5-ext/object/primitive-set")
   , setPrototypeOf = require("es5-ext/object/set-prototype-of")
   , ensureString   = require("es5-ext/object/validate-stringifiable-value")
@@ -97,6 +99,9 @@ var loggerProto = Object.create(
 					.map(function (level) {
 						return this.getLevel(level);
 					}, this);
+			}),
+			getAllNs: d("e", function () {
+				return objToArray(this._children, identity);
 			})
 		},
 		lazy({
