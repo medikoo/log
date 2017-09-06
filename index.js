@@ -87,6 +87,13 @@ var loggerProto = Object.create(
 				if (!logger) return false;
 				if (!this.ns) return true;
 				return logger.hasNs(this.ns);
+			}),
+			getLevels: d("e", function () {
+				return Object.keys(levelCache)
+					.filter(function (level) {
+						return this.hasLevel(level);
+					}, this)
+					.sort();
 			})
 		},
 		lazy({

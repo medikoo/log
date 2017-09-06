@@ -84,6 +84,14 @@ test("Logger", function (t) {
 		t.end();
 	});
 
+	t.test("Should expose .getLevels() method that expose", function (t) {
+		t.deepEqual(log.getLevels(), ["debug", "error", "marko", "warning"],
+			"All setup levels on top level logger");
+		t.deepEqual(log.getNs("getlevel-test").getLevels(), ["debug"],
+			"Only levels setup within given ns scope");
+		t.end();
+	});
+
 	t.test(
 		"Should allow to create namespaced loggers (debug library style) via .getNs(name)",
 		function (t) {
