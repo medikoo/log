@@ -241,7 +241,7 @@ test("Logger", function (t) {
 
 		t.test("Should not emit 'log' events when disabled", function (t) {
 			var isEnabled = true, passes = 0;
-			emitter.on("log", function self (event) {
+			emitter.on("log", function self(event) {
 				t.equal(isEnabled, true);
 				t.equal(event.logger, log);
 				t.equal(isDate(event.date), true);
