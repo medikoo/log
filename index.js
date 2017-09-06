@@ -95,7 +95,6 @@ var loggerProto = Object.create(
 					.filter(function (level) {
 						return this.hasLevel(level);
 					}, this)
-					.sort()
 					.map(function (level) {
 						return this.getLevel(level);
 					}, this);

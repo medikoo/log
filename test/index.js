@@ -86,7 +86,7 @@ test("Logger", function (t) {
 
 	t.test("Should expose .getAllLevels() method that expose", function (t) {
 		t.deepEqual(log.getAllLevels(),
-			[log, log.getLevel("error"), log.getLevel("marko"), log.getLevel("warning")],
+			[log, log.getLevel("warning"), log.getLevel("error"), log.getLevel("marko")],
 			"All setup levels on top level logger");
 		t.deepEqual(log.getNs("getlevel-test").getAllLevels(), [log.getNs("getlevel-test")],
 			"Only levels setup within given ns scope");
