@@ -288,13 +288,14 @@ test("Logger", function (t) {
 		});
 		t.test("new nested name logger instance is created", function (t) {
 			var isFirst = true;
-			emitter.on("init", function (event) {
+			emitter.on("init", function self(event) {
 				if (isFirst) {
 					t.equal(event.logger, log.getNs("echi"), "for top namespace");
 					isFirst = false;
 					return;
 				}
 				t.equal(event.logger, log.getNs("echi").getNs("marki"), "for nested namespace");
+				emitter.off("init", self);
 				t.end();
 			});
 			log.getNs("echi:marki");
