@@ -77,7 +77,7 @@ var loggerProto = Object.create(
 				var nsTokens = ensureString(ns).split(":");
 				var currentLogger = this;
 				return nsTokens.every(function (nsToken) {
-					return currentLogger = currentLogger._children[nsToken];
+					return currentLogger = currentLogger.nsChildren[nsToken];
 				});
 			}),
 			hasLevel: d("e", function (level) {
@@ -137,12 +137,12 @@ var loggerProto = Object.create(
 				},
 				{ cacheName: "_getNs" }
 			),
-			_children: d(
+			nsChildren: d(
 				"",
 				function () {
 					return Object.create(null);
 				},
-				{ cacheName: "__children" }
+				{ cacheName: "_nsChildren" }
 			)
 		})
 	)
@@ -194,11 +194,11 @@ createLevelLogger = function (level) {
 };
 
 createNsLogger = function (parent, nsToken) {
-	if (parent._children[nsToken]) return parent._children[nsToken];
+	if (parent.nsChildren[nsToken]) return parent.nsChildren[nsToken];
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), parent), {
 		_nsToken: d("", nsToken)
 	});
-	parent._children[nsToken] = logger;
+	parent.nsChildren[nsToken] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
 };
