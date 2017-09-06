@@ -71,6 +71,18 @@ test("Logger", function (t) {
 		"Should throw on level names that override existing properties"
 	);
 
+	t.test("Should expose .hasLevel(level) method that", function (t) {
+		t.equal(log.hasLevel("foo"), false, "returns false on non setup  not predefined level");
+		t.equal(log.hasLevel("critical"), false, "returns false on non setup predefined level");
+		t.equal(log.hasLevel("error"), true, "returns true on setup predefined level");
+		log.getLevel("marko");
+		t.equal(log.hasLevel("marko"), true, "returns true on setup not predefined level");
+		t.equal(log.hasLevel("debug"), true, "return true on self level");
+		t.equal(log.getNs("foorkot").hasLevel("error"), false,
+			"returns false if there's no setup level logger for given namespace");
+		t.end();
+	});
+
 	t.test(
 		"Should allow to create namespaced loggers (debug library style) via .getNs(name)",
 		function (t) {
@@ -153,6 +165,15 @@ test("Logger", function (t) {
 				}
 			);
 		});
+		t.end();
+	});
+
+	t.test("Should expose .hasNs(ns) method that", function (t) {
+		t.equal(log.hasNs("fbafaafa"), false, "returns false for non setup ns");
+		t.equal(log.hasNs("foo"), true, "returns true for setup ns");
+		t.equal(log.hasNs("marko:barko"), true, "returns true for setup nested ns");
+		t.equal(log.getNs("marko").hasNs("barko"), true,
+			"returns true on nested logger for setup ns");
 		t.end();
 	});
 

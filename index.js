@@ -67,6 +67,23 @@ var loggerProto = Object.create(
 				return this.getLevel(level);
 			});
 		}),
+		{
+			hasNs: d("e", function (ns) {
+				var nsTokens = ensureString(ns).split(":");
+				var currentLogger = this;
+				return nsTokens.every(function (nsToken) {
+					return currentLogger = currentLogger._children[nsToken];
+				});
+			}),
+			hasLevel: d("e", function (level) {
+				level = ensureString(level);
+				if (this.level === level) return true;
+				var logger = levelCache[level];
+				if (!logger) return false;
+				if (!this.ns) return true;
+				return logger.hasNs(this.ns);
+			})
+		},
 		lazy({
 			ns: d(
 				"e",
