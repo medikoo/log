@@ -84,10 +84,11 @@ test("Logger", function (t) {
 		t.end();
 	});
 
-	t.test("Should expose .getLevels() method that expose", function (t) {
-		t.deepEqual(log.getLevels(), ["debug", "error", "marko", "warning"],
+	t.test("Should expose .getAllLevels() method that expose", function (t) {
+		t.deepEqual(log.getAllLevels(),
+			[log, log.getLevel("error"), log.getLevel("marko"), log.getLevel("warning")],
 			"All setup levels on top level logger");
-		t.deepEqual(log.getNs("getlevel-test").getLevels(), ["debug"],
+		t.deepEqual(log.getNs("getlevel-test").getAllLevels(), [log.getNs("getlevel-test")],
 			"Only levels setup within given ns scope");
 		t.end();
 	});
