@@ -2,7 +2,7 @@
 
 var test     = require("tape")
   , log      = require("../index")
-  , setupEnv = require("../setup-env");
+  , setupEnv = require("../setup-visibility");
 
 test("Setup enviroment", function (t) {
 	log.getLevel("envtesta").getNs("e1:d");
