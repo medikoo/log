@@ -22,7 +22,7 @@
   "devDependencies": {
     "browserstack-tape-runner": "^1.0.1",
     "eslint": "^4.5",
-    "eslint-config-medikoo-es5": "^1.4.1",
+    "eslint-config-medikoo-es5": "^1.4.3",
     "istanbul": "^0.4.5",
     "tape": "^4.8",
     "tape-index": "^1.1.1"
