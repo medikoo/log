@@ -27,7 +27,7 @@ log = log.getNs('my-lib');
 // Log 'debug' level message in context of 'my-lib' namespace:
 log("some debug message in 'my-lib' namespace context");
 
-// Namesapaces can be nested
+// Namespaces can be nested
 log = log.getNs('feat1');
 // Log 'debug' level message in context of 'my-lib:feat1' namespace:
 log("some debug message in 'my-lib:feat1' namespace context");
