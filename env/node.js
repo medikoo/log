@@ -14,7 +14,7 @@ var conf = Object.create(null);
 // Setup visibility
 // Resolve from LOG4_* env vars
 logger.predefinedLevels.forEach(function (level) {
-	var varName = "LOG4_" + level.toUpperCase();
+	var varName = "LOG_" + level.toUpperCase();
 	if (process.env[varName]) conf[level] = process.env[varName].split(",");
 });
 // Eventually support as fallback DEBUG env var
