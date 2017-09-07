@@ -243,6 +243,10 @@ test("Logger", function (t) {
 		log.getNs("enabletest").enable();
 		t.equal(log.getNs("enabletest").isEnabled, true,
 			"Trying to set same state again should have no effect");
+		log.getNs("enabletest").isEnabled = false;
+			t.equal(log.getNs("enabletest").isEnabled, false,
+				"It should be possible to change state by direct setting of isEnabled");
+		log.getNs("enabletest").isEnabled = true;
 
 		t.equal(log.getNs("enabletest").getNs("foo").isEnabled, true,
 			"Existing nested names should inherit setting");

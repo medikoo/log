@@ -31,7 +31,7 @@ var predefinedLevels = primitiveSet(
 var levelAliases = Object.create(null, { warn: d("cew", "warning") });
 
 var setEnabledState = function (state) {
-	return Object.defineProperty(this, "isEnabled", d("ce", state));
+	return Object.defineProperty(this, "_isEnabled", d("ce", state));
 };
 
 var createLogger, createLevelLogger, createNsLogger;
@@ -66,10 +66,19 @@ var loggerProto = Object.create(
 	Function.prototype,
 	assign(
 		{
-			isEnabled: d("e", true),
+			_isEnabled: d("e", true),
 			emitter: d("", emitter),
 			predefinedLevels: d("e", Object.keys(predefinedLevels)),
-			_nsToken: d("", null)
+			_nsToken: d("", null),
+			isEnabled: d.gs(
+				"e",
+				function () {
+					return this._isEnabled;
+				},
+				function (newValue) {
+					setEnabledState.call(this, Boolean(newValue));
+				}
+			)
 		},
 		objMap(predefinedLevels, function (ignore, level) {
 			return d.gs(function () {
@@ -160,7 +169,7 @@ var loggerProto = Object.create(
 createLogger = function () {
 	// eslint-disable-next-line no-unused-vars
 	return function self(msgItem1 /*, ...msgItemn*/) {
-		if (!self.isEnabled) return;
+		if (!self._isEnabled) return;
 		var event = {
 			logger: self,
 			date: new Date(),
