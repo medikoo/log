@@ -21,6 +21,7 @@ var predefinedLevels = primitiveSet(
 	"debug",
 	"info",
 	"notice",
+	"warn", // An alias for warning
 	"warning",
 	"error",
 	"critical",
