@@ -50,7 +50,7 @@ Mirror of syslog:
 - `debug` - debugging information
 - `info` - a purely informational message
 - `notice` - condition normal, but significant
-- `warning` - condition warning
+- `warning` - condition warning (can also be accessed through `warn` alias)
 - `error` - condition error
 - `critical` - condition critical
 - `alert` - immediate action required
