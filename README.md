@@ -3,9 +3,97 @@
 [![Tests coverage][codecov-image]][codecov-url]
 
 # log4
+
+_(name may be subject to change)_
+
 ## Universal logger utility
 
-_(name is subject to change)_
+__Configurable, environment agnostic, with implied log levels and namespacing ([debug](https://github.com/visionmedia/debug#debug) style) support__
+
+### Usage
+
+#### Writing logs
+
+```javascript
+// Default logger refers to 'debug' log level
+const log = require('log4');
+
+// Log 'debug' level message:
+log("some debug message", "other message token");
+
+// It's a good practice to namespace your log messages (debug lib style) e.g.
+log = log.getNs('my-lib');
+
+// Log 'debug' level message in context of 'my-lib' namespace:
+log("some debug message in 'my-lib' namespace context");
+
+// Namesapaces can be nested
+log = log.getNs('feat1');
+// Log 'debug' level message in context of 'my-lib:feat1' namespace:
+log("some debug message in 'my-lib:feat1' namespace context");
+
+// We may log to other than debug levels as follows
+// Log 'error' level message in context of 'my-lib:feat1' namespace:
+log.error("some error message");
+
+// log output can be dynamically enabled/disabled during runtime
+log.disable();
+log("message that's not really logged");
+log.enable();
+log("logger is enabled again, this one should be seen");
+```
+
+##### Predefined log levels
+
+Mirror of syslog:
+
+- `debug` - debugging information
+- `info` - a purely informational message
+- `notice` - condition normal, but significant
+- `warning` - condition warning
+- `error` - condition error
+- `critical` - condition critical
+- `alert` - immediate action required
+- `emergency` - system unusable
+
+Other custom level loggers (if needed) can be obtained via `getLevel` function:
+
+```javascript
+log.getLevel('custom');
+```
+
+As a side note `warn` level to avoid confusion was configured to be fixed alias for `warning` level:
+
+```javascript
+log.getLevel('warn') === log.warning; // true
+```
+
+#### Configuring logging engine
+
+Just by using main module, library, doesn't produce any log output. There's an exposed emitter at `log.emitter`
+which emits all written logs, and on basis of that we may configure desired log output.
+
+##### Node.js dedicated configuration
+
+There's a predefined logger for Node.js environment, just require it on top of main module of your Node.js program, to see written logs:
+
+```javascript
+require("log4/env/node");
+```
+
+Node.js logger has configured in support for string formatting. Performance wise it's better to rely on it instead of formatting objects to strings on spot:
+
+```javascript
+log("some object %o", obj);
+```
+
+Additionally visibility of logs is resolved on basis of env variables.
+
+It follows convention configured
+within [debug](https://github.com/visionmedia/debug#windows-note). Still visibility of each level is configured independently via `LOG_DEBUG`, `LOG_INFO`, `LOG_WARNING` etc. variables.  
+To ease migration from [debug](https://github.com/visionmedia/debug) if `LOG_DEBUG` is not configured, then `debug` level configuration is read from `DEBUG` variable.
+
+When no visibility is configured in env variables, defaults are that `debug` level logs are hidden and all others are exposed.
 
 ### Tests
 
