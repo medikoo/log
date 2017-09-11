@@ -62,12 +62,6 @@ Other custom level loggers (if needed) can be obtained via `getLevel` function:
 log.getLevel('custom');
 ```
 
-As a side note `warn` level to avoid confusion was configured to be fixed alias for `warning` level:
-
-```javascript
-log.getLevel('warn') === log.warning; // true
-```
-
 #### Configuring logging engine
 
 Just by using main module, library, doesn't produce any log output. There's an exposed emitter at `log.emitter`
