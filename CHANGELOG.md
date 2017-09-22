@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/medikoo/log4/compare/v1.1.0...v1.2.0) (2017-09-22)
+
+
+### Features
+
+* allow direct setting of isEnabled ([1245e21](https://github.com/medikoo/log4/commit/1245e21))
+* **filter:** support nested catch all ([93f390c](https://github.com/medikoo/log4/commit/93f390c))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/medikoo/log4/compare/v1.0.0...v1.1.0) (2017-09-07)
 
