@@ -105,3 +105,6 @@ Project cross-browser compatibility supported by:
 [win-build-url]: https://ci.appveyor.com/project/medikoo/log4
 [cov-image]: https://img.shields.io/codecov/c/github/medikoo/log4.svg
 [cov-url]: https://codecov.io/gh/medikoo/log4
+[transpilation-image]: https://img.shields.io/badge/transpilation-free-brightgreen.svg
+[npm-image]: https://img.shields.io/npm/v/log4.svg
+[npm-url]: https://www.npmjs.com/package/log4
