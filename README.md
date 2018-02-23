@@ -10,7 +10,7 @@ _(name may be subject to change)_
 
 ## Universal logger utility
 
-__Configurable, environment agnostic, with implied log levels and namespacing ([debug](https://github.com/visionmedia/debug#debug) style) support__
+**Configurable, environment agnostic, with implied log levels and namespacing ([debug](https://github.com/visionmedia/debug#debug) style) support**
 
 ### Usage
 
@@ -18,19 +18,19 @@ __Configurable, environment agnostic, with implied log levels and namespacing ([
 
 ```javascript
 // Default logger refers to 'debug' log level
-const log = require('log4');
+const log = require("log4");
 
 // Log 'debug' level message:
 log("some debug message", "other message token");
 
 // It's a good practice to namespace your log messages (debug lib style) e.g.
-log = log.getNs('my-lib');
+log = log.getNs("my-lib");
 
 // Log 'debug' level message in context of 'my-lib' namespace:
 log("some debug message in 'my-lib' namespace context");
 
 // Namespaces can be nested
-log = log.getNs('feat1');
+log = log.getNs("feat1");
 // Log 'debug' level message in context of 'my-lib:feat1' namespace:
 log("some debug message in 'my-lib:feat1' namespace context");
 
@@ -49,19 +49,19 @@ log("logger is enabled again, this one should be seen");
 
 Mirror of syslog:
 
-- `debug` - debugging information
-- `info` - a purely informational message
-- `notice` - condition normal, but significant
-- `warning` - condition warning (can also be accessed through `warn` alias)
-- `error` - condition error
-- `critical` - condition critical
-- `alert` - immediate action required
-- `emergency` - system unusable
+* `debug` - debugging information
+* `info` - a purely informational message
+* `notice` - condition normal, but significant
+* `warning` - condition warning (can also be accessed through `warn` alias)
+* `error` - condition error
+* `critical` - condition critical
+* `alert` - immediate action required
+* `emergency` - system unusable
 
 Other custom level loggers (if needed) can be obtained via `getLevel` function:
 
 ```javascript
-log.getLevel('custom');
+log.getLevel("custom");
 ```
 
 #### Configuring logging engine
@@ -93,7 +93,7 @@ When no visibility is configured in env variables, defaults are that `debug` lev
 
 ### Tests
 
-	$ npm test
+    $ npm test
 
 Project cross-browser compatibility supported by:
 
