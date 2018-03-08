@@ -49,14 +49,14 @@ log("logger is enabled again, this one should be seen");
 
 Mirror of syslog:
 
-* `debug` - debugging information
-* `info` - a purely informational message
-* `notice` - condition normal, but significant
-* `warning` - condition warning (can also be accessed through `warn` alias)
-* `error` - condition error
-* `critical` - condition critical
-* `alert` - immediate action required
-* `emergency` - system unusable
+*   `debug` - debugging information
+*   `info` - a purely informational message
+*   `notice` - condition normal, but significant
+*   `warning` - condition warning (can also be accessed through `warn` alias)
+*   `error` - condition error
+*   `critical` - condition critical
+*   `alert` - immediate action required
+*   `emergency` - system unusable
 
 Other custom level loggers (if needed) can be obtained via `getLevel` function:
 
