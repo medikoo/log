@@ -99,8 +99,8 @@ Project cross-browser compatibility supported by:
 
 <a href="https://browserstack.com"><img src="https://bstacksupport.zendesk.com/attachments/token/Pj5uf2x5GU9BvWErqAr51Jh2R/?name=browserstack-logo-600x315.png" height="150" /></a>
 
-[nix-build-image]: https://semaphoreci.com/api/v1/medikoo/log4/branches/master/shields_badge.svg
-[nix-build-url]: https://semaphoreci.com/medikoo/log4
+[nix-build-image]: https://semaphoreci.com/api/v1/medikoo-org/log4/branches/master/shields_badge.svg
+[nix-build-url]: https://semaphoreci.com/medikoo-org/log4
 [win-build-image]: https://ci.appveyor.com/api/projects/status/i77xe4unnscrkews?svg=true
 [win-build-url]: https://ci.appveyor.com/project/medikoo/log4
 [cov-image]: https://img.shields.io/codecov/c/github/medikoo/log4.svg
