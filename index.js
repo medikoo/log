@@ -160,7 +160,7 @@ var loggerProto = Object.create(
 
 createLogger = function () {
 	// eslint-disable-next-line no-unused-vars
-	return function self(msgItem1 /*, ...msgItemn*/) {
+	return function self(msgItem1/*, ...msgItemn*/) {
 		if (!self.isEnabled) return;
 		var event = {
 			logger: self,
