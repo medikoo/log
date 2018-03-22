@@ -161,10 +161,7 @@ var loggerProto = Object.create(
 createLogger = function () {
 	// eslint-disable-next-line no-unused-vars
 	return function self(msgItem1/*, ...msgItemn*/) {
-		emitter.emit("log", {
-			logger: self,
-			messageTokens: aFrom(arguments)
-		});
+		emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
 	};
 };
 
