@@ -162,11 +162,10 @@ createLogger = function () {
 	// eslint-disable-next-line no-unused-vars
 	return function self(msgItem1/*, ...msgItemn*/) {
 		if (!self.isEnabled) return;
-		var event = {
+		emitter.emit("log", {
 			logger: self,
 			messageTokens: aFrom(arguments)
-		};
-		emitter.emit("log", event);
+		});
 	};
 };
 
