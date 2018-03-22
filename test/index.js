@@ -322,15 +322,14 @@ test("Logger", function (t) {
 			"Setting on parent should not have effect on child with own setting"
 		);
 
-		t.test("Should not emit 'log' events when disabled", function (t) {
+		t.test("Should emit 'log' events when disabled", function (t) {
 			var isEnabled = true, passes = 0;
 			emitter.on("log", function self(event) {
-				t.equal(isEnabled, true);
+				t.equal(isEnabled, isEnabled);
 				t.equal(event.logger, log);
 				t.deepEqual(event.messageTokens, testArgs);
 				if (++passes === 2) {
 					emitter.off("log", self);
-					t.end();
 				}
 			});
 			t.equal(log.isEnabled, true);
@@ -343,8 +342,7 @@ test("Logger", function (t) {
 
 			log.enable();
 			isEnabled = true;
-			t.equal(log.isEnabled, true);
-			log.apply(null, testArgs);
+			t.end();
 		});
 		t.end();
 	});
