@@ -167,7 +167,6 @@ createLogger = function () {
 			date: new Date(),
 			messageTokens: aFrom(arguments)
 		};
-		emitter.emit("log:before", event);
 		emitter.emit("log", event);
 	};
 };
