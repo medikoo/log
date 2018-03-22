@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/medikoo/log4/compare/v1.2.0...v2.0.0) (2018-03-22)
+
+
+### Features
+
+* remove date from log event ([7f2903a](https://github.com/medikoo/log4/commit/7f2903a))
+* remove node env handler ([20450ad](https://github.com/medikoo/log4/commit/20450ad))
+* remove obsolete event emit ([9499b37](https://github.com/medikoo/log4/commit/9499b37))
+
+
+*  feat: emit events also if logger disabled ([6eb338d](https://github.com/medikoo/log4/commit/6eb338d))
+
+
+### BREAKING CHANGES
+
+* logs for disabled loggers will also be emitted.
+Handler should check `logger.enabled` to confirm on whether
+intetion is to have log visible
+* remove 'event.date` property
+* log:before event was removed
+* Node env handler was moved to outer package,
+it'll have to be initialized as:
+
+require('log4-node')
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/medikoo/log4/compare/v1.1.0...v1.2.0) (2017-09-22)
 
