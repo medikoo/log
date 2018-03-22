@@ -1,8 +1,7 @@
 "use strict";
 
-var isDate = require("es5-ext/date/is-date")
-  , test   = require("tape")
-  , log    = require("../index");
+var test = require("tape")
+  , log  = require("../index");
 
 test("Logger", function (t) {
 	var emitter = log.emitter, testArgs = ["foo", 12, null, {}];
@@ -22,7 +21,6 @@ test("Logger", function (t) {
 		function (t) {
 			emitter.once("log", function (event) {
 				t.equal(event.logger, log, "target logger at 'event.logger' property");
-				t.equal(isDate(event.date), true, "current date");
 				t.deepEqual(event.messageTokens, testArgs, "message tokens");
 				t.end();
 			});
@@ -47,7 +45,6 @@ test("Logger", function (t) {
 		) {
 			emitter.once("log", function (event) {
 				t.equal(event.logger, currentLog, "target logger");
-				t.equal(isDate(event.date), true, "current date");
 				t.deepEqual(event.messageTokens, testArgs, "message tokens");
 				t.end();
 			});
@@ -116,7 +113,6 @@ test("Logger", function (t) {
 				function (t) {
 					emitter.once("log", function (event) {
 						t.equal(event.logger, currentLog, "target logger");
-						t.equal(isDate(event.date), true, "current date");
 						t.deepEqual(event.messageTokens, testArgs, "message tokens");
 						t.end();
 					});
@@ -155,7 +151,6 @@ test("Logger", function (t) {
 				function (t) {
 					emitter.once("log", function (event) {
 						t.equal(event.logger, currentLog, "target logger");
-						t.equal(isDate(event.date), true, "date");
 						t.deepEqual(event.messageTokens, testArgs, "message tokens");
 						t.end();
 					});
@@ -184,7 +179,6 @@ test("Logger", function (t) {
 				function (t) {
 					emitter.once("log", function (event) {
 						t.equal(event.logger, currentLog, "target logger");
-						t.equal(isDate(event.date), true, "date");
 						t.deepEqual(event.messageTokens, testArgs, "message tokens");
 						t.end();
 					});
@@ -333,7 +327,6 @@ test("Logger", function (t) {
 			emitter.on("log", function self(event) {
 				t.equal(isEnabled, true);
 				t.equal(event.logger, log);
-				t.equal(isDate(event.date), true);
 				t.deepEqual(event.messageTokens, testArgs);
 				if (++passes === 2) {
 					emitter.off("log", self);

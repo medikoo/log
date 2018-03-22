@@ -164,7 +164,6 @@ createLogger = function () {
 		if (!self.isEnabled) return;
 		var event = {
 			logger: self,
-			date: new Date(),
 			messageTokens: aFrom(arguments)
 		};
 		emitter.emit("log", event);
