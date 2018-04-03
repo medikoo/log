@@ -77,7 +77,7 @@ There's a predefined logger for Node.js environment, just require it on top of m
 require("log4/env/node");
 ```
 
-Node.js logger has configured in support for string formatting. Performance wise it's better to rely on it instead of formatting objects to strings on spot:
+Node.js logger has configured in support for [string formatting](https://nodejs.org/docs/latest-v6.x/api/util.html#util_util_format_format_args). Performance wise it's better to rely on it instead of formatting objects to strings on spot:
 
 ```javascript
 log("some object %o", obj);
