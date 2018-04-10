@@ -76,8 +76,7 @@ test("Logger", function (t) {
 		t.equal(log.hasLevel("marko"), true, "returns true on setup not predefined level");
 		t.equal(log.hasLevel("debug"), true, "return true on self level");
 		t.equal(
-			log.getNs("foorkot").hasLevel("error"),
-			false,
+			log.getNs("foorkot").hasLevel("error"), false,
 			"returns false if there's no setup level logger for given namespace"
 		);
 		t.end();
@@ -90,8 +89,7 @@ test("Logger", function (t) {
 			"All setup levels on top level logger"
 		);
 		t.deepEqual(
-			log.getNs("getlevel-test").getAllLevels(),
-			[log.getNs("getlevel-test")],
+			log.getNs("getlevel-test").getAllLevels(), [log.getNs("getlevel-test")],
 			"Only levels setup within given ns scope"
 		);
 		t.end();
@@ -139,9 +137,7 @@ test("Logger", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
 				t.equal(currentLog.ns, "marko:barko", "expected namespace");
 				t.deepEqual(
-					currentLog.nsTokens,
-					["marko", "barko"],
-					"expected namespace tokens list"
+					currentLog.nsTokens, ["marko", "barko"], "expected namespace tokens list"
 				);
 				t.end();
 			});
@@ -167,9 +163,7 @@ test("Logger", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
 				t.equal(currentLog.ns, "marko:barko", "expected namespace");
 				t.deepEqual(
-					currentLog.nsTokens,
-					["marko", "barko"],
-					"expected namespace tokens list"
+					currentLog.nsTokens, ["marko", "barko"], "expected namespace tokens list"
 				);
 				t.end();
 			});
@@ -197,9 +191,7 @@ test("Logger", function (t) {
 		t.equal(log.hasNs("foo"), true, "returns true for setup ns");
 		t.equal(log.hasNs("marko:barko"), true, "returns true for setup nested ns");
 		t.equal(
-			log.getNs("marko").hasNs("barko"),
-			true,
-			"returns true on nested logger for setup ns"
+			log.getNs("marko").hasNs("barko"), true, "returns true on nested logger for setup ns"
 		);
 		t.end();
 	});
@@ -247,45 +239,37 @@ test("Logger", function (t) {
 		t.equal(log.getNs("enabletest").isEnabled, true, "Should be enabled by default");
 
 		t.equal(
-			log.getNs("enabletest").disable(),
-			log.getNs("enabletest"),
+			log.getNs("enabletest").disable(), log.getNs("enabletest"),
 			"disable() should return target logger"
 		);
 		t.equal(
-			log.getNs("enabletest").isEnabled,
-			false,
-			"Should be disabled after `disable()` call"
+			log.getNs("enabletest").isEnabled, false, "Should be disabled after `disable()` call"
 		);
 
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled,
-			false,
+			log.getNs("enabletest").getNs("foo").isEnabled, false,
 			"New nested names should inherit setting"
 		);
 
 		t.equal(
-			log.getNs("enabletest").enable(),
-			log.getNs("enabletest"),
+			log.getNs("enabletest").enable(), log.getNs("enabletest"),
 			"enable() should return target logger"
 		);
 		t.equal(log.getNs("enabletest").isEnabled, true, "Should be enabled after `enable()` call");
 		log.getNs("enabletest").enable();
 		t.equal(
-			log.getNs("enabletest").isEnabled,
-			true,
+			log.getNs("enabletest").isEnabled, true,
 			"Trying to set same state again should have no effect"
 		);
 		log.getNs("enabletest").isEnabled = false;
 		t.equal(
-			log.getNs("enabletest").isEnabled,
-			false,
+			log.getNs("enabletest").isEnabled, false,
 			"It should be possible to change state by direct setting of isEnabled"
 		);
 		log.getNs("enabletest").isEnabled = true;
 
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled,
-			true,
+			log.getNs("enabletest").getNs("foo").isEnabled, true,
 			"Existing nested names should inherit setting"
 		);
 
@@ -294,8 +278,7 @@ test("Logger", function (t) {
 			.getNs("foo")
 			.enable();
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled,
-			true,
+			log.getNs("enabletest").getNs("foo").isEnabled, true,
 			"Setting existing state on child should have no effect"
 		);
 
@@ -304,21 +287,17 @@ test("Logger", function (t) {
 			.getNs("foo")
 			.disable();
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled,
-			false,
-			"Should work on nested names"
+			log.getNs("enabletest").getNs("foo").isEnabled, false, "Should work on nested names"
 		);
 		t.equal(
-			log.getNs("enabletest").isEnabled,
-			true,
+			log.getNs("enabletest").isEnabled, true,
 			"Settings on nested names should not leak to parent loggers"
 		);
 
 		log.getNs("enabletest").disable();
 		log.getNs("enabletest").enable();
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled,
-			false,
+			log.getNs("enabletest").getNs("foo").isEnabled, false,
 			"Setting on parent should not have effect on child with own setting"
 		);
 
