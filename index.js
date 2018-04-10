@@ -16,11 +16,9 @@ var aFrom          = require("es5-ext/array/from")
 var emitter = ee(), levelCache = Object.create(null);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
-var levelNamesList = [
-	"debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"
-];
+var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
 var levelNameAliasesMap = Object.create(null, { warn: d("cew", "warning") });
-var levelNamesMap = primitiveSet.apply(null, levelNamesList);
+var levelNamesMap = primitiveSet.apply(null, levelNames);
 
 var setEnabledState = function (state) {
 	this.isEnabled = state;
