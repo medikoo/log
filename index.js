@@ -19,7 +19,7 @@ var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 var levelNamesList = [
 	"debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"
 ];
-var levelNameAliases = Object.create(null, { warn: d("cew", "warning") });
+var levelNameAliasesMap = Object.create(null, { warn: d("cew", "warning") });
 var levelNamesMap = primitiveSet.apply(null, levelNamesList);
 
 var setEnabledState = function (state) {
@@ -69,7 +69,7 @@ var loggerProto = Object.create(
 				return this.getLevel(level);
 			});
 		}),
-		objMap(levelNameAliases, function (ignore, level) {
+		objMap(levelNameAliasesMap, function (ignore, level) {
 			return d.gs(function () {
 				return this.getLevel(level);
 			});
@@ -163,7 +163,7 @@ createLogger = function () {
 };
 
 createLevelLogger = function (levelName) {
-	if (levelNameAliases[levelName]) levelName = levelNameAliases[levelName];
+	if (levelNameAliasesMap[levelName]) levelName = levelNameAliasesMap[levelName];
 	if (levelCache[levelName]) return levelCache[levelName];
 	if (!levelNamesMap[levelName]) {
 		throw new TypeError(toShortString(levelName) + " is not a valid level name ");
