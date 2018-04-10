@@ -20,7 +20,7 @@ var levelNamesList = [
 	"debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"
 ];
 var levelNameAliases = Object.create(null, { warn: d("cew", "warning") });
-var levelNamesMap = Object.assign(primitiveSet.apply(null, levelNamesList), levelNameAliases);
+var levelNamesMap = primitiveSet.apply(null, levelNamesList);
 
 var setEnabledState = function (state) {
 	this.isEnabled = state;
@@ -65,6 +65,11 @@ var loggerProto = Object.create(
 			_nsToken: d("", null)
 		},
 		objMap(levelNamesMap, function (ignore, level) {
+			return d.gs(function () {
+				return this.getLevel(level);
+			});
+		}),
+		objMap(levelNameAliases, function (ignore, level) {
 			return d.gs(function () {
 				return this.getLevel(level);
 			});
