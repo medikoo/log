@@ -98,7 +98,7 @@ To ease migration from [debug](https://github.com/visionmedia/debug) if `LOG_DEB
 
 When no visibility is configured in env variables, defaults are that `debug` level logs are hidden and all others are exposed.
 
-###### Tweaking visiblity at runtime
+###### Tweaking visiblity at the runtime
 
 Visiblity of each level and namespace can be tweaked at the runtime.
 
