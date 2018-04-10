@@ -30,9 +30,9 @@ log = log.getNs("my-lib");
 log("some debug message in 'my-lib' namespace context");
 
 // Namespaces can be nested
-log = log.getNs("feat1");
+log = log.getNs("func");
 // Log 'debug' level message in context of 'my-lib:feat1' namespace:
-log("some debug message in 'my-lib:feat1' namespace context");
+log("some debug message in 'my-lib:func' namespace context");
 
 // We may log to other than debug levels as follows
 // Log 'error' level message in context of 'my-lib:feat1' namespace:
@@ -64,32 +64,75 @@ Other custom level loggers (if needed) can be obtained via `getLevel` function:
 log.getLevel("custom");
 ```
 
-#### Configuring logging engine
+##### String formatting
 
-Just by using main module, library, doesn't produce any log output. There's an exposed emitter at `log.emitter`
-which emits all written logs, and on basis of that we may configure desired log output.
+printf-like message format is supported, in same manner as it's in Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util, with same placeholders support.
 
-##### Node.js dedicated configuration
+Excerpt from Node.js documentation:
 
-There's a predefined logger for Node.js environment, just require it on top of main module of your Node.js program, to see written logs:
+_The first argument is a string containing zero or more placeholder tokens. Each placeholder token is replaced with the converted value from the corresponding argument. Supported placeholders are:_
 
-```javascript
-require("log4/env/node");
-```
+*   _`%s` - String._
+*   _`%d` - Number (integer or floating point value)._
+*   _`%i` - Integer._
+*   _`%f` - Floating point value._
+*   _`%j` - JSON. Replaced with the string '[Circular]' if the argument contains circular references._
+*   _`%o` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() with options { showHidden: true, depth: 4, showProxy: true }. This will show the full object including non-enumerable symbols and properties._
+*   _`%O` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() without options. This will show the full object not including non-enumerable symbols and properties._
+*   _`%%` - single percent sign ('%'). This does not consume an argument._
 
-Node.js logger has configured in support for [string formatting](https://nodejs.org/docs/latest-v6.x/api/util.html#util_util_format_format_args). Performance wise it's better to rely on it instead of formatting objects to strings on spot:
+**Note to log output configuration developers:**
 
-```javascript
-log("some object %o", obj);
-```
+Each log output configuration is expected to support above placeholders. For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit))
 
-Additionally visibility of logs is resolved on basis of env variables.
+##### Logs Visibility
 
-It follows convention configured
-within [debug](https://github.com/visionmedia/debug#windows-note). Still visibility of each level is configured independently via `LOG_DEBUG`, `LOG_INFO`, `LOG_WARNING` etc. variables.  
+###### Environment variables
+
+Default visibility depends on the enviroment (see log output engine for more information), and in most cases is setup through env variables.
+
+Visibility of each level is configured independently via `LOG_DEBUG`, `LOG_INFO`, `LOG_WARNING` etc. variables. It follows convention configured
+within [debug](https://github.com/visionmedia/debug#windows-note).
+
 To ease migration from [debug](https://github.com/visionmedia/debug) if `LOG_DEBUG` is not configured, then `debug` level configuration is read from `DEBUG` variable.
 
 When no visibility is configured in env variables, defaults are that `debug` level logs are hidden and all others are exposed.
+
+###### Tweaking visiblity at runtime
+
+Visiblity of each level and namespace can be tweaked at the runtime.
+
+```javascript
+// "my-lib" logger
+const log = .getNs("my-lib");
+
+// `log.isEnabled` Returns information on whether log is enabled or not
+const wasLogEnabled = log.isEnabled;
+
+// Through `log.enable()` and `log.disable()` we can tweak log visiblity at runtime
+if (!wasLogEnabled) log.enable();
+
+// Visiblity setting is inherited among child namespaces
+log.getNs("some-func").isEnabled; // true
+
+// Disabling visibility on parent, has no effect if child has it's own visiblity setting
+require("log4").disable();
+log.isEnabled; // true
+
+if (!wasLogEnabled) log.disable(); // Revert to default
+```
+
+#### Configuring log output engine
+
+`log4` library on its own, doesn't produce any log output, instead there's an exposed emitter at `log.emitter`
+which emits all approached logs, and on basis of that real log output can be configured.
+
+##### List of predefined log output writers
+
+*   `log4-aws-lambda` - Dedicated AWS lambda environment writer
+*   `log4-nodejs` - Dedicated Node.js environment writer
+
+To ensure output, at top of main module that serves given environment, require desired log output writer
 
 ### Tests
 
