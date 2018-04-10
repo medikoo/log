@@ -165,31 +165,31 @@ createLogger = function () {
 	};
 };
 
-createLevelLogger = function (level) {
-	if (levelAliases[level]) level = levelAliases[level];
-	if (levelCache[level]) return levelCache[level];
-	if (!isValidLevel(level)) {
+createLevelLogger = function (levelName) {
+	if (levelAliases[levelName]) levelName = levelAliases[levelName];
+	if (levelCache[levelName]) return levelCache[levelName];
+	if (!isValidLevel(levelName)) {
 		throw new TypeError(
-			toShortString(level) + " is not a valid level name (only 'a-z' chars are allowed)"
+			toShortString(levelName) + " is not a valid level name (only 'a-z' chars are allowed)"
 		);
 	}
-	if (!predefinedLevels[level] && level in loggerProto) {
+	if (!predefinedLevels[levelName] && levelName in loggerProto) {
 		throw new TypeError(
-			toShortString(level) +
+			toShortString(levelName) +
 				" is not a valid level name (should not override existing property)"
 		);
 	}
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
-		level: d("e", level)
+		level: d("e", levelName)
 	});
-	levelCache[level] = logger;
+	levelCache[levelName] = logger;
 	var directLevelAccessConf = {};
-	directLevelAccessConf[level] = d(
+	directLevelAccessConf[levelName] = d(
 		"e",
 		function () {
-			return getLevel.call(this, level);
+			return getLevel.call(this, levelName);
 		},
-		{ cacheName: "_" + level }
+		{ cacheName: "_" + levelName }
 	);
 	Object.defineProperties(loggerProto, lazy(directLevelAccessConf));
 	emitter.emit("init", { logger: logger });
