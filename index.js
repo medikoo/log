@@ -17,7 +17,7 @@ var emitter = ee(), levelCache = Object.create(null);
 var isValidLevelName = RegExp.prototype.test.bind(/^[a-z]+$/);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
-var predefinedLevels = primitiveSet(
+var predefinedLevelNames = primitiveSet(
 	"debug",
 	"info",
 	"notice",
@@ -69,10 +69,10 @@ var loggerProto = Object.create(
 		{
 			isEnabled: d("ew", true),
 			emitter: d("", emitter),
-			predefinedLevels: d("e", Object.keys(predefinedLevels)),
+			predefinedLevels: d("e", Object.keys(predefinedLevelNames)),
 			_nsToken: d("", null)
 		},
-		objMap(predefinedLevels, function (ignore, level) {
+		objMap(predefinedLevelNames, function (ignore, level) {
 			return d.gs(function () {
 				return this.getLevel(level);
 			});
@@ -173,7 +173,7 @@ createLevelLogger = function (levelName) {
 			toShortString(levelName) + " is not a valid level name (only 'a-z' chars are allowed)"
 		);
 	}
-	if (!predefinedLevels[levelName] && levelName in loggerProto) {
+	if (!predefinedLevelNames[levelName] && levelName in loggerProto) {
 		throw new TypeError(
 			toShortString(levelName) +
 				" is not a valid level name (should not override existing property)"
