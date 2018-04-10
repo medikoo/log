@@ -212,7 +212,7 @@ test("Logger", function (t) {
 		}
 	);
 
-	t.equal(log.getLevel("warn"), log.warning, "Should alias 'warn' level to 'warning'");
+	t.equal(log.warn, log.warning, "Should alias 'warn' level to 'warning'");
 
 	t.test("Should provide enable/disable functionality on level/name configuration", function (t) {
 		t.equal(log.getNs("enabletest").isEnabled, true, "Should be enabled by default");
