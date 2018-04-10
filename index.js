@@ -14,7 +14,7 @@ var aFrom          = require("es5-ext/array/from")
   , ee             = require("event-emitter");
 
 var emitter = ee(), levelCache = Object.create(null);
-var isValidLevel = RegExp.prototype.test.bind(/^[a-z]+$/);
+var isValidLevelName = RegExp.prototype.test.bind(/^[a-z]+$/);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 var predefinedLevels = primitiveSet(
@@ -168,7 +168,7 @@ createLogger = function () {
 createLevelLogger = function (levelName) {
 	if (levelNameAliases[levelName]) levelName = levelNameAliases[levelName];
 	if (levelCache[levelName]) return levelCache[levelName];
-	if (!isValidLevel(levelName)) {
+	if (!isValidLevelName(levelName)) {
 		throw new TypeError(
 			toShortString(levelName) + " is not a valid level name (only 'a-z' chars are allowed)"
 		);
