@@ -16,7 +16,7 @@ var aFrom          = require("es5-ext/array/from")
 var emitter = ee(), levelCache = Object.create(null);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
-var predefinedLevelNames = primitiveSet(
+var levelNamesMap = primitiveSet(
 	"debug",
 	"info",
 	"notice",
@@ -68,10 +68,10 @@ var loggerProto = Object.create(
 		{
 			isEnabled: d("ew", true),
 			emitter: d("", emitter),
-			predefinedLevels: d("e", Object.keys(predefinedLevelNames)),
+			predefinedLevels: d("e", Object.keys(levelNamesMap)),
 			_nsToken: d("", null)
 		},
-		objMap(predefinedLevelNames, function (ignore, level) {
+		objMap(levelNamesMap, function (ignore, level) {
 			return d.gs(function () {
 				return this.getLevel(level);
 			});
@@ -167,7 +167,7 @@ createLogger = function () {
 createLevelLogger = function (levelName) {
 	if (levelNameAliases[levelName]) levelName = levelNameAliases[levelName];
 	if (levelCache[levelName]) return levelCache[levelName];
-	if (!predefinedLevelNames[levelName]) {
+	if (!levelNamesMap[levelName]) {
 		throw new TypeError(toShortString(levelName) + " is not a valid level name ");
 	}
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
