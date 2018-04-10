@@ -28,7 +28,7 @@ var predefinedLevels = primitiveSet(
 	"alert",
 	"emergency"
 );
-var levelAliases = Object.create(null, { warn: d("cew", "warning") });
+var levelNameAliases = Object.create(null, { warn: d("cew", "warning") });
 
 var setEnabledState = function (state) {
 	this.isEnabled = state;
@@ -166,7 +166,7 @@ createLogger = function () {
 };
 
 createLevelLogger = function (levelName) {
-	if (levelAliases[levelName]) levelName = levelAliases[levelName];
+	if (levelNameAliases[levelName]) levelName = levelNameAliases[levelName];
 	if (levelCache[levelName]) return levelCache[levelName];
 	if (!isValidLevel(levelName)) {
 		throw new TypeError(
