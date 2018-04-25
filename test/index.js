@@ -342,5 +342,11 @@ test("Logger", function (t) {
 		t.end();
 	});
 
+	t.test("Should expose level index", function (t) {
+		t.equal(log.notice.levelIndex, 2);
+		t.equal(log.error.levelIndex, 4);
+		t.end();
+	});
+
 	t.end();
 });

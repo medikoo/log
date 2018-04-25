@@ -158,7 +158,8 @@ createLevelLogger = function (levelName) {
 	if (levelNameAliasesMap[levelName]) levelName = levelNameAliasesMap[levelName];
 	if (levelCache[levelName]) return levelCache[levelName];
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
-		level: d("e", levelName)
+		level: d("e", levelName),
+		levelIndex: d("e", levelNames.indexOf(levelName))
 	});
 	levelCache[levelName] = logger;
 	var directLevelAccessConf = {};
