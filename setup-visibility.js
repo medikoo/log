@@ -14,7 +14,7 @@ module.exports = function (conf) {
 	conf = objMap(ensureObject(conf), function (levelConf, level) {
 		var map = Object.create(null);
 		var levelLogger;
-		if (logger.hasLevel(level)) levelLogger = logger.getLevel(level);
+		if (logger.hasLevel(level)) levelLogger = logger[level];
 		aFrom(levelConf).forEach(function (ns) {
 			ns = ensureString(ns).trim();
 			if (!ns) return;

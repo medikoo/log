@@ -64,12 +64,12 @@ var loggerProto = Object.create(
 		},
 		objMap(levelNamesMap, function (ignore, level) {
 			return d.gs(function () {
-				return this.getLevel(level);
+				return getLevel.call(this, level);
 			});
 		}),
 		objMap(levelNameAliasesMap, function (ignore, level) {
 			return d.gs(function () {
-				return this.getLevel(level);
+				return getLevel.call(this, level);
 			});
 		}),
 		{
@@ -94,7 +94,7 @@ var loggerProto = Object.create(
 						return this.hasLevel(level);
 					}, this)
 					.map(function (level) {
-						return this.getLevel(level);
+						return getLevel.call(this, level);
 					}, this);
 			}),
 			getAllNs: d("e", function () {
@@ -130,12 +130,6 @@ var loggerProto = Object.create(
 				},
 				{ cacheName: "_disable" }
 			),
-			getLevel: d(
-				function () {
-					return getLevel.bind(this);
-				},
-				{ cacheName: "_getLevel" }
-			),
 			getNs: d(
 				function () {
 					return getNs.bind(this);
@@ -163,9 +157,6 @@ createLogger = function () {
 createLevelLogger = function (levelName) {
 	if (levelNameAliasesMap[levelName]) levelName = levelNameAliasesMap[levelName];
 	if (levelCache[levelName]) return levelCache[levelName];
-	if (!levelNamesMap[levelName]) {
-		throw new TypeError(toShortString(levelName) + " is not a valid level name ");
-	}
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
 		level: d("e", levelName)
 	});

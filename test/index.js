@@ -28,8 +28,8 @@ test("Logger", function (t) {
 		}
 	);
 
-	t.test("Should allow to create loggers of other levels via .getLevel(name)", function (t) {
-		var currentLog = log.getNs("foo").getLevel("error");
+	t.test("Should allow to create loggers of other levels", function (t) {
+		var currentLog = log.getNs("foo").error;
 		t.test("which expose", function (t) {
 			t.equal(currentLog.level, "error", "expected level");
 			t.equal(currentLog.ns, "foo", "expected namespace");
@@ -38,7 +38,6 @@ test("Logger", function (t) {
 			t.equal(currentLog.error, currentLog, "Current level at it's name property");
 			t.end();
 		});
-		t.equal(log.error, log.getLevel("error"), "which are automatically on other loggers");
 
 		t.test("which when invoked should emit 'log' event on log.emitter that exposes", function (
 			t
@@ -52,14 +51,6 @@ test("Logger", function (t) {
 		});
 		t.end();
 	});
-
-	t.throws(
-		function () {
-			log.getLevel("name");
-		},
-		TypeError,
-		"Should throw on level names that are not predefined"
-	);
 
 	t.test("Should expose .hasLevel(level) method that", function (t) {
 		t.equal(log.hasLevel("foo"), false, "returns false on non setup  not predefined level");
@@ -75,7 +66,7 @@ test("Logger", function (t) {
 
 	t.test("Should expose .getAllLevels() method that expose", function (t) {
 		t.deepEqual(
-			log.getAllLevels(), [log, log.getLevel("warning"), log.getLevel("error")],
+			log.getAllLevels(), [log, log.warning, log.error],
 			"All setup levels on top level logger"
 		);
 		t.deepEqual(
@@ -201,10 +192,10 @@ test("Logger", function (t) {
 	t.test(
 		"Should create single (reusable) logger instances per level/name configuration",
 		function (t) {
-			t.equal(log, log.getLevel("debug"));
-			t.notEqual(log, log.getLevel("info"));
-			t.equal(log.getLevel("info"), log.getLevel("info"));
-			t.equal(log.getLevel("info"), log.getLevel("info").getLevel("info"));
+			t.equal(log, log.debug);
+			t.notEqual(log, log.info);
+			t.equal(log.info, log.info);
+			t.equal(log.info, log.info.info);
 			t.equal(log.getNs("foo"), log.getNs("foo"));
 			t.notEqual(log.getNs("foo"), log.getNs("bar"));
 			t.notEqual(log.getNs("foo"), log.getNs("foo").getNs("foo"));
@@ -311,7 +302,7 @@ test("Logger", function (t) {
 			emitter.once("init", function (event) {
 				caughtEvent = event;
 			});
-			currentLog = log.getLevel("critical");
+			currentLog = log.critical;
 			t.equal(caughtEvent.logger, currentLog, "Event should expose initialized logger");
 			t.end();
 		});
@@ -340,14 +331,14 @@ test("Logger", function (t) {
 		});
 	});
 
-	t.test("Should expose known (syslog) levels with predefined properties", function (t) {
-		t.equal(log.info, log.getLevel("info"));
-		t.equal(log.notice, log.getLevel("notice"));
-		t.equal(log.warning, log.getLevel("warning"));
-		t.equal(log.error, log.getLevel("error"));
-		t.equal(log.critical, log.getLevel("critical"));
-		t.equal(log.alert, log.getLevel("alert"));
-		t.equal(log.emergency, log.getLevel("emergency"));
+	t.test("Should expose known (syslog) levels", function (t) {
+		t.equal(typeof log.info, "function");
+		t.equal(typeof log.notice, "function");
+		t.equal(typeof log.warning, "function");
+		t.equal(typeof log.error, "function");
+		t.equal(typeof log.critical, "function");
+		t.equal(typeof log.alert, "function");
+		t.equal(typeof log.emergency, "function");
 		t.end();
 	});
 
