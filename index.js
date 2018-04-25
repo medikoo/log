@@ -59,7 +59,7 @@ var loggerProto = Object.create(
 		{
 			isEnabled: d("ew", true),
 			emitter: d("", emitter),
-			predefinedLevels: d("e", Object.keys(levelNamesMap)),
+			predefinedLevels: d("e", levelNames),
 			_nsToken: d("", null)
 		},
 		objMap(levelNamesMap, function (ignore, level) {
