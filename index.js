@@ -162,15 +162,6 @@ createLevelLogger = function (levelName) {
 		levelIndex: d("e", levelNames.indexOf(levelName))
 	});
 	levelCache[levelName] = logger;
-	var directLevelAccessConf = {};
-	directLevelAccessConf[levelName] = d(
-		"e",
-		function () {
-			return getLevel.call(this, levelName);
-		},
-		{ cacheName: "_" + levelName }
-	);
-	Object.defineProperties(loggerProto, lazy(directLevelAccessConf));
 	emitter.emit("init", { logger: logger });
 	return logger;
 };
