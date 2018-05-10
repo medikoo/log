@@ -5,7 +5,6 @@ var aFrom          = require("es5-ext/array/from")
   , assign         = require("es5-ext/object/assign")
   , objMap         = require("es5-ext/object/map")
   , objToArray     = require("es5-ext/object/to-array")
-  , primitiveSet   = require("es5-ext/object/primitive-set")
   , setPrototypeOf = require("es5-ext/object/set-prototype-of")
   , ensureString   = require("es5-ext/object/validate-stringifiable-value")
   , toShortString  = require("es5-ext/to-short-string-representation")
@@ -18,7 +17,6 @@ var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
 var levelNameAliasesMap = Object.create(null, { warn: d("cew", "warning") });
-var levelNamesMap = primitiveSet.apply(null, levelNames);
 
 var setEnabledState = function (state) {
 	this.isEnabled = state;
@@ -62,11 +60,12 @@ var loggerProto = Object.create(
 			predefinedLevels: d("e", levelNames),
 			_nsToken: d("", null)
 		},
-		objMap(levelNamesMap, function (ignore, level) {
-			return d.gs(function () {
+		levelNames.reduce(function (descriptors, level) {
+			descriptors[level] = d.gs(function () {
 				return getLevel.call(this, level);
 			});
-		}),
+			return descriptors;
+		}, {}),
 		objMap(levelNameAliasesMap, function (ignore, level) {
 			return d.gs(function () {
 				return getLevel.call(this, level);
