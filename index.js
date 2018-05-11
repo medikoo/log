@@ -29,29 +29,26 @@ var getLevel = function (newLevel) {
 	newLevel = ensureString(newLevel);
 	if (this.level === newLevel) return this;
 	var levelLogger = createLevelLogger(newLevel);
-	return this.nsTokens.reduce(
-		function (currentLogger, token) { return createNsLogger(currentLogger, token); },
-		levelLogger
-	);
+	return this.nsTokens.reduce(function (currentLogger, token) {
+		return createNsLogger(currentLogger, token);
+	}, levelLogger);
 };
 
 var getNs = function (ns) {
 	ns = ensureString(ns);
 	var nsTokens = ns.split(":");
-	nsTokens.forEach(
-		function (nsToken) {
-			if (!isValidNsToken(nsToken)) {
-				throw new TypeError(
-					toShortString(ns) +
-						" is not a valid ns string " +
-						"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
-				);
-			}
+	nsTokens.forEach(function (nsToken) {
+		if (!isValidNsToken(nsToken)) {
+			throw new TypeError(
+				toShortString(ns) +
+					" is not a valid ns string " +
+					"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
+			);
 		}
-	);
-	return nsTokens.reduce(
-		function (currentLogger, token) { return createNsLogger(currentLogger, token); }, this
-	);
+	});
+	return nsTokens.reduce(function (currentLogger, token) {
+		return createNsLogger(currentLogger, token);
+	}, this);
 };
 
 var loggerProto = Object.create(
@@ -63,82 +60,60 @@ var loggerProto = Object.create(
 			predefinedLevels: d("e", levelNames),
 			_nsToken: d("", null)
 		},
-		levelNames.reduce(
-			function (descriptors, level) {
-				descriptors[level] = d.gs(function () { return getLevel.call(this, level); });
-				return descriptors;
-			},
-			{}
-		),
-		objMap(
-			levelNameAliasesMap,
-			function (ignore, level) {
-				return d.gs(function () { return getLevel.call(this, level); });
-			}
-		),
+		levelNames.reduce(function (descriptors, level) {
+			descriptors[level] = d.gs(function () { return getLevel.call(this, level); });
+			return descriptors;
+		}, {}),
+		objMap(levelNameAliasesMap, function (ignore, level) {
+			return d.gs(function () { return getLevel.call(this, level); });
+		}),
 		{
-			hasNs: d(
-				"e",
-				function (ns) {
-					var nsTokens = ensureString(ns).split(":");
-					var currentLogger = this;
-					return nsTokens.every(
-						function (nsToken) {
-							return currentLogger = currentLogger._children[nsToken];
-						}
-					);
-				}
-			),
-			hasLevel: d(
-				"e",
-				function (level) {
-					level = ensureString(level);
-					if (this.level === level) return true;
-					var logger = levelCache[level];
-					if (!logger) return false;
-					if (!this.ns) return true;
-					return logger.hasNs(this.ns);
-				}
-			),
-			getAllLevels: d(
-				"e",
-				function () {
-					return Object.keys(levelCache)
-						.filter(function (level) { return this.hasLevel(level); }, this)
-						.map(function (level) { return getLevel.call(this, level); }, this);
-				}
-			),
+			hasNs: d("e", function (ns) {
+				var nsTokens = ensureString(ns).split(":");
+				var currentLogger = this;
+				return nsTokens.every(function (nsToken) {
+					return currentLogger = currentLogger._children[nsToken];
+				});
+			}),
+			hasLevel: d("e", function (level) {
+				level = ensureString(level);
+				if (this.level === level) return true;
+				var logger = levelCache[level];
+				if (!logger) return false;
+				if (!this.ns) return true;
+				return logger.hasNs(this.ns);
+			}),
+			getAllLevels: d("e", function () {
+				return Object.keys(levelCache)
+					.filter(function (level) { return this.hasLevel(level); }, this)
+					.map(function (level) { return getLevel.call(this, level); }, this);
+			}),
 			getAllNs: d("e", function () { return objToArray(this._children, identity); })
 		},
-		lazy(
-			{
-				ns: d(
-					"e", function () { return this.nsTokens.join(":") || null; },
-					{ cacheName: "_ns" }
-				),
-				nsTokens: d(
-					"e",
-					function () {
-						return this._nsToken
-							? Object.getPrototypeOf(this).nsTokens.concat(this._nsToken)
-							: [];
-					},
-					{ cacheName: "_nsTokens" }
-				),
-				enable: d(
-					function () { return setEnabledState.bind(this, true); },
-					{ cacheName: "_enable" }
-				),
-				disable: d(
-					function () { return setEnabledState.bind(this, false); },
-					{ cacheName: "_disable" }
-				),
-				getNs: d(function () { return getNs.bind(this); }, { cacheName: "_getNs" }),
-				_children: d(
-					"", function () { return Object.create(null); }, { cacheName: "__children" }
-				)
-			}
-		)
+		lazy({
+			ns: d("e", function () { return this.nsTokens.join(":") || null; }, {
+				cacheName: "_ns"
+			}),
+			nsTokens: d(
+				"e",
+				function () {
+					return this._nsToken
+						? Object.getPrototypeOf(this).nsTokens.concat(this._nsToken)
+						: [];
+				},
+				{ cacheName: "_nsTokens" }
+			),
+			enable: d(function () { return setEnabledState.bind(this, true); }, {
+				cacheName: "_enable"
+			}),
+			disable: d(function () { return setEnabledState.bind(this, false); }, {
+				cacheName: "_disable"
+			}),
+			getNs: d(function () { return getNs.bind(this); }, { cacheName: "_getNs" }),
+			_children: d("", function () { return Object.create(null); }, {
+				cacheName: "__children"
+			})
+		})
 	)
 );
 
@@ -152,10 +127,10 @@ createLogger = function () {
 createLevelLogger = function (levelName) {
 	if (levelNameAliasesMap[levelName]) levelName = levelNameAliasesMap[levelName];
 	if (levelCache[levelName]) return levelCache[levelName];
-	var logger = Object.defineProperties(
-		setPrototypeOf(createLogger(), loggerProto),
-		{ level: d("e", levelName), levelIndex: d("e", levelNames.indexOf(levelName)) }
-	);
+	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
+		level: d("e", levelName),
+		levelIndex: d("e", levelNames.indexOf(levelName))
+	});
 	levelCache[levelName] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
@@ -163,9 +138,9 @@ createLevelLogger = function (levelName) {
 
 createNsLogger = function (parent, nsToken) {
 	if (parent._children[nsToken]) return parent._children[nsToken];
-	var logger = Object.defineProperties(
-		setPrototypeOf(createLogger(), parent), { _nsToken: d("", nsToken) }
-	);
+	var logger = Object.defineProperties(setPrototypeOf(createLogger(), parent), {
+		_nsToken: d("", nsToken)
+	});
 	parent._children[nsToken] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
