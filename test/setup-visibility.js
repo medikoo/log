@@ -1,102 +1,141 @@
 "use strict";
 
-delete require.cache[require.resolve("../index")];
+var test            = require("tape")
+  , requireUncached = require("cjs-module/require-uncached");
 
-var test     = require("tape")
-  , log      = require("../index")
-  , setupEnv = require("../setup-visibility");
+test("Logs visibility setup", function (t) {
+	var log, setupEnv;
 
-test("Setup enviroment", function (t) {
+	requireUncached([require.resolve("../"), require.resolve("../setup-visibility")], function () {
+		log = require("../");
+		setupEnv = require("../setup-visibility");
+	});
+
 	log.debug.getNs("e1:d");
-	log.debug.getNs("e2:e");
-	log.info.getNs("e1:d");
-	log.info.getNs("e2");
+	log.warning.getNs("e2:e");
+	log.error.getNs("foo");
+	log.alert.getNs("foo");
+	log.warning.getNs("e1");
 
-	setupEnv({
-		debug: ["-*", "e1", "-e1:d", "-e1:dn", "", " e2:e", "e2:n", "n1", "-n1:d", "n2:n"],
-		info: ["-e1:d", "-n1:d", "-e2", "-n2:*"],
-		notice: ["-*"],
-		warning: ["-n1", "-n2:elo"]
-	});
+	setupEnv("error", ["e1", "-e1:d", "n1:d", "-n1:d:foo:*"]);
 
-	t.test("Should update settings on existing loggers:", function (t) {
-		t.equal(log.debug.isEnabled, false, "'*' should affect level logger");
-		t.equal(log.debug.getNs("e1").isEnabled, true, "Should be possible to override ns logger");
-		t.equal(
-			log.debug.getNs("e1:d").isEnabled, false,
-			"Should be possible to override ns setting on overriden nested ns"
-		);
-		t.equal(log.debug.getNs("e2").isEnabled, false, "Nested override should not affect parent");
-		t.equal(
-			log.debug.getNs("e2:e").isEnabled, true,
-			"Should be possible to override ns setting on nested ns"
-		);
+	t.test("Affects already created loggers", function (t) {
+		t.equal(log.debug.isEnabled, false, "Disables level logger deep below level threshold");
+		t.equal(log.warning.isEnabled, false, "Disables level logger just below threshold");
+		t.equal(log.error.isEnabled, true, "Keeps logger at the threshold enabled");
+		t.equal(log.alert.isEnabled, true, "Keeps loggers above threshold enabled");
 
-		t.equal(log.info.isEnabled, true, "No overriden level loggers should remain unaffected");
-		t.equal(
-			log.info.getNs("e1").isEnabled, true,
-			"On non overriden level, nested override should not affect parent"
-		);
-		t.equal(
-			log.info.getNs("e1:d").isEnabled, false,
-			"Should allow nested override on non overriden level"
-		);
-		t.equal(
-			log.info.getNs("e2").isEnabled, false,
-			"Should allow to override ns, on non overriden level"
-		);
+		t.test("Applies debug namespace map for level loggers below threshold", function (t) {
+			t.equal(
+				log.warning.getNs("e1").isEnabled, true, "Enables directly mentioned namespace"
+			);
+			t.equal(
+				log.warning.getNs("e1:foo").isEnabled, true,
+				"Enables children of directly mentioned namespace"
+			);
+			t.equal(
+				log.warning.getNs("e1:d").isEnabled, false,
+				"Disables mentioned directly but negated namespace"
+			);
+			t.equal(
+				log.warning.getNs("e1:d:foo").isEnabled, false,
+				"Disables children of mentioned directly but negated namespace"
+			);
+			t.equal(
+				log.warning.getNs("n1").isEnabled, false,
+				"Parent remains disabled when child is enabled"
+			);
+			t.equal(
+				log.warning.getNs("n1:d").isEnabled, true,
+				"Enables directly mentioned deep namespace"
+			);
+			t.equal(
+				log.warning.getNs("n1:d:foo").isEnabled, false,
+				"Handles trailing asterisk as an instruction to be applied on parent"
+			);
+			t.equal(
+				log.warning.getNs("e2").isEnabled, false, "Not mentioned namespaces remain disabled"
+			);
+			t.end();
+		});
 		t.end();
 	});
 
-	t.test("Should reflect settings on newly configured loggers:", function (t) {
-		t.equal(
-			log.debug.getNs("e2:n").isEnabled, true,
-			"Should override nested ns for existing ns parent"
-		);
-		t.equal(
-			log.debug.getNs("n1:d").isEnabled, false, "Shuld override nested ns on overriden ns"
-		);
-		t.equal(log.debug.getNs("n1").isEnabled, true, "Should override ns");
-		t.equal(log.debug.getNs("n2:n:foo").isEnabled, true, "Should override nested ns deep way");
-		t.equal(log.debug.getNs("n2:n").isEnabled, true, "Should override nested ns");
-		t.equal(log.debug.getNs("n3").isEnabled, false, "Non overriden ns should inherit");
-		t.equal(
-			log.info.getNs("n1:d").isEnabled, false,
-			"Should override nested ns on non overriden logger"
-		);
-		t.equal(
-			log.info.getNs("n2").isEnabled, false, "Should override ns on non overriden logger"
-		);
-		t.equal(log.info.getNs("n3").isEnabled, true, "Non overriden ns should be unaffected");
+	t.test("Affects loggers created later:", function (t) {
+		t.equal(log.info.isEnabled, false, "Disables level logger deep below level threshold");
+		t.equal(log.critical.isEnabled, true, "Keeps loggers above threshold enabled");
 
-		t.equal(
-			log.notice.getNs("foo:mar").isEnabled, false,
-			"Should reflect overridance on overriden newly setup level, deep way"
-		);
-		t.equal(log.notice.isEnabled, false, "Should reflect overridance on newly setup level");
-
-		t.equal(
-			log.warning.getNs("n1:foo").isEnabled, false,
-			"Should reflect overridance on newly setup level, deep way"
-		);
-		t.equal(
-			log.warning.getNs("n1").isEnabled, false,
-			"Should reflect overridance on newly setup level"
-		);
-		t.equal(
-			log.warning.isEnabled, true, "Nested overrides should not affect newly created level"
-		);
-		t.equal(
-			log.warning.getNs("n2").isEnabled, true,
-			"Deep nested overrides should not affect ns  on newly created level"
-		);
-		t.equal(
-			log.warning.getNs("n2:elo").isEnabled, false,
-			"Deep nested overrides should be reflected on created level"
-		);
+		t.test("Applies debug namespace map for level loggers below threshold", function (t) {
+			t.equal(log.info.getNs("e1").isEnabled, true, "Enables directly mentioned namespace");
+			t.equal(
+				log.info.getNs("e1:foo").isEnabled, true,
+				"Enables children of directly mentioned namespace"
+			);
+			t.equal(
+				log.info.getNs("e1:d").isEnabled, false,
+				"Disables mentioned directly but negated namespace"
+			);
+			t.equal(
+				log.info.getNs("e1:d:foo").isEnabled, false,
+				"Disables children of mentioned directly but negated namespace"
+			);
+			t.equal(
+				log.info.getNs("n1").isEnabled, false,
+				"Parent remains disabled when child is enabled"
+			);
+			t.equal(
+				log.info.getNs("n1:d").isEnabled, true, "Enables directly mentioned deep namespace"
+			);
+			t.equal(
+				log.info.getNs("n1:d:foo").isEnabled, false,
+				"Handles trailing asterisk as an instruction to be applied on parent"
+			);
+			t.equal(
+				log.info.getNs("e2").isEnabled, false, "Not mentioned namespaces remain disabled"
+			);
+			t.end();
+		});
 		t.end();
 	});
 
-	t.equal(log.error.isEnabled, true, "Should not affect not configured levels");
+	t.test("Global '*' enables all debug logs", function (t) {
+		requireUncached(
+			[require.resolve("../"), require.resolve("../setup-visibility")],
+			function () {
+				log = require("../");
+				setupEnv = require("../setup-visibility");
+			}
+		);
+
+		setupEnv("error", ["*"]);
+
+		t.test("Affects already created loggers", function (t) {
+			t.equal(log.debug.isEnabled, true, "Disables level logger deep below level threshold");
+			t.end();
+		});
+
+		t.test("Affects loggers created later:", function (t) {
+			t.equal(log.info.isEnabled, true, "Disables level logger deep below level threshold");
+			t.end();
+		});
+		t.end();
+	});
+
+	t.test("Fallbacks to warning level as threshold, if invalid one is provided", function (t) {
+		requireUncached(
+			[require.resolve("../"), require.resolve("../setup-visibility")],
+			function () {
+				log = require("../");
+				setupEnv = require("../setup-visibility");
+			}
+		);
+
+		setupEnv("bla", [""]);
+
+		t.equal(log.notice.isEnabled, false);
+		t.equal(log.warning.isEnabled, true);
+		t.end();
+	});
+
 	t.end();
 });

@@ -8,6 +8,7 @@
   "dependencies": { "d": "1", "es5-ext": "^0.10.42", "event-emitter": "^0.3.5" },
   "devDependencies": {
     "browserstack-tape-runner": "2",
+    "cjs-module": "1.3",
     "eslint": "^4.19.1",
     "eslint-config-medikoo-es5": "^1.4.10",
     "istanbul": "^0.4.5",
