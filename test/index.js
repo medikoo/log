@@ -29,12 +29,12 @@ test("Logger", function (t) {
 	);
 
 	t.test("Should allow to create loggers of other levels", function (t) {
-		var currentLog = log.getNs("foo").error;
+		var currentLog = log.get("foo").error;
 		t.test("which expose", function (t) {
 			t.equal(currentLog.level, "error", "expected level");
 			t.equal(currentLog.namespace, "foo", "expected namespace");
 			t.deepEqual(currentLog.namespaceTokens, ["foo"], "expected namespace tokens list");
-			t.equal(currentLog.debug, log.getNs("foo"), "Other levels in same namespace");
+			t.equal(currentLog.debug, log.get("foo"), "Other levels in same namespace");
 			t.equal(currentLog.error, currentLog, "Current level at it's name property");
 			t.end();
 		});
@@ -62,7 +62,7 @@ test("Logger", function (t) {
 		t.equal(log.isLevelInitialized("error"), true, "returns true on setup predefined level");
 		t.equal(log.isLevelInitialized("debug"), true, "return true on self level");
 		t.equal(
-			log.getNs("foorkot").isLevelInitialized("error"), false,
+			log.get("foorkot").isLevelInitialized("error"), false,
 			"returns false if there's no setup level logger for given namespace"
 		);
 		t.end();
@@ -74,16 +74,16 @@ test("Logger", function (t) {
 			"All setup levels on top level logger"
 		);
 		t.deepEqual(
-			log.getNs("getlevel-test").getAllInitializedLevels(), [log.getNs("getlevel-test")],
+			log.get("getlevel-test").getAllInitializedLevels(), [log.get("getlevel-test")],
 			"Only levels setup within given ns scope"
 		);
 		t.end();
 	});
 
 	t.test(
-		"Should allow to create namespaced loggers (debug library style) via .getNs(name)",
+		"Should allow to create namespaced loggers (debug library style) via .get(name)",
 		function (t) {
-			var currentLog = log.getNs("marko");
+			var currentLog = log.get("marko");
 			t.test("which expose", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
 				t.equal(currentLog.namespace, "marko", "expected namespace");
@@ -109,13 +109,12 @@ test("Logger", function (t) {
 	);
 
 	t.throws(
-		function () { log.getNs("marko elo"); }, TypeError,
-		"Should throw on invalid namespace names"
+		function () { log.get("marko elo"); }, TypeError, "Should throw on invalid namespace names"
 	);
 
 	t.test("Should allow to nest namespaced loggers", function (t) {
-		t.test("via colon separated tokens passed to .getNs(name)", function (t) {
-			var currentLog = log.getNs("marko:barko");
+		t.test("via colon separated tokens passed to .get(name)", function (t) {
+			var currentLog = log.get("marko:barko");
 
 			t.test("which expose", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
@@ -140,8 +139,8 @@ test("Logger", function (t) {
 			t.end();
 		});
 
-		t.test("via nested calls to .getNs(name)", function (t) {
-			var currentLog = log.getNs("marko").getNs("barko");
+		t.test("via nested calls to .get(name)", function (t) {
+			var currentLog = log.get("marko").get("barko");
 
 			t.test("which expose", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
@@ -160,7 +159,7 @@ test("Logger", function (t) {
 						t.deepEqual(event.messageTokens, testArgs, "message tokens");
 						t.end();
 					});
-					log.getNs("marko").getNs("barko").apply(null, testArgs);
+					log.get("marko").get("barko").apply(null, testArgs);
 				}
 			);
 		});
@@ -174,7 +173,7 @@ test("Logger", function (t) {
 			log.isNamespaceInitialized("marko:barko"), true, "returns true for setup nested ns"
 		);
 		t.equal(
-			log.getNs("marko").isNamespaceInitialized("barko"), true,
+			log.get("marko").isNamespaceInitialized("barko"), true,
 			"returns true on nested logger for setup ns"
 		);
 		t.end();
@@ -183,10 +182,7 @@ test("Logger", function (t) {
 	t.test("Should expose .getAllInitializedNamespaces() method that expose", function (t) {
 		t.deepEqual(
 			log.getAllInitializedNamespaces(),
-			[
-				log.getNs("foo"), log.getNs("foorkot"), log.getNs("getlevel-test"),
-				log.getNs("marko")
-			],
+			[log.get("foo"), log.get("foorkot"), log.get("getlevel-test"), log.get("marko")],
 			"All child namespaces"
 		);
 		t.end();
@@ -199,9 +195,9 @@ test("Logger", function (t) {
 			t.notEqual(log, log.info);
 			t.equal(log.info, log.info);
 			t.equal(log.info, log.info.info);
-			t.equal(log.getNs("foo"), log.getNs("foo"));
-			t.notEqual(log.getNs("foo"), log.getNs("bar"));
-			t.notEqual(log.getNs("foo"), log.getNs("foo").getNs("foo"));
+			t.equal(log.get("foo"), log.get("foo"));
+			t.notEqual(log.get("foo"), log.get("bar"));
+			t.notEqual(log.get("foo"), log.get("foo").get("foo"));
 			t.end();
 		}
 	);
@@ -209,62 +205,60 @@ test("Logger", function (t) {
 	t.equal(log.warn, log.warning, "Should alias 'warn' level to 'warning'");
 
 	t.test("Should provide enable/disable functionality on level/name configuration", function (t) {
-		t.equal(log.getNs("enabletest").isEnabled, true, "Should be enabled by default");
+		t.equal(log.get("enabletest").isEnabled, true, "Should be enabled by default");
 
 		t.equal(
-			log.getNs("enabletest").disable(), log.getNs("enabletest"),
+			log.get("enabletest").disable(), log.get("enabletest"),
 			"disable() should return target logger"
 		);
 		t.equal(
-			log.getNs("enabletest").isEnabled, false, "Should be disabled after `disable()` call"
+			log.get("enabletest").isEnabled, false, "Should be disabled after `disable()` call"
 		);
 
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled, false,
+			log.get("enabletest").get("foo").isEnabled, false,
 			"New nested names should inherit setting"
 		);
 
 		t.equal(
-			log.getNs("enabletest").enable(), log.getNs("enabletest"),
+			log.get("enabletest").enable(), log.get("enabletest"),
 			"enable() should return target logger"
 		);
-		t.equal(log.getNs("enabletest").isEnabled, true, "Should be enabled after `enable()` call");
-		log.getNs("enabletest").enable();
+		t.equal(log.get("enabletest").isEnabled, true, "Should be enabled after `enable()` call");
+		log.get("enabletest").enable();
 		t.equal(
-			log.getNs("enabletest").isEnabled, true,
+			log.get("enabletest").isEnabled, true,
 			"Trying to set same state again should have no effect"
 		);
-		log.getNs("enabletest").isEnabled = false;
+		log.get("enabletest").isEnabled = false;
 		t.equal(
-			log.getNs("enabletest").isEnabled, false,
+			log.get("enabletest").isEnabled, false,
 			"It should be possible to change state by direct setting of isEnabled"
 		);
-		log.getNs("enabletest").isEnabled = true;
+		log.get("enabletest").isEnabled = true;
 
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled, true,
+			log.get("enabletest").get("foo").isEnabled, true,
 			"Existing nested names should inherit setting"
 		);
 
-		log.getNs("enabletest").getNs("foo").enable();
+		log.get("enabletest").get("foo").enable();
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled, true,
+			log.get("enabletest").get("foo").isEnabled, true,
 			"Setting existing state on child should have no effect"
 		);
 
-		log.getNs("enabletest").getNs("foo").disable();
+		log.get("enabletest").get("foo").disable();
+		t.equal(log.get("enabletest").get("foo").isEnabled, false, "Should work on nested names");
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled, false, "Should work on nested names"
-		);
-		t.equal(
-			log.getNs("enabletest").isEnabled, true,
+			log.get("enabletest").isEnabled, true,
 			"Settings on nested names should not leak to parent loggers"
 		);
 
-		log.getNs("enabletest").disable();
-		log.getNs("enabletest").enable();
+		log.get("enabletest").disable();
+		log.get("enabletest").enable();
 		t.equal(
-			log.getNs("enabletest").getNs("foo").isEnabled, false,
+			log.get("enabletest").get("foo").isEnabled, false,
 			"Setting on parent should not have effect on child with own setting"
 		);
 
@@ -304,7 +298,7 @@ test("Logger", function (t) {
 		t.test("new name logger instance is created", function (t) {
 			var currentLog, caughtEvent;
 			emitter.once("init", function (event) { caughtEvent = event; });
-			currentLog = log.getNs("othername");
+			currentLog = log.get("othername");
 			t.equal(caughtEvent.logger, currentLog, "Event should expose initialized logger");
 			t.end();
 		});
@@ -312,15 +306,15 @@ test("Logger", function (t) {
 			var isFirst = true;
 			emitter.on("init", function self(event) {
 				if (isFirst) {
-					t.equal(event.logger, log.getNs("echi"), "for top namespace");
+					t.equal(event.logger, log.get("echi"), "for top namespace");
 					isFirst = false;
 					return;
 				}
-				t.equal(event.logger, log.getNs("echi").getNs("marki"), "for nested namespace");
+				t.equal(event.logger, log.get("echi").get("marki"), "for nested namespace");
 				emitter.off("init", self);
 				t.end();
 			});
-			log.getNs("echi:marki");
+			log.get("echi:marki");
 		});
 	});
 

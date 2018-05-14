@@ -11,11 +11,11 @@ test("Logs visibility setup", function (t) {
 		setupEnv = require("../setup-visibility");
 	});
 
-	log.debug.getNs("e1:d");
-	log.warning.getNs("e2:e");
-	log.error.getNs("foo");
-	log.alert.getNs("foo");
-	log.warning.getNs("e1");
+	log.debug.get("e1:d");
+	log.warning.get("e2:e");
+	log.error.get("foo");
+	log.alert.get("foo");
+	log.warning.get("e1");
 
 	setupEnv("error", ["e1", "-e1:d", "n1:d", "-n1:d:foo:*"]);
 
@@ -26,35 +26,32 @@ test("Logs visibility setup", function (t) {
 		t.equal(log.alert.isEnabled, true, "Keeps loggers above threshold enabled");
 
 		t.test("Applies debug namespace map for level loggers below threshold", function (t) {
+			t.equal(log.warning.get("e1").isEnabled, true, "Enables directly mentioned namespace");
 			t.equal(
-				log.warning.getNs("e1").isEnabled, true, "Enables directly mentioned namespace"
-			);
-			t.equal(
-				log.warning.getNs("e1:foo").isEnabled, true,
+				log.warning.get("e1:foo").isEnabled, true,
 				"Enables children of directly mentioned namespace"
 			);
 			t.equal(
-				log.warning.getNs("e1:d").isEnabled, false,
+				log.warning.get("e1:d").isEnabled, false,
 				"Disables mentioned directly but negated namespace"
 			);
 			t.equal(
-				log.warning.getNs("e1:d:foo").isEnabled, false,
+				log.warning.get("e1:d:foo").isEnabled, false,
 				"Disables children of mentioned directly but negated namespace"
 			);
 			t.equal(
-				log.warning.getNs("n1").isEnabled, false,
+				log.warning.get("n1").isEnabled, false,
 				"Parent remains disabled when child is enabled"
 			);
 			t.equal(
-				log.warning.getNs("n1:d").isEnabled, true,
-				"Enables directly mentioned deep namespace"
+				log.warning.get("n1:d").isEnabled, true, "Enables directly mentioned deep namespace"
 			);
 			t.equal(
-				log.warning.getNs("n1:d:foo").isEnabled, false,
+				log.warning.get("n1:d:foo").isEnabled, false,
 				"Handles trailing asterisk as an instruction to be applied on parent"
 			);
 			t.equal(
-				log.warning.getNs("e2").isEnabled, false, "Not mentioned namespaces remain disabled"
+				log.warning.get("e2").isEnabled, false, "Not mentioned namespaces remain disabled"
 			);
 			t.end();
 		});
@@ -66,32 +63,31 @@ test("Logs visibility setup", function (t) {
 		t.equal(log.critical.isEnabled, true, "Keeps loggers above threshold enabled");
 
 		t.test("Applies debug namespace map for level loggers below threshold", function (t) {
-			t.equal(log.info.getNs("e1").isEnabled, true, "Enables directly mentioned namespace");
+			t.equal(log.info.get("e1").isEnabled, true, "Enables directly mentioned namespace");
 			t.equal(
-				log.info.getNs("e1:foo").isEnabled, true,
+				log.info.get("e1:foo").isEnabled, true,
 				"Enables children of directly mentioned namespace"
 			);
 			t.equal(
-				log.info.getNs("e1:d").isEnabled, false,
+				log.info.get("e1:d").isEnabled, false,
 				"Disables mentioned directly but negated namespace"
 			);
 			t.equal(
-				log.info.getNs("e1:d:foo").isEnabled, false,
+				log.info.get("e1:d:foo").isEnabled, false,
 				"Disables children of mentioned directly but negated namespace"
 			);
 			t.equal(
-				log.info.getNs("n1").isEnabled, false,
-				"Parent remains disabled when child is enabled"
+				log.info.get("n1").isEnabled, false, "Parent remains disabled when child is enabled"
 			);
 			t.equal(
-				log.info.getNs("n1:d").isEnabled, true, "Enables directly mentioned deep namespace"
+				log.info.get("n1:d").isEnabled, true, "Enables directly mentioned deep namespace"
 			);
 			t.equal(
-				log.info.getNs("n1:d:foo").isEnabled, false,
+				log.info.get("n1:d:foo").isEnabled, false,
 				"Handles trailing asterisk as an instruction to be applied on parent"
 			);
 			t.equal(
-				log.info.getNs("e2").isEnabled, false, "Not mentioned namespaces remain disabled"
+				log.info.get("e2").isEnabled, false, "Not mentioned namespaces remain disabled"
 			);
 			t.end();
 		});

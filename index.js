@@ -115,9 +115,7 @@ var loggerProto = Object.create(
 					disable: d(function () { return setEnabledState.bind(this, false); }, {
 						cacheName: "_disable"
 					}),
-					getNs: d(function () { return getNamespace.bind(this); }, {
-						cacheName: "_getNs"
-					}),
+					get: d(function () { return getNamespace.bind(this); }, { cacheName: "_get" }),
 					_children: d("", function () { return Object.create(null); }, {
 						cacheName: "__children"
 					})
