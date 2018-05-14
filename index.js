@@ -72,7 +72,7 @@ var loggerProto = Object.create(
 				if (!this.ns) return true;
 				return logger.isNamespaceInitialized(this.ns);
 			}),
-			getAllLevels: d("e", function () {
+			getAllInitializedLevels: d("e", function () {
 				return Object.keys(levelCache)
 					.filter(function (level) { return this.isLevelInitialized(level); }, this)
 					.map(function (level) { return getLevel.call(this, level); }, this);
