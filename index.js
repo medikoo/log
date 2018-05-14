@@ -27,15 +27,15 @@ var getLevel = function (newLevel) {
 	newLevel = ensureString(newLevel);
 	if (this.level === newLevel) return this;
 	var levelLogger = createLevelLogger(newLevel);
-	return this.nsTokens.reduce(function (currentLogger, token) {
+	return this.namespaceTokens.reduce(function (currentLogger, token) {
 		return createNsLogger(currentLogger, token);
 	}, levelLogger);
 };
 
 var getNs = function (ns) {
 	ns = ensureString(ns);
-	var nsTokens = ns.split(":");
-	nsTokens.forEach(function (nsToken) {
+	var namespaceTokens = ns.split(":");
+	namespaceTokens.forEach(function (nsToken) {
 		if (!isValidNsToken(nsToken)) {
 			throw new TypeError(
 				toShortString(ns) +
@@ -44,7 +44,7 @@ var getNs = function (ns) {
 			);
 		}
 	});
-	return nsTokens.reduce(function (currentLogger, token) {
+	return namespaceTokens.reduce(function (currentLogger, token) {
 		return createNsLogger(currentLogger, token);
 	}, this);
 };
@@ -58,9 +58,9 @@ var loggerProto = Object.create(
 			predefinedLevels: d("e", levelNames),
 			_nsToken: d("", null),
 			isNamespaceInitialized: d("e", function (ns) {
-				var nsTokens = ensureString(ns).split(":");
+				var namespaceTokens = ensureString(ns).split(":");
 				var currentLogger = this;
-				return nsTokens.every(function (nsToken) {
+				return namespaceTokens.every(function (nsToken) {
 					return currentLogger = currentLogger._children[nsToken];
 				});
 			}),
@@ -95,17 +95,17 @@ var loggerProto = Object.create(
 					warn: d(function () { return getLevel.call(this, "warning"); }, {
 						cacheName: "_warning"
 					}),
-					ns: d("e", function () { return this.nsTokens.join(":") || null; }, {
+					ns: d("e", function () { return this.namespaceTokens.join(":") || null; }, {
 						cacheName: "_ns"
 					}),
-					nsTokens: d(
+					namespaceTokens: d(
 						"e",
 						function () {
 							return this._nsToken
-								? Object.getPrototypeOf(this).nsTokens.concat(this._nsToken)
+								? Object.getPrototypeOf(this).namespaceTokens.concat(this._nsToken)
 								: [];
 						},
-						{ cacheName: "_nsTokens" }
+						{ cacheName: "_namespaceTokens" }
 					),
 					enable: d(function () { return setEnabledState.bind(this, true); }, {
 						cacheName: "_enable"

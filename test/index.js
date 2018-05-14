@@ -9,7 +9,7 @@ test("Logger", function (t) {
 	t.test("Should by default", function (t) {
 		t.equal(log.level, "debug", "be at 'debug' level");
 		t.equal(log.ns, null, "point no namespace");
-		t.deepEqual(log.nsTokens, [], "have empty namespace tokens list");
+		t.deepEqual(log.namespaceTokens, [], "have empty namespace tokens list");
 		t.end();
 	});
 
@@ -33,7 +33,7 @@ test("Logger", function (t) {
 		t.test("which expose", function (t) {
 			t.equal(currentLog.level, "error", "expected level");
 			t.equal(currentLog.ns, "foo", "expected namespace");
-			t.deepEqual(currentLog.nsTokens, ["foo"], "expected namespace tokens list");
+			t.deepEqual(currentLog.namespaceTokens, ["foo"], "expected namespace tokens list");
 			t.equal(currentLog.debug, log.getNs("foo"), "Other levels in same namespace");
 			t.equal(currentLog.error, currentLog, "Current level at it's name property");
 			t.end();
@@ -87,7 +87,9 @@ test("Logger", function (t) {
 			t.test("which expose", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
 				t.equal(currentLog.ns, "marko", "expected namespace");
-				t.deepEqual(currentLog.nsTokens, ["marko"], "expected namespace tokens list");
+				t.deepEqual(
+					currentLog.namespaceTokens, ["marko"], "expected namespace tokens list"
+				);
 				t.end();
 			});
 
@@ -119,7 +121,7 @@ test("Logger", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
 				t.equal(currentLog.ns, "marko:barko", "expected namespace");
 				t.deepEqual(
-					currentLog.nsTokens, ["marko", "barko"], "expected namespace tokens list"
+					currentLog.namespaceTokens, ["marko", "barko"], "expected namespace tokens list"
 				);
 				t.end();
 			});
@@ -145,7 +147,7 @@ test("Logger", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
 				t.equal(currentLog.ns, "marko:barko", "expected namespace");
 				t.deepEqual(
-					currentLog.nsTokens, ["marko", "barko"], "expected namespace tokens list"
+					currentLog.namespaceTokens, ["marko", "barko"], "expected namespace tokens list"
 				);
 				t.end();
 			});
