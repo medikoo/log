@@ -44,7 +44,7 @@ module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 		debugNamespacesList.forEach(function (ns) {
 			if (ns === "*") {
 				levelLogger.isEnabled = debugNamespacesSettings[ns];
-			} else if (levelLogger.hasNs(ns)) {
+			} else if (levelLogger.isNamespaceInitialized(ns)) {
 				levelLogger.getNs(ns).isEnabled = debugNamespacesSettings[ns];
 			}
 		});

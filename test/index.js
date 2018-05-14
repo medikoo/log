@@ -161,12 +161,15 @@ test("Logger", function (t) {
 		t.end();
 	});
 
-	t.test("Should expose .hasNs(ns) method that", function (t) {
-		t.equal(log.hasNs("fbafaafa"), false, "returns false for non setup ns");
-		t.equal(log.hasNs("foo"), true, "returns true for setup ns");
-		t.equal(log.hasNs("marko:barko"), true, "returns true for setup nested ns");
+	t.test("Should expose .isNamespaceInitialized(ns) method that", function (t) {
+		t.equal(log.isNamespaceInitialized("fbafaafa"), false, "returns false for non setup ns");
+		t.equal(log.isNamespaceInitialized("foo"), true, "returns true for setup ns");
 		t.equal(
-			log.getNs("marko").hasNs("barko"), true, "returns true on nested logger for setup ns"
+			log.isNamespaceInitialized("marko:barko"), true, "returns true for setup nested ns"
+		);
+		t.equal(
+			log.getNs("marko").isNamespaceInitialized("barko"), true,
+			"returns true on nested logger for setup ns"
 		);
 		t.end();
 	});

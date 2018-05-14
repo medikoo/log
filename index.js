@@ -57,7 +57,7 @@ var loggerProto = Object.create(
 			emitter: d("", emitter),
 			predefinedLevels: d("e", levelNames),
 			_nsToken: d("", null),
-			hasNs: d("e", function (ns) {
+			isNamespaceInitialized: d("e", function (ns) {
 				var nsTokens = ensureString(ns).split(":");
 				var currentLogger = this;
 				return nsTokens.every(function (nsToken) {
@@ -70,7 +70,7 @@ var loggerProto = Object.create(
 				var logger = levelCache[level];
 				if (!logger) return false;
 				if (!this.ns) return true;
-				return logger.hasNs(this.ns);
+				return logger.isNamespaceInitialized(this.ns);
 			}),
 			getAllLevels: d("e", function () {
 				return Object.keys(levelCache)
