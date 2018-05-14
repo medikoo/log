@@ -8,7 +8,7 @@ test("Logger", function (t) {
 
 	t.test("Should by default", function (t) {
 		t.equal(log.level, "debug", "be at 'debug' level");
-		t.equal(log.ns, null, "point no namespace");
+		t.equal(log.namespace, null, "point no namespace");
 		t.deepEqual(log.namespaceTokens, [], "have empty namespace tokens list");
 		t.end();
 	});
@@ -32,7 +32,7 @@ test("Logger", function (t) {
 		var currentLog = log.getNs("foo").error;
 		t.test("which expose", function (t) {
 			t.equal(currentLog.level, "error", "expected level");
-			t.equal(currentLog.ns, "foo", "expected namespace");
+			t.equal(currentLog.namespace, "foo", "expected namespace");
 			t.deepEqual(currentLog.namespaceTokens, ["foo"], "expected namespace tokens list");
 			t.equal(currentLog.debug, log.getNs("foo"), "Other levels in same namespace");
 			t.equal(currentLog.error, currentLog, "Current level at it's name property");
@@ -86,7 +86,7 @@ test("Logger", function (t) {
 			var currentLog = log.getNs("marko");
 			t.test("which expose", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
-				t.equal(currentLog.ns, "marko", "expected namespace");
+				t.equal(currentLog.namespace, "marko", "expected namespace");
 				t.deepEqual(
 					currentLog.namespaceTokens, ["marko"], "expected namespace tokens list"
 				);
@@ -119,7 +119,7 @@ test("Logger", function (t) {
 
 			t.test("which expose", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
-				t.equal(currentLog.ns, "marko:barko", "expected namespace");
+				t.equal(currentLog.namespace, "marko:barko", "expected namespace");
 				t.deepEqual(
 					currentLog.namespaceTokens, ["marko", "barko"], "expected namespace tokens list"
 				);
@@ -145,7 +145,7 @@ test("Logger", function (t) {
 
 			t.test("which expose", function (t) {
 				t.equal(currentLog.level, "debug", "expected level");
-				t.equal(currentLog.ns, "marko:barko", "expected namespace");
+				t.equal(currentLog.namespace, "marko:barko", "expected namespace");
 				t.deepEqual(
 					currentLog.namespaceTokens, ["marko", "barko"], "expected namespace tokens list"
 				);

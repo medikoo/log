@@ -69,8 +69,8 @@ var loggerProto = Object.create(
 				if (this.level === level) return true;
 				var logger = levelCache[level];
 				if (!logger) return false;
-				if (!this.ns) return true;
-				return logger.isNamespaceInitialized(this.ns);
+				if (!this.namespace) return true;
+				return logger.isNamespaceInitialized(this.namespace);
 			}),
 			getAllInitializedLevels: d("e", function () {
 				return Object.keys(levelCache)
@@ -95,9 +95,11 @@ var loggerProto = Object.create(
 					warn: d(function () { return getLevel.call(this, "warning"); }, {
 						cacheName: "_warning"
 					}),
-					ns: d("e", function () { return this.namespaceTokens.join(":") || null; }, {
-						cacheName: "_ns"
-					}),
+					namespace: d(
+						"e",
+						function () { return this.namespaceTokens.join(":") || null; },
+						{ cacheName: "_ns" }
+					),
 					namespaceTokens: d(
 						"e",
 						function () {

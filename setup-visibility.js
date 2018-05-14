@@ -53,13 +53,13 @@ module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	// Ensure settings are applied on any new logger
 	logger.emitter.on("init", function (event) {
 		var newLogger = event.logger;
-		if (!newLogger.ns && newLogger.levelIndex < thresholdLevelIndex) {
+		if (!newLogger.namespace && newLogger.levelIndex < thresholdLevelIndex) {
 			// Root level logger, apply threshold level settings
 			newLogger.isEnabled = false;
 		}
 
 		// Apply eventual debug namespace visibility
-		var isEnabled = debugNamespacesSettings[newLogger.ns || "*"];
+		var isEnabled = debugNamespacesSettings[newLogger.namespace || "*"];
 		if (isValue(isEnabled)) newLogger.isEnabled = isEnabled;
 	});
 };
