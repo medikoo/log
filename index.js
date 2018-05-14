@@ -32,7 +32,7 @@ var getLevel = function (newLevel) {
 	}, levelLogger);
 };
 
-var getNs = function (ns) {
+var getNamespace = function (ns) {
 	ns = ensureString(ns);
 	var namespaceTokens = ns.split(":");
 	namespaceTokens.forEach(function (nsToken) {
@@ -115,7 +115,9 @@ var loggerProto = Object.create(
 					disable: d(function () { return setEnabledState.bind(this, false); }, {
 						cacheName: "_disable"
 					}),
-					getNs: d(function () { return getNs.bind(this); }, { cacheName: "_getNs" }),
+					getNs: d(function () { return getNamespace.bind(this); }, {
+						cacheName: "_getNs"
+					}),
 					_children: d("", function () { return Object.create(null); }, {
 						cacheName: "__children"
 					})
