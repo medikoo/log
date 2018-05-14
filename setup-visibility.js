@@ -32,7 +32,7 @@ module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	// Apply resolved settings on existing loggers
 	logger.predefinedLevels.forEach(function (levelName, levelIndex) {
 		// If logger for given level not initialized yet, skip
-		if (!logger.hasLevel(levelName)) return;
+		if (!logger.isLevelInitialized(levelName)) return;
 		// If logs of given level are meant to be exposed, skip (default is to expose)
 		if (levelIndex >= thresholdLevelIndex) return;
 

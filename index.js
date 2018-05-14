@@ -64,7 +64,7 @@ var loggerProto = Object.create(
 					return currentLogger = currentLogger._children[nsToken];
 				});
 			}),
-			hasLevel: d("e", function (level) {
+			isLevelInitialized: d("e", function (level) {
 				level = ensureString(level);
 				if (this.level === level) return true;
 				var logger = levelCache[level];
@@ -74,7 +74,7 @@ var loggerProto = Object.create(
 			}),
 			getAllLevels: d("e", function () {
 				return Object.keys(levelCache)
-					.filter(function (level) { return this.hasLevel(level); }, this)
+					.filter(function (level) { return this.isLevelInitialized(level); }, this)
 					.map(function (level) { return getLevel.call(this, level); }, this);
 			}),
 			getAllNs: d("e", function () { return objToArray(this._children, identity); })

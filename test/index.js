@@ -52,13 +52,17 @@ test("Logger", function (t) {
 		t.end();
 	});
 
-	t.test("Should expose .hasLevel(level) method that", function (t) {
-		t.equal(log.hasLevel("foo"), false, "returns false on non setup  not predefined level");
-		t.equal(log.hasLevel("critical"), false, "returns false on non setup predefined level");
-		t.equal(log.hasLevel("error"), true, "returns true on setup predefined level");
-		t.equal(log.hasLevel("debug"), true, "return true on self level");
+	t.test("Should expose .isLevelInitialized(level) method that", function (t) {
 		t.equal(
-			log.getNs("foorkot").hasLevel("error"), false,
+			log.isLevelInitialized("foo"), false, "returns false on non setup  not predefined level"
+		);
+		t.equal(
+			log.isLevelInitialized("critical"), false, "returns false on non setup predefined level"
+		);
+		t.equal(log.isLevelInitialized("error"), true, "returns true on setup predefined level");
+		t.equal(log.isLevelInitialized("debug"), true, "return true on self level");
+		t.equal(
+			log.getNs("foorkot").isLevelInitialized("error"), false,
 			"returns false if there's no setup level logger for given namespace"
 		);
 		t.end();
