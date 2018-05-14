@@ -77,7 +77,9 @@ var loggerProto = Object.create(
 					.filter(function (level) { return this.isLevelInitialized(level); }, this)
 					.map(function (level) { return getLevel.call(this, level); }, this);
 			}),
-			getAllNs: d("e", function () { return objToArray(this._children, identity); })
+			getAllInitializedNamespaces: d("e", function () {
+				return objToArray(this._children, identity);
+			})
 		},
 		lazy(
 			Object.assign(

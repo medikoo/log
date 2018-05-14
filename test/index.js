@@ -178,9 +178,9 @@ test("Logger", function (t) {
 		t.end();
 	});
 
-	t.test("Should expose .getAllNs() method that expose", function (t) {
+	t.test("Should expose .getAllInitializedNamespaces() method that expose", function (t) {
 		t.deepEqual(
-			log.getAllNs(),
+			log.getAllInitializedNamespaces(),
 			[
 				log.getNs("foo"), log.getNs("foorkot"), log.getNs("getlevel-test"),
 				log.getNs("marko")
