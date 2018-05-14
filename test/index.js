@@ -103,10 +103,7 @@ test("Logger", function (t) {
 	);
 
 	t.throws(
-		function () {
-			log.getNs("marko elo");
-		},
-		TypeError,
+		function () { log.getNs("marko elo"); }, TypeError,
 		"Should throw on invalid namespace names"
 	);
 
@@ -157,10 +154,7 @@ test("Logger", function (t) {
 						t.deepEqual(event.messageTokens, testArgs, "message tokens");
 						t.end();
 					});
-					log
-						.getNs("marko")
-						.getNs("barko")
-						.apply(null, testArgs);
+					log.getNs("marko").getNs("barko").apply(null, testArgs);
 				}
 			);
 		});
@@ -243,19 +237,13 @@ test("Logger", function (t) {
 			"Existing nested names should inherit setting"
 		);
 
-		log
-			.getNs("enabletest")
-			.getNs("foo")
-			.enable();
+		log.getNs("enabletest").getNs("foo").enable();
 		t.equal(
 			log.getNs("enabletest").getNs("foo").isEnabled, true,
 			"Setting existing state on child should have no effect"
 		);
 
-		log
-			.getNs("enabletest")
-			.getNs("foo")
-			.disable();
+		log.getNs("enabletest").getNs("foo").disable();
 		t.equal(
 			log.getNs("enabletest").getNs("foo").isEnabled, false, "Should work on nested names"
 		);
@@ -299,18 +287,14 @@ test("Logger", function (t) {
 	t.test("Should emit 'init' events when", function (t) {
 		t.test("new level logger instance is created", function (t) {
 			var currentLog, caughtEvent;
-			emitter.once("init", function (event) {
-				caughtEvent = event;
-			});
+			emitter.once("init", function (event) { caughtEvent = event; });
 			currentLog = log.critical;
 			t.equal(caughtEvent.logger, currentLog, "Event should expose initialized logger");
 			t.end();
 		});
 		t.test("new name logger instance is created", function (t) {
 			var currentLog, caughtEvent;
-			emitter.once("init", function (event) {
-				caughtEvent = event;
-			});
+			emitter.once("init", function (event) { caughtEvent = event; });
 			currentLog = log.getNs("othername");
 			t.equal(caughtEvent.logger, currentLog, "Event should expose initialized logger");
 			t.end();
