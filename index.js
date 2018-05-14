@@ -16,7 +16,6 @@ var emitter = ee(), levelCache = Object.create(null);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
-var levelNameAliasesMap = Object.create(null, { warn: d("cew", "warning") });
 
 var setEnabledState = function (state) {
 	this.isEnabled = state;
@@ -58,12 +57,7 @@ var loggerProto = Object.create(
 			isEnabled: d("ew", true),
 			emitter: d("", emitter),
 			predefinedLevels: d("e", levelNames),
-			_nsToken: d("", null)
-		},
-		objMap(levelNameAliasesMap, function (ignore, level) {
-			return d.gs(function () { return getLevel.call(this, level); });
-		}),
-		{
+			_nsToken: d("", null),
 			hasNs: d("e", function (ns) {
 				var nsTokens = ensureString(ns).split(":");
 				var currentLogger = this;
@@ -97,6 +91,9 @@ var loggerProto = Object.create(
 					return descriptors;
 				}, {}),
 				{
+					warn: d(function () { return getLevel.call(this, "warning"); }, {
+						cacheName: "_warning"
+					}),
 					ns: d("e", function () { return this.nsTokens.join(":") || null; }, {
 						cacheName: "_ns"
 					}),
@@ -133,7 +130,6 @@ createLogger = function () {
 };
 
 createLevelLogger = function (levelName) {
-	if (levelNameAliasesMap[levelName]) levelName = levelNameAliasesMap[levelName];
 	if (levelCache[levelName]) return levelCache[levelName];
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
 		level: d("e", levelName),
