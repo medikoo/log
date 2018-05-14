@@ -3,7 +3,6 @@
 var aFrom          = require("es5-ext/array/from")
   , identity       = require("es5-ext/function/identity")
   , assign         = require("es5-ext/object/assign")
-  , objMap         = require("es5-ext/object/map")
   , objToArray     = require("es5-ext/object/to-array")
   , setPrototypeOf = require("es5-ext/object/set-prototype-of")
   , ensureString   = require("es5-ext/object/validate-stringifiable-value")
