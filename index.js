@@ -60,10 +60,6 @@ var loggerProto = Object.create(
 			predefinedLevels: d("e", levelNames),
 			_nsToken: d("", null)
 		},
-		levelNames.reduce(function (descriptors, level) {
-			descriptors[level] = d.gs(function () { return getLevel.call(this, level); });
-			return descriptors;
-		}, {}),
 		objMap(levelNameAliasesMap, function (ignore, level) {
 			return d.gs(function () { return getLevel.call(this, level); });
 		}),
@@ -90,30 +86,42 @@ var loggerProto = Object.create(
 			}),
 			getAllNs: d("e", function () { return objToArray(this._children, identity); })
 		},
-		lazy({
-			ns: d("e", function () { return this.nsTokens.join(":") || null; }, {
-				cacheName: "_ns"
-			}),
-			nsTokens: d(
-				"e",
-				function () {
-					return this._nsToken
-						? Object.getPrototypeOf(this).nsTokens.concat(this._nsToken)
-						: [];
-				},
-				{ cacheName: "_nsTokens" }
-			),
-			enable: d(function () { return setEnabledState.bind(this, true); }, {
-				cacheName: "_enable"
-			}),
-			disable: d(function () { return setEnabledState.bind(this, false); }, {
-				cacheName: "_disable"
-			}),
-			getNs: d(function () { return getNs.bind(this); }, { cacheName: "_getNs" }),
-			_children: d("", function () { return Object.create(null); }, {
-				cacheName: "__children"
-			})
-		})
+		lazy(
+			Object.assign(
+				levelNames.reduce(function (descriptors, level) {
+					descriptors[level] = d(
+						"e",
+						function () { return getLevel.call(this, level); },
+						{ cacheName: "_" + level }
+					);
+					return descriptors;
+				}, {}),
+				{
+					ns: d("e", function () { return this.nsTokens.join(":") || null; }, {
+						cacheName: "_ns"
+					}),
+					nsTokens: d(
+						"e",
+						function () {
+							return this._nsToken
+								? Object.getPrototypeOf(this).nsTokens.concat(this._nsToken)
+								: [];
+						},
+						{ cacheName: "_nsTokens" }
+					),
+					enable: d(function () { return setEnabledState.bind(this, true); }, {
+						cacheName: "_enable"
+					}),
+					disable: d(function () { return setEnabledState.bind(this, false); }, {
+						cacheName: "_disable"
+					}),
+					getNs: d(function () { return getNs.bind(this); }, { cacheName: "_getNs" }),
+					_children: d("", function () { return Object.create(null); }, {
+						cacheName: "__children"
+					})
+				}
+			)
+		)
 	)
 );
 
