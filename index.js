@@ -59,7 +59,7 @@ var loggerPrototype = Object.create(
 				var namespaceTokens = ensureString(ns).split(":");
 				var currentLogger = this;
 				return namespaceTokens.every(function (nsToken) {
-					return currentLogger = currentLogger._namespacedLoggers[nsToken];
+					return currentLogger = currentLogger._childNamespaceLoggers[nsToken];
 				});
 			}),
 			isLevelInitialized: d("e", function (level) {
@@ -76,7 +76,7 @@ var loggerPrototype = Object.create(
 					.map(function (level) { return this._getLevelLogger(level); }, this);
 			}),
 			getAllInitializedNamespaces: d("e", function () {
-				return objToArray(this._namespacedLoggers, identity);
+				return objToArray(this._childNamespaceLoggers, identity);
 			}),
 
 			// Internal
@@ -111,7 +111,7 @@ var loggerPrototype = Object.create(
 					});
 					this.isEnabled = newState;
 				}
-				objForEach(this._namespacedLoggers, function (namespacedLogger) {
+				objForEach(this._childNamespaceLoggers, function (namespacedLogger) {
 					namespacedLogger._setEnabledStateRecursively(newState, cache);
 				});
 			})
@@ -146,8 +146,8 @@ var loggerPrototype = Object.create(
 						},
 						{ cacheName: "_namespaceTokens" }
 					),
-					_namespacedLoggers: d("", function () { return Object.create(null); }, {
-						cacheName: "__namespacedLoggers"
+					_childNamespaceLoggers: d("", function () { return Object.create(null); }, {
+						cacheName: "__childNamespaceLoggers"
 					})
 				}
 			)
@@ -174,9 +174,9 @@ createLevelLogger = function (levelName) {
 };
 
 createNamespaceLogger = function (parent, nsToken) {
-	if (parent._namespacedLoggers[nsToken]) return parent._namespacedLoggers[nsToken];
+	if (parent._childNamespaceLoggers[nsToken]) return parent._childNamespaceLoggers[nsToken];
 	var logger = Object.defineProperties(createLogger(parent), { _namespaceToken: d("", nsToken) });
-	parent._namespacedLoggers[nsToken] = logger;
+	parent._childNamespaceLoggers[nsToken] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
 };
