@@ -70,7 +70,7 @@ var getNamespace = function (ns) {
 	}, this);
 };
 
-var loggerProto = Object.create(
+var loggerPrototype = Object.create(
 	Function.prototype,
 	assign(
 		{
@@ -157,7 +157,7 @@ createLogger = function () {
 
 createLevelLogger = function (levelName) {
 	if (levelCache[levelName]) return levelCache[levelName];
-	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerProto), {
+	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerPrototype), {
 		level: d("e", levelName),
 		levelIndex: d("e", levelNames.indexOf(levelName))
 	});
