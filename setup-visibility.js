@@ -6,15 +6,16 @@ var ensureArray  = require("es5-ext/array/valid-array")
   , ensureString = require("es5-ext/object/validate-stringifiable-value")
   , endsWith     = require("es5-ext/string/#/ends-with")
   , logger       = require("./")
-  , emitter      = require("./emitter");
+  , emitter      = require("./emitter")
+  , levels       = require("./levels");
 
 module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	// Resolve intended logging level configuration
 	// On this level and above all logs will be exposed
-	if (!thresholdLevelName || !includes.call(logger.predefinedLevels, thresholdLevelName)) {
+	if (!thresholdLevelName || !includes.call(levels, thresholdLevelName)) {
 		thresholdLevelName = "warning";
 	}
-	var thresholdLevelIndex = logger.predefinedLevels.indexOf(thresholdLevelName);
+	var thresholdLevelIndex = levels.indexOf(thresholdLevelName);
 
 	// Resolve namespace based debug logging configuration
 	// Applies only to logs below level threshold (will expose logs just for chosen namespaces)
@@ -31,7 +32,7 @@ module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	var debugNamespacesList = Object.keys(debugNamespacesSettings);
 
 	// Apply resolved settings on existing loggers
-	logger.predefinedLevels.forEach(function (levelName, levelIndex) {
+	levels.forEach(function (levelName, levelIndex) {
 		// If logger for given level not initialized yet, skip
 		if (!logger.isLevelInitialized(levelName)) return;
 		// If logs of given level are meant to be exposed, skip (default is to expose)

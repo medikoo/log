@@ -15,7 +15,6 @@ test("Logger", function (t) {
 	});
 
 	t.equal(log.debug, log, "Should expose default 'debug' level at 'debug' property");
-	t.equal(Array.isArray(log.predefinedLevels), true, "Should expose array of predefined levels");
 
 	t.test(
 		"When invoked should emit 'log' events on log.emitter, where event should expose",

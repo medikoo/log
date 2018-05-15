@@ -11,12 +11,11 @@ var aFrom          = require("es5-ext/array/from")
   , toShortString  = require("es5-ext/to-short-string-representation")
   , d              = require("d")
   , lazy           = require("d/lazy")
-  , emitter        = require("./emitter");
+  , emitter        = require("./emitter")
+  , levelNames     = require("./levels");
 
 var levelCache = Object.create(null);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
-
-var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
 
 var createLevelLogger, createNamespaceLogger;
 
@@ -24,8 +23,6 @@ var loggerPrototype = Object.create(
 	Function.prototype,
 	assign(
 		{
-			predefinedLevels: d("e", levelNames),
-
 			// Public properties & methods
 			isEnabled: d("ew", true),
 			get: d(function (ns) {
