@@ -18,7 +18,7 @@ var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
 
-var createLevelLogger, createNsLogger;
+var createLevelLogger, createNamespaceLogger;
 
 var loggerPrototype = Object.create(
 	Function.prototype,
@@ -42,7 +42,7 @@ var loggerPrototype = Object.create(
 					}
 				});
 				return namespaceTokens.reduce(function (currentLogger, token) {
-					return createNsLogger(currentLogger, token);
+					return createNamespaceLogger(currentLogger, token);
 				}, this);
 			}),
 			enable: d(function () { return this._setEnabledState(true); }),
@@ -80,7 +80,7 @@ var loggerPrototype = Object.create(
 				if (this.level === newLevel) return this;
 				var levelLogger = createLevelLogger(newLevel);
 				return this.namespaceTokens.reduce(function (currentLogger, token) {
-					return createNsLogger(currentLogger, token);
+					return createNamespaceLogger(currentLogger, token);
 				}, levelLogger);
 			}),
 			_setEnabledState: d(function (state) {
@@ -167,7 +167,7 @@ createLevelLogger = function (levelName) {
 	return logger;
 };
 
-createNsLogger = function (parent, nsToken) {
+createNamespaceLogger = function (parent, nsToken) {
 	if (parent._namespacedLoggers[nsToken]) return parent._namespacedLoggers[nsToken];
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), parent), {
 		_namespaceToken: d("", nsToken)
