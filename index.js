@@ -46,15 +46,6 @@ var setEnabledState = function (state) {
 
 var createLogger, createLevelLogger, createNsLogger;
 
-var getLevel = function (newLevel) {
-	newLevel = ensureString(newLevel);
-	if (this.level === newLevel) return this;
-	var levelLogger = createLevelLogger(newLevel);
-	return this.namespaceTokens.reduce(function (currentLogger, token) {
-		return createNsLogger(currentLogger, token);
-	}, levelLogger);
-};
-
 var getNamespace = function (ns) {
 	ns = ensureString(ns);
 	var namespaceTokens = ns.split(":");
@@ -97,26 +88,34 @@ var loggerPrototype = Object.create(
 			getAllInitializedLevels: d("e", function () {
 				return Object.keys(levelCache)
 					.filter(function (level) { return this.isLevelInitialized(level); }, this)
-					.map(function (level) { return getLevel.call(this, level); }, this);
+					.map(function (level) { return this._getLevelLogger(level); }, this);
 			}),
 			getAllInitializedNamespaces: d("e", function () {
 				return objToArray(this._namespacedLoggers, identity);
 			}),
 
-			_namespaceToken: d("", null)
+			_namespaceToken: d("", null),
+			_getLevelLogger: d(function (newLevel) {
+				newLevel = ensureString(newLevel);
+				if (this.level === newLevel) return this;
+				var levelLogger = createLevelLogger(newLevel);
+				return this.namespaceTokens.reduce(function (currentLogger, token) {
+					return createNsLogger(currentLogger, token);
+				}, levelLogger);
+			})
 		},
 		lazy(
 			Object.assign(
 				levelNames.reduce(function (descriptors, level) {
 					descriptors[level] = d(
 						"e",
-						function () { return getLevel.call(this, level); },
+						function () { return this._getLevelLogger(level); },
 						{ cacheName: "_" + level }
 					);
 					return descriptors;
 				}, {}),
 				{
-					warn: d(function () { return getLevel.call(this, "warning"); }, {
+					warn: d(function () { return this._getLevelLogger("warning"); }, {
 						cacheName: "_warning"
 					}),
 					namespace: d(
