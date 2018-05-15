@@ -149,16 +149,16 @@ var loggerPrototype = Object.create(
 	)
 );
 
-var createLogger = function () {
+var createLogger = function (prototype) {
 	// eslint-disable-next-line no-unused-vars
-	return function self(msgItem1/*, ...msgItemn*/) {
+	return setPrototypeOf(function self(msgItem1/*, ...msgItemn*/) {
 		emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
-	};
+	}, prototype || loggerPrototype);
 };
 
 createLevelLogger = function (levelName) {
 	if (levelCache[levelName]) return levelCache[levelName];
-	var logger = Object.defineProperties(setPrototypeOf(createLogger(), loggerPrototype), {
+	var logger = Object.defineProperties(createLogger(), {
 		level: d("e", levelName),
 		levelIndex: d("e", levelNames.indexOf(levelName))
 	});
@@ -169,9 +169,7 @@ createLevelLogger = function (levelName) {
 
 createNamespaceLogger = function (parent, nsToken) {
 	if (parent._namespacedLoggers[nsToken]) return parent._namespacedLoggers[nsToken];
-	var logger = Object.defineProperties(setPrototypeOf(createLogger(), parent), {
-		_namespaceToken: d("", nsToken)
-	});
+	var logger = Object.defineProperties(createLogger(parent), { _namespaceToken: d("", nsToken) });
 	parent._namespacedLoggers[nsToken] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
