@@ -46,23 +46,6 @@ var setEnabledState = function (state) {
 
 var createLogger, createLevelLogger, createNsLogger;
 
-var getNamespace = function (ns) {
-	ns = ensureString(ns);
-	var namespaceTokens = ns.split(":");
-	namespaceTokens.forEach(function (nsToken) {
-		if (!isValidNsToken(nsToken)) {
-			throw new TypeError(
-				toShortString(ns) +
-					" is not a valid ns string " +
-					"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
-			);
-		}
-	});
-	return namespaceTokens.reduce(function (currentLogger, token) {
-		return createNsLogger(currentLogger, token);
-	}, this);
-};
-
 var loggerPrototype = Object.create(
 	Function.prototype,
 	assign(
@@ -84,6 +67,22 @@ var loggerPrototype = Object.create(
 				if (!logger) return false;
 				if (!this.namespace) return true;
 				return logger.isNamespaceInitialized(this.namespace);
+			}),
+			get: d(function (ns) {
+				ns = ensureString(ns);
+				var namespaceTokens = ns.split(":");
+				namespaceTokens.forEach(function (nsToken) {
+					if (!isValidNsToken(nsToken)) {
+						throw new TypeError(
+							toShortString(ns) +
+								" is not a valid ns string " +
+								"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
+						);
+					}
+				});
+				return namespaceTokens.reduce(function (currentLogger, token) {
+					return createNsLogger(currentLogger, token);
+				}, this);
 			}),
 			getAllInitializedLevels: d("e", function () {
 				return Object.keys(levelCache)
@@ -140,7 +139,6 @@ var loggerPrototype = Object.create(
 					disable: d(function () { return setEnabledState.bind(this, false); }, {
 						cacheName: "_disable"
 					}),
-					get: d(function () { return getNamespace.bind(this); }, { cacheName: "_get" }),
 					_namespacedLoggers: d("", function () { return Object.create(null); }, {
 						cacheName: "__namespacedLoggers"
 					})
