@@ -181,4 +181,5 @@ createNamespaceLogger = function (parent, nsToken) {
 	return logger;
 };
 
+// Exports "debug" level logger as a starting point
 module.exports = createLevelLogger("debug");
