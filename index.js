@@ -16,8 +16,8 @@ var aFrom          = require("es5-ext/array/from")
 
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
-// Cache of initialized top level loggers
-var levelLoggersCache = Object.create(null);
+// Map of initialized top level loggers
+var levelLoggers = Object.create(null);
 
 var createLevelLogger, createNamespaceLogger;
 
@@ -65,13 +65,13 @@ var loggerPrototype = Object.create(
 			isLevelInitialized: d("e", function (level) {
 				level = ensureString(level);
 				if (this.level === level) return true;
-				var logger = levelLoggersCache[level];
+				var logger = levelLoggers[level];
 				if (!logger) return false;
 				if (!this.namespace) return true;
 				return logger.isNamespaceInitialized(this.namespace);
 			}),
 			getAllInitializedLevels: d("e", function () {
-				return Object.keys(levelLoggersCache)
+				return Object.keys(levelLoggers)
 					.filter(function (level) { return this.isLevelInitialized(level); }, this)
 					.map(function (level) { return this._getLevelLogger(level); }, this);
 			}),
@@ -170,12 +170,12 @@ var createLogger = function (prototype) {
 };
 
 createLevelLogger = function (levelName) {
-	if (levelLoggersCache[levelName]) return levelLoggersCache[levelName];
+	if (levelLoggers[levelName]) return levelLoggers[levelName];
 	var logger = Object.defineProperties(createLogger(), {
 		level: d("e", levelName),
 		levelIndex: d("e", levelNames.indexOf(levelName))
 	});
-	levelLoggersCache[levelName] = logger;
+	levelLoggers[levelName] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
 };
