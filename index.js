@@ -71,6 +71,8 @@ var loggerPrototype = Object.create(
 					return createNsLogger(currentLogger, token);
 				}, this);
 			}),
+			enable: d(function () { return setEnabledState.call(this, true); }),
+			disable: d(function () { return setEnabledState.call(this, false); }),
 
 			// Public meta methods (used by log writers)
 			isNamespaceInitialized: d("e", function (ns) {
@@ -138,12 +140,6 @@ var loggerPrototype = Object.create(
 						},
 						{ cacheName: "_namespaceTokens" }
 					),
-					enable: d(function () { return setEnabledState.bind(this, true); }, {
-						cacheName: "_enable"
-					}),
-					disable: d(function () { return setEnabledState.bind(this, false); }, {
-						cacheName: "_disable"
-					}),
 					_namespacedLoggers: d("", function () { return Object.create(null); }, {
 						cacheName: "__namespacedLoggers"
 					})
