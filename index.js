@@ -26,14 +26,18 @@ var loggerPrototype = Object.create(
 	assign(
 		{
 			// Public properties & methods
+
+			// Should logger logs be exposed?
 			isEnabled: d("ew", true),
-			get: d(function (ns) {
-				ns = ensureString(ns);
-				var namespaceTokens = ns.split(":");
+
+			// Initializes and returns namespaced logger
+			get: d(function (namespace) {
+				namespace = ensureString(namespace);
+				var namespaceTokens = namespace.split(":");
 				namespaceTokens.forEach(function (nsToken) {
 					if (!isValidNsToken(nsToken)) {
 						throw new TypeError(
-							toShortString(ns) +
+							toShortString(namespace) +
 								" is not a valid ns string " +
 								"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
 						);
@@ -43,7 +47,11 @@ var loggerPrototype = Object.create(
 					return createNamespaceLogger(currentLogger, token);
 				}, this);
 			}),
+
+			// Enables logger and all its namespaced children
 			enable: d(function () { return this._setEnabledState(true); }),
+
+			// Disables logger and all its namespaced children
 			disable: d(function () { return this._setEnabledState(false); }),
 
 			// Public meta methods (used by log writers)
