@@ -18,32 +18,6 @@ var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
 
-var setEnabledStateRecursively = function self(logger, newState, cache) {
-	if (logger.isEnabled !== newState) {
-		cache.push({ logger: logger, hasDirectSetting: hasOwnProperty.call(logger, "isEnabled") });
-		logger.isEnabled = newState;
-	}
-	if (!hasOwnProperty.call(logger, "__namespacedLoggers")) return;
-	objForEach(logger._namespacedLoggers, function (namespacedLogger) {
-		self(namespacedLogger, newState, cache);
-	});
-};
-
-var setEnabledState = function (state) {
-	var cache = [];
-	setEnabledStateRecursively(this, state, cache);
-	var result = {
-		restore: function () {
-			cache.forEach(function (data) {
-				if (data.hasDirectSetting) data.logger.isEnabled = !state;
-				else delete data.logger.isEnabled;
-			});
-			result.restore = noop;
-		}
-	};
-	return result;
-};
-
 var createLogger, createLevelLogger, createNsLogger;
 
 var loggerPrototype = Object.create(
@@ -71,8 +45,8 @@ var loggerPrototype = Object.create(
 					return createNsLogger(currentLogger, token);
 				}, this);
 			}),
-			enable: d(function () { return setEnabledState.call(this, true); }),
-			disable: d(function () { return setEnabledState.call(this, false); }),
+			enable: d(function () { return this._setEnabledState(true); }),
+			disable: d(function () { return this._setEnabledState(false); }),
 
 			// Public meta methods (used by log writers)
 			isNamespaceInitialized: d("e", function (ns) {
@@ -108,6 +82,32 @@ var loggerPrototype = Object.create(
 				return this.namespaceTokens.reduce(function (currentLogger, token) {
 					return createNsLogger(currentLogger, token);
 				}, levelLogger);
+			}),
+			_setEnabledState: d(function (state) {
+				var cache = [];
+				this._setEnabledStateRecursively(state, cache);
+				var result = {
+					restore: function () {
+						cache.forEach(function (data) {
+							if (data.hasDirectSetting) data.logger.isEnabled = !state;
+							else delete data.logger.isEnabled;
+						});
+						result.restore = noop;
+					}
+				};
+				return result;
+			}),
+			_setEnabledStateRecursively: d(function (newState, cache) {
+				if (this.isEnabled !== newState) {
+					cache.push({
+						logger: this,
+						hasDirectSetting: hasOwnProperty.call(this, "isEnabled")
+					});
+					this.isEnabled = newState;
+				}
+				objForEach(this._namespacedLoggers, function (namespacedLogger) {
+					namespacedLogger._setEnabledStateRecursively(newState, cache);
+				});
 			})
 		},
 		lazy(
