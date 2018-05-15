@@ -50,24 +50,11 @@ var loggerPrototype = Object.create(
 	Function.prototype,
 	assign(
 		{
-			isEnabled: d("ew", true),
 			emitter: d("", emitter),
 			predefinedLevels: d("e", levelNames),
-			isNamespaceInitialized: d("e", function (ns) {
-				var namespaceTokens = ensureString(ns).split(":");
-				var currentLogger = this;
-				return namespaceTokens.every(function (nsToken) {
-					return currentLogger = currentLogger._namespacedLoggers[nsToken];
-				});
-			}),
-			isLevelInitialized: d("e", function (level) {
-				level = ensureString(level);
-				if (this.level === level) return true;
-				var logger = levelCache[level];
-				if (!logger) return false;
-				if (!this.namespace) return true;
-				return logger.isNamespaceInitialized(this.namespace);
-			}),
+
+			// Public properties & methods
+			isEnabled: d("ew", true),
 			get: d(function (ns) {
 				ns = ensureString(ns);
 				var namespaceTokens = ns.split(":");
@@ -84,6 +71,23 @@ var loggerPrototype = Object.create(
 					return createNsLogger(currentLogger, token);
 				}, this);
 			}),
+
+			// Public meta methods (used by log writers)
+			isNamespaceInitialized: d("e", function (ns) {
+				var namespaceTokens = ensureString(ns).split(":");
+				var currentLogger = this;
+				return namespaceTokens.every(function (nsToken) {
+					return currentLogger = currentLogger._namespacedLoggers[nsToken];
+				});
+			}),
+			isLevelInitialized: d("e", function (level) {
+				level = ensureString(level);
+				if (this.level === level) return true;
+				var logger = levelCache[level];
+				if (!logger) return false;
+				if (!this.namespace) return true;
+				return logger.isNamespaceInitialized(this.namespace);
+			}),
 			getAllInitializedLevels: d("e", function () {
 				return Object.keys(levelCache)
 					.filter(function (level) { return this.isLevelInitialized(level); }, this)
@@ -93,6 +97,7 @@ var loggerPrototype = Object.create(
 				return objToArray(this._namespacedLoggers, identity);
 			}),
 
+			// Internal
 			_namespaceToken: d("", null),
 			_getLevelLogger: d(function (newLevel) {
 				newLevel = ensureString(newLevel);
