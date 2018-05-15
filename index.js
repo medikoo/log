@@ -18,7 +18,7 @@ var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
 
-var createLogger, createLevelLogger, createNsLogger;
+var createLevelLogger, createNsLogger;
 
 var loggerPrototype = Object.create(
 	Function.prototype,
@@ -149,7 +149,7 @@ var loggerPrototype = Object.create(
 	)
 );
 
-createLogger = function () {
+var createLogger = function () {
 	// eslint-disable-next-line no-unused-vars
 	return function self(msgItem1/*, ...msgItemn*/) {
 		emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
