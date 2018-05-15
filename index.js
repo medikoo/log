@@ -119,7 +119,7 @@ var loggerPrototype = Object.create(
 
 		// Lazily resolved properties
 		lazy(
-			Object.assign(
+			assign(
 				// Loggers for all levels
 				levelNames.reduce(function (descriptors, level) {
 					descriptors[level] = d(
