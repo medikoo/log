@@ -120,7 +120,7 @@ var loggerPrototype = Object.create(
 					namespace: d(
 						"e",
 						function () { return this.namespaceTokens.join(":") || null; },
-						{ cacheName: "_ns" }
+						{ cacheName: "_namespace" }
 					),
 					namespaceTokens: d(
 						"e",
