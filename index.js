@@ -23,8 +23,10 @@ var setEnabledStateRecursively = function self(logger, newState, cache) {
 		cache.push({ logger: logger, hasDirectSetting: hasOwnProperty.call(logger, "isEnabled") });
 		logger.isEnabled = newState;
 	}
-	if (!hasOwnProperty.call(logger, "__children")) return;
-	objForEach(logger._children, function (childLogger) { self(childLogger, newState, cache); });
+	if (!hasOwnProperty.call(logger, "__namespacedLoggers")) return;
+	objForEach(logger._namespacedLoggers, function (namespacedLogger) {
+		self(namespacedLogger, newState, cache);
+	});
 };
 
 var setEnabledState = function (state) {
@@ -81,7 +83,7 @@ var loggerPrototype = Object.create(
 				var namespaceTokens = ensureString(ns).split(":");
 				var currentLogger = this;
 				return namespaceTokens.every(function (nsToken) {
-					return currentLogger = currentLogger._children[nsToken];
+					return currentLogger = currentLogger._namespacedLoggers[nsToken];
 				});
 			}),
 			isLevelInitialized: d("e", function (level) {
@@ -98,7 +100,7 @@ var loggerPrototype = Object.create(
 					.map(function (level) { return getLevel.call(this, level); }, this);
 			}),
 			getAllInitializedNamespaces: d("e", function () {
-				return objToArray(this._children, identity);
+				return objToArray(this._namespacedLoggers, identity);
 			}),
 
 			_namespaceToken: d("", null)
@@ -140,8 +142,8 @@ var loggerPrototype = Object.create(
 						cacheName: "_disable"
 					}),
 					get: d(function () { return getNamespace.bind(this); }, { cacheName: "_get" }),
-					_children: d("", function () { return Object.create(null); }, {
-						cacheName: "__children"
+					_namespacedLoggers: d("", function () { return Object.create(null); }, {
+						cacheName: "__namespacedLoggers"
 					})
 				}
 			)
@@ -168,11 +170,11 @@ createLevelLogger = function (levelName) {
 };
 
 createNsLogger = function (parent, nsToken) {
-	if (parent._children[nsToken]) return parent._children[nsToken];
+	if (parent._namespacedLoggers[nsToken]) return parent._namespacedLoggers[nsToken];
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), parent), {
 		_namespaceToken: d("", nsToken)
 	});
-	parent._children[nsToken] = logger;
+	parent._namespacedLoggers[nsToken] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
 };
