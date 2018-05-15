@@ -116,8 +116,11 @@ var loggerPrototype = Object.create(
 				});
 			})
 		},
+
+		// Lazily resolved properties
 		lazy(
 			Object.assign(
+				// Loggers for all levels
 				levelNames.reduce(function (descriptors, level) {
 					descriptors[level] = d(
 						"e",
@@ -127,14 +130,17 @@ var loggerPrototype = Object.create(
 					return descriptors;
 				}, {}),
 				{
+					// Warn -> warning alias
 					warn: d(function () { return this._getLevelLogger("warning"); }, {
 						cacheName: "_warning"
 					}),
+					// Full namespace string e.g. foo:bar:elo
 					namespace: d(
 						"e",
 						function () { return this.namespaceTokens.join(":") || null; },
 						{ cacheName: "_namespace" }
 					),
+					// All namespace tokens e.g. ["foo", "bar", "elo"]
 					namespaceTokens: d(
 						"e",
 						function () {
@@ -146,6 +152,7 @@ var loggerPrototype = Object.create(
 						},
 						{ cacheName: "_namespaceTokens" }
 					),
+					// Map of children namespace loggers
 					_childNamespaceLoggers: d("", function () { return Object.create(null); }, {
 						cacheName: "__childNamespaceLoggers"
 					})
