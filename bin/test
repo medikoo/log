@@ -1,8 +1,0 @@
-#!/usr/bin/env node
-
-"use strict";
-
-Error.stackTraceLimit = Infinity;
-
-require("../test/index");
-require("../test/setup-visibility");

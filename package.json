@@ -12,16 +12,17 @@
     "eslint": "^4.19.1",
     "eslint-config-medikoo-es5": "^1.4.10",
     "istanbul": "^0.4.5",
-    "tape": "^4.9"
+    "tape": "^4.9",
+    "tape-index": "2"
   },
   "eslintConfig": { "extends": "medikoo-es5", "root": true },
   "scripts": {
-    "coverage": "istanbul cover bin/test",
+    "coverage": "tape-index && istanbul cover bin/test",
     "check-coverage":
       "npm run coverage && istanbul check-coverage --statements 100 --function 100 --branches 100 --lines 100",
     "lint": "eslint --ignore-path=.gitignore .",
-    "test": "node bin/test",
-    "test-browsers": "browserstack-tape-runner bin/test"
+    "test": "tape-index && node test.index.js",
+    "test-browsers": "tape-index && browserstack-tape-runner test.index.js"
   },
   "browserstack": {
     "browsers": [
