@@ -77,7 +77,6 @@ var loggerPrototype = Object.create(
 			isEnabled: d("ew", true),
 			emitter: d("", emitter),
 			predefinedLevels: d("e", levelNames),
-			_namespaceToken: d("", null),
 			isNamespaceInitialized: d("e", function (ns) {
 				var namespaceTokens = ensureString(ns).split(":");
 				var currentLogger = this;
@@ -100,7 +99,9 @@ var loggerPrototype = Object.create(
 			}),
 			getAllInitializedNamespaces: d("e", function () {
 				return objToArray(this._children, identity);
-			})
+			}),
+
+			_namespaceToken: d("", null)
 		},
 		lazy(
 			Object.assign(
