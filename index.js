@@ -11,9 +11,9 @@ var aFrom          = require("es5-ext/array/from")
   , toShortString  = require("es5-ext/to-short-string-representation")
   , d              = require("d")
   , lazy           = require("d/lazy")
-  , ee             = require("event-emitter");
+  , emitter        = require("./emitter");
 
-var emitter = ee(), levelCache = Object.create(null);
+var levelCache = Object.create(null);
 var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
@@ -24,7 +24,6 @@ var loggerPrototype = Object.create(
 	Function.prototype,
 	assign(
 		{
-			emitter: d("", emitter),
 			predefinedLevels: d("e", levelNames),
 
 			// Public properties & methods

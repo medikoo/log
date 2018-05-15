@@ -1,10 +1,11 @@
 "use strict";
 
-var test = require("tape")
-  , log  = require("../index");
+var test    = require("tape")
+  , log     = require("../index")
+  , emitter = require("../emitter");
 
 test("Logger", function (t) {
-	var emitter = log.emitter, testArgs = ["foo", 12, null, {}];
+	var testArgs = ["foo", 12, null, {}];
 
 	t.test("Should by default", function (t) {
 		t.equal(log.level, "debug", "be at 'debug' level");

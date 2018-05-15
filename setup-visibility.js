@@ -5,7 +5,8 @@ var ensureArray  = require("es5-ext/array/valid-array")
   , isValue      = require("es5-ext/object/is-value")
   , ensureString = require("es5-ext/object/validate-stringifiable-value")
   , endsWith     = require("es5-ext/string/#/ends-with")
-  , logger       = require("./");
+  , logger       = require("./")
+  , emitter      = require("./emitter");
 
 module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	// Resolve intended logging level configuration
@@ -51,7 +52,7 @@ module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	});
 
 	// Ensure settings are applied on any new logger
-	logger.emitter.on("init", function (event) {
+	emitter.on("init", function (event) {
 		var newLogger = event.logger;
 		if (!newLogger.namespace && newLogger.levelIndex < thresholdLevelIndex) {
 			// Root level logger, apply threshold level settings
