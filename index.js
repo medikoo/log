@@ -2,7 +2,9 @@
 
 var aFrom          = require("es5-ext/array/from")
   , identity       = require("es5-ext/function/identity")
+  , noop           = require("es5-ext/function/noop")
   , assign         = require("es5-ext/object/assign")
+  , objForEach     = require("es5-ext/object/for-each")
   , objToArray     = require("es5-ext/object/to-array")
   , setPrototypeOf = require("es5-ext/object/set-prototype-of")
   , ensureString   = require("es5-ext/object/validate-stringifiable-value")
@@ -16,9 +18,28 @@ var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 var levelNames = ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"];
 
+var setEnabledStateRecursively = function self(logger, newState, cache) {
+	if (logger.isEnabled !== newState) {
+		cache.push({ logger: logger, hasDirectSetting: hasOwnProperty.call(logger, "isEnabled") });
+		logger.isEnabled = newState;
+	}
+	if (!hasOwnProperty.call(logger, "__children")) return;
+	objForEach(logger._children, function (childLogger) { self(childLogger, newState, cache); });
+};
+
 var setEnabledState = function (state) {
-	this.isEnabled = state;
-	return this;
+	var cache = [];
+	setEnabledStateRecursively(this, state, cache);
+	var result = {
+		restore: function () {
+			cache.forEach(function (data) {
+				if (data.hasDirectSetting) data.logger.isEnabled = !state;
+				else delete data.logger.isEnabled;
+			});
+			result.restore = noop;
+		}
+	};
+	return result;
 };
 
 var createLogger, createLevelLogger, createNsLogger;

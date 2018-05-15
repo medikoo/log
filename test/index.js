@@ -207,9 +207,9 @@ test("Logger", function (t) {
 	t.test("Should provide enable/disable functionality on level/name configuration", function (t) {
 		t.equal(log.get("enabletest").isEnabled, true, "Should be enabled by default");
 
+		var restore = log.get("enabletest").disable().restore;
 		t.equal(
-			log.get("enabletest").disable(), log.get("enabletest"),
-			"disable() should return target logger"
+			typeof restore, "function", "disable() should return object with `restore` function"
 		);
 		t.equal(
 			log.get("enabletest").isEnabled, false, "Should be disabled after `disable()` call"
@@ -219,48 +219,47 @@ test("Logger", function (t) {
 			log.get("enabletest").get("foo").isEnabled, false,
 			"New nested names should inherit setting"
 		);
+		restore();
+		t.equal(log.get("enabletest").isEnabled, true, "`restore` should bring previous state");
 
+		restore = log.get("enabletest").enable().restore;
 		t.equal(
-			log.get("enabletest").enable(), log.get("enabletest"),
-			"enable() should return target logger"
+			typeof restore, "function", "enable() should return object with `restore` function"
 		);
-		t.equal(log.get("enabletest").isEnabled, true, "Should be enabled after `enable()` call");
+		t.equal(
+			log.get("enabletest").isEnabled, true, "Should remain enabled after `enable()` call"
+		);
 		log.get("enabletest").enable();
 		t.equal(
 			log.get("enabletest").isEnabled, true,
 			"Trying to set same state again should have no effect"
 		);
+		restore();
 		log.get("enabletest").isEnabled = false;
 		t.equal(
 			log.get("enabletest").isEnabled, false,
 			"It should be possible to change state by direct setting of isEnabled"
 		);
-		log.get("enabletest").isEnabled = true;
+		delete log.get("enabletest").isEnabled;
 
 		t.equal(
 			log.get("enabletest").get("foo").isEnabled, true,
 			"Existing nested names should inherit setting"
 		);
 
-		log.get("enabletest").get("foo").enable();
-		t.equal(
-			log.get("enabletest").get("foo").isEnabled, true,
-			"Setting existing state on child should have no effect"
-		);
-
-		log.get("enabletest").get("foo").disable();
+		restore = log.get("enabletest").get("foo").disable().restore;
 		t.equal(log.get("enabletest").get("foo").isEnabled, false, "Should work on nested names");
 		t.equal(
 			log.get("enabletest").isEnabled, true,
 			"Settings on nested names should not leak to parent loggers"
 		);
 
-		log.get("enabletest").disable();
-		log.get("enabletest").enable();
+		var restore2 = log.get("enabletest").enable().restore;
 		t.equal(
-			log.get("enabletest").get("foo").isEnabled, false,
-			"Setting on parent should not have effect on child with own setting"
+			log.get("enabletest").get("foo").isEnabled, true,
+			"Calling `enable` on parent should affect all children unconditionally"
 		);
+		restore2();
 
 		t.test("Should emit 'log' events when disabled", function (t) {
 			var isEnabled = true, passes = 0;
@@ -284,6 +283,7 @@ test("Logger", function (t) {
 			isEnabled = true;
 			t.end();
 		});
+		restore();
 		t.end();
 	});
 
