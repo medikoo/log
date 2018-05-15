@@ -77,7 +77,7 @@ var loggerProto = Object.create(
 			isEnabled: d("ew", true),
 			emitter: d("", emitter),
 			predefinedLevels: d("e", levelNames),
-			_nsToken: d("", null),
+			_namespaceToken: d("", null),
 			isNamespaceInitialized: d("e", function (ns) {
 				var namespaceTokens = ensureString(ns).split(":");
 				var currentLogger = this;
@@ -124,8 +124,10 @@ var loggerProto = Object.create(
 					namespaceTokens: d(
 						"e",
 						function () {
-							return this._nsToken
-								? Object.getPrototypeOf(this).namespaceTokens.concat(this._nsToken)
+							return this._namespaceToken
+								? Object.getPrototypeOf(this).namespaceTokens.concat(
+										this._namespaceToken
+								  )
 								: [];
 						},
 						{ cacheName: "_namespaceTokens" }
@@ -167,7 +169,7 @@ createLevelLogger = function (levelName) {
 createNsLogger = function (parent, nsToken) {
 	if (parent._children[nsToken]) return parent._children[nsToken];
 	var logger = Object.defineProperties(setPrototypeOf(createLogger(), parent), {
-		_nsToken: d("", nsToken)
+		_namespaceToken: d("", nsToken)
 	});
 	parent._children[nsToken] = logger;
 	emitter.emit("init", { logger: logger });
