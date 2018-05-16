@@ -14,7 +14,7 @@ var aFrom          = require("es5-ext/array/from")
   , emitter        = require("./writer-util/emitter")
   , levelNames     = require("./levels");
 
-var isValidNsToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
+var isValidNamespaceToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
 // Map of initialized top level loggers
 var levelLoggers = Object.create(null);
@@ -35,7 +35,7 @@ var loggerPrototype = Object.create(
 				namespace = ensureString(namespace);
 				var namespaceTokens = namespace.split(":");
 				namespaceTokens.forEach(function (nsToken) {
-					if (!isValidNsToken(nsToken)) {
+					if (!isValidNamespaceToken(nsToken)) {
 						throw new TypeError(
 							toShortString(namespace) +
 								" is not a valid ns string " +
