@@ -34,8 +34,8 @@ var loggerPrototype = Object.create(
 			get: d(function (namespace) {
 				namespace = ensureString(namespace);
 				var namespaceTokens = namespace.split(":");
-				namespaceTokens.forEach(function (nsToken) {
-					if (!isValidNamespaceToken(nsToken)) {
+				namespaceTokens.forEach(function (namespaceToken) {
+					if (!isValidNamespaceToken(namespaceToken)) {
 						throw new TypeError(
 							toShortString(namespace) +
 								" is not a valid ns string " +
