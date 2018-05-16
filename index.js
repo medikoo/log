@@ -130,7 +130,7 @@ var loggerPrototype = Object.create(
 					return descriptors;
 				}, {}),
 				{
-					// Warn -> warning alias
+					// Alias warn -> warning
 					warn: d(function () { return this._getLevelLogger("warning"); }, {
 						cacheName: "_warning"
 					}),
