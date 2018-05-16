@@ -55,8 +55,8 @@ var loggerPrototype = Object.create(
 			disable: d(function () { return this._setEnabledState(false); }),
 
 			// Public meta methods (used by log writers)
-			isNamespaceInitialized: d("e", function (ns) {
-				var namespaceTokens = ensureString(ns).split(":");
+			isNamespaceInitialized: d("e", function (namespace) {
+				var namespaceTokens = ensureString(namespace).split(":");
 				var currentLogger = this;
 				return namespaceTokens.every(function (nsToken) {
 					return currentLogger = currentLogger._childNamespaceLoggers[nsToken];
@@ -180,10 +180,14 @@ createLevelLogger = function (levelName) {
 	return logger;
 };
 
-createNamespaceLogger = function (parent, nsToken) {
-	if (parent._childNamespaceLoggers[nsToken]) return parent._childNamespaceLoggers[nsToken];
-	var logger = Object.defineProperties(createLogger(parent), { _namespaceToken: d("", nsToken) });
-	parent._childNamespaceLoggers[nsToken] = logger;
+createNamespaceLogger = function (parent, namespaceToken) {
+	if (parent._childNamespaceLoggers[namespaceToken]) {
+		return parent._childNamespaceLoggers[namespaceToken];
+	}
+	var logger = Object.defineProperties(createLogger(parent), {
+		_namespaceToken: d("", namespaceToken)
+	});
+	parent._childNamespaceLoggers[namespaceToken] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
 };
