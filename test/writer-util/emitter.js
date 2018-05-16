@@ -1,7 +1,7 @@
 "use strict";
 
 var test    = require("tape")
-  , emitter = require("../../writer-lib/emitter");
+  , emitter = require("../../writer-util/emitter");
 
 test("Emitter", function (t) {
 	t.test("Should expose emitter methods", function (t) {
