@@ -60,13 +60,10 @@ Mirror of syslog, in severity order:
 *   `alert` - immediate action required
 *   `emergency` - system unusable
 
-`warning` for convenience is also aliased at `log.warn`
-
 #### Output message formatting
 
 `log4` doesn't force any specific arguments handling. Still it is recommended to assume printf-like message
-format, as preconfigured writers are setup to support it, with same placeholders as
-those supported by Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
+format, as all available preconfigured writers are setup to support it. Placeholders support follows Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
 
 Excerpt from Node.js documentation:
 
@@ -81,17 +78,15 @@ _The first argument is a string containing zero or more placeholder tokens. Each
 *   _`%O` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() without options. This will show the full object not including non-enumerable symbols and properties._
 *   _`%%` - single percent sign ('%'). This does not consume an argument._
 
-**Note to log writer configuration developers**
-
-For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit))
+_Note to log writer configuration developers: For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)_
 
 #### Enabling log writing
 
 `log4` on its own doesn't write anything to the console on any other mean (it just emits events to be consumed by plugged in log writers)
 
-To have logs written, the pre-chosen log writer needs to be initialized in main (starting) module of a process (refer to its documentation for more information).
+To have logs written, the pre-chosen log writer needs to be initialized in main (starting) module of a process.
 
-List of available log writers
+##### List of available log writers
 
 *   [`log4-nodejs`](https://github.com/medikoo/log4-nodejs) - For typical Node.js processes
 *   [`log4-aws-lambda`](https://github.com/medikoo/log4-aws-lambda) - For AWS lambda environment
@@ -104,7 +99,7 @@ Default visibility depends on the enviroment (see chosen log writer for more inf
 
 ###### `LOG_LEVEL`
 
-(defaults to `warning`) Lowest log level from which all logs will be exposed.
+(defaults to `warning`) Lowest log level from which (upwards) all logs will be exposed.
 
 ###### `LOG_DEBUG`
 
