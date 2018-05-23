@@ -10,44 +10,45 @@ _(name may be subject to change)_
 
 ## Universal logger utility
 
-**Configurable, environment agnostic, with implied log levels and namespacing ([debug](https://github.com/visionmedia/debug#debug) style) support**
+**Configurable, environment and output agnostic, with implied log levels and namespacing ([debug](https://github.com/visionmedia/debug#debug) style) support**
 
 ### Usage
 
 #### Writing logs
 
 ```javascript
-// Default logger refers to 'debug' log level
+// Default logger writes at 'debug' level
 const log = require("log4");
 
 // Log 'debug' level message:
-log("some debug message", "other message token");
+log("some debug message %s", "injected string");
 
-// It's a good practice to namespace your log messages (debug lib style) e.g.
-log = log.getNs("my-lib");
+// It's nice to namespace logs (debug lib style) e.g.
+log = log.get("my-lib");
 
 // Log 'debug' level message in context of 'my-lib' namespace:
 log("some debug message in 'my-lib' namespace context");
 
 // Namespaces can be nested
-log = log.getNs("func");
-// Log 'debug' level message in context of 'my-lib:feat1' namespace:
+log = log.get("func");
+// Log 'debug' level message in context of 'my-lib:func' namespace:
 log("some debug message in 'my-lib:func' namespace context");
 
 // We may log to other than debug levels as follows
-// Log 'error' level message in context of 'my-lib:feat1' namespace:
+// Log 'error' level message in context of 'my-lib:func' namespace:
 log.error("some error message");
 
 // log output can be dynamically enabled/disabled during runtime
-log.disable();
-log("message that's not really logged");
-log.enable();
-log("logger is enabled again, this one should be seen");
+const { restore } = log.error.disable();
+log.error("error message not really logged");
+// To reliably restore previous state, we rely on provided `restore` function
+restore(); // Bring back previous settings
+log.error("error message to be logged");
 ```
 
-##### Predefined log levels
+##### Available log levels
 
-Mirror of syslog:
+Mirror of syslog, in severity order:
 
 *   `debug` - debugging information
 *   `info` - a purely informational message
@@ -58,15 +59,13 @@ Mirror of syslog:
 *   `alert` - immediate action required
 *   `emergency` - system unusable
 
-Other custom level loggers (if needed) can be obtained via `getLevel` function:
+`warning` for convenience is also aliased at `log.warn`
 
-```javascript
-log.getLevel("custom");
-```
+##### Output message formatting
 
-##### String formatting
-
-printf-like message format is supported, in same manner as it's in Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util, with same placeholders support.
+`log4` doesn't force any specific arguments handling. Still it is recommended to assume printf-like message
+format, as preconfigured writers are setup to support it, with same placeholders as
+those supported by Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
 
 Excerpt from Node.js documentation:
 
@@ -81,58 +80,38 @@ _The first argument is a string containing zero or more placeholder tokens. Each
 *   _`%O` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() without options. This will show the full object not including non-enumerable symbols and properties._
 *   _`%%` - single percent sign ('%'). This does not consume an argument._
 
-**Note to log output configuration developers:**
+**Note to log writer configuration developers**
 
-Each log output configuration is expected to support above placeholders. For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit))
+For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit))
+
+##### Enabling log writing
+
+`log4` on its own doesn't write anything to the console on any other mean (it just emits events to be consumed by plugged in log writers)
+
+To have logs written, the pre-chosen log writer needs to be initialized in main (starting) module of a process (refer to its documentation for more information).
+
+List of available log writers
+
+*   [`log4-nodejs`](https://github.com/medikoo/log4-nodejs) - For typical Node.js processes
+*   [`log4-aws-lambda`](https://github.com/medikoo/log4-aws-lambda) - For AWS lambda environment
+
+_Note: please add any missing writers via PR_
 
 ##### Logs Visibility
 
-###### Environment variables
+Default visibility depends on the enviroment (see chosen log writer for more information), and in most cases is setup through following environment variables:
 
-Default visibility depends on the enviroment (see log output engine for more information), and in most cases is setup through env variables.
+###### `LOG_LEVEL`
 
-Visibility of each level is configured independently via `LOG_DEBUG`, `LOG_INFO`, `LOG_WARNING` etc. variables. It follows convention configured
-within [debug](https://github.com/visionmedia/debug#windows-note).
+(defaults to `warning`) Lowest log level from which all logs will be exposed.
 
-To ease migration from [debug](https://github.com/visionmedia/debug) if `LOG_DEBUG` is not configured, then `debug` level configuration is read from `DEBUG` variable.
+###### `LOG_DEBUG`
 
-When no visibility is configured in env variables, defaults are that `debug` level logs are hidden and all others are exposed.
+Eventual list of namespaces to expose at levels below `LOG_LEVEL` threshold
 
-###### Tweaking visiblity at the runtime
+List is comma separated as e.g. `foo,-foo:bar` (expose all `foo` but not `foo:bar`).
 
-Visiblity of each level and namespace can be tweaked at the runtime.
-
-```javascript
-// "my-lib" logger
-const log = .getNs("my-lib");
-
-// `log.isEnabled` Returns information on whether log is enabled or not
-const wasLogEnabled = log.isEnabled;
-
-// Through `log.enable()` and `log.disable()` we can tweak log visiblity at runtime
-if (!wasLogEnabled) log.enable();
-
-// Visiblity setting is inherited among child namespaces
-log.getNs("some-func").isEnabled; // true
-
-// Disabling visibility on parent, has no effect if child has it's own visiblity setting
-require("log4").disable();
-log.isEnabled; // true
-
-if (!wasLogEnabled) log.disable(); // Revert to default
-```
-
-#### Configuring log output engine
-
-`log4` library on its own, doesn't produce any log output, instead there's an exposed emitter at `log.emitter`
-which emits all approached logs, and on basis of that real log output can be configured.
-
-##### List of predefined log output writers
-
-*   `log4-aws-lambda` - Dedicated AWS lambda environment writer
-*   `log4-nodejs` - Dedicated Node.js environment writer
-
-To ensure output, at top of main module that serves given environment, require desired log output writer
+It follows convention configured within [debug](https://github.com/visionmedia/debug#windows-note). To ease eventual migration from [debug](https://github.com/visionmedia/debug), configuration is also read from `DEBUG` if `LOG_DEBUG` is not present.
 
 ### Tests
 
