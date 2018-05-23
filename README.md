@@ -23,7 +23,7 @@ const log = require("log4");
 // Log 'debug' level message:
 log("some debug message %s", "injected string");
 
-// It's nice to namespace logs (debug lib style) e.g.
+// Namespace logs (debug lib style)
 log = log.get("my-lib");
 
 // Log 'debug' level message in context of 'my-lib' namespace:
@@ -42,14 +42,14 @@ log.error("some error message");
 const { restore } = log.error.disable();
 log.error("error message not really logged");
 
-// To reliably restore previous state, we rely on provided `restore` function
-restore(); // Bring back previous settings
+// To reliably restore previous state, best is to rely on provided `restore` function
+restore();
 log.error("error message to be logged");
 ```
 
 #### Available log levels
 
-Mirror of syslog, in severity order:
+Mirror of syslog (in severity order):
 
 *   `debug` - debugging information
 *   `info` - a purely informational message
@@ -63,7 +63,7 @@ Mirror of syslog, in severity order:
 #### Output message formatting
 
 `log4` doesn't force any specific arguments handling. Still it is recommended to assume printf-like message
-format, as all available preconfigured writers are setup to support it. Placeholders support follows Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
+format, as all available writers are setup to support it. Placeholders support follows Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
 
 Excerpt from Node.js documentation:
 
@@ -78,7 +78,7 @@ _The first argument is a string containing zero or more placeholder tokens. Each
 *   _`%O` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() without options. This will show the full object not including non-enumerable symbols and properties._
 *   _`%%` - single percent sign ('%'). This does not consume an argument._
 
-_Note to log writer configuration developers: For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)_
+Note to log writer configuration developers: For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)
 
 #### Enabling log writing
 
