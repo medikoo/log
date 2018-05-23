@@ -31,22 +31,23 @@ log("some debug message in 'my-lib' namespace context");
 
 // Namespaces can be nested
 log = log.get("func");
+
 // Log 'debug' level message in context of 'my-lib:func' namespace:
 log("some debug message in 'my-lib:func' namespace context");
 
-// We may log to other than debug levels as follows
 // Log 'error' level message in context of 'my-lib:func' namespace:
 log.error("some error message");
 
 // log output can be dynamically enabled/disabled during runtime
 const { restore } = log.error.disable();
 log.error("error message not really logged");
+
 // To reliably restore previous state, we rely on provided `restore` function
 restore(); // Bring back previous settings
 log.error("error message to be logged");
 ```
 
-##### Available log levels
+#### Available log levels
 
 Mirror of syslog, in severity order:
 
@@ -61,7 +62,7 @@ Mirror of syslog, in severity order:
 
 `warning` for convenience is also aliased at `log.warn`
 
-##### Output message formatting
+#### Output message formatting
 
 `log4` doesn't force any specific arguments handling. Still it is recommended to assume printf-like message
 format, as preconfigured writers are setup to support it, with same placeholders as
@@ -84,7 +85,7 @@ _The first argument is a string containing zero or more placeholder tokens. Each
 
 For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit))
 
-##### Enabling log writing
+#### Enabling log writing
 
 `log4` on its own doesn't write anything to the console on any other mean (it just emits events to be consumed by plugged in log writers)
 
@@ -97,7 +98,7 @@ List of available log writers
 
 _Note: please add any missing writers via PR_
 
-##### Logs Visibility
+#### Logs Visibility
 
 Default visibility depends on the enviroment (see chosen log writer for more information), and in most cases is setup through following environment variables:
 
