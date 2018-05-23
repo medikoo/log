@@ -26,6 +26,7 @@ var loggerPrototype = Object.create(
 	assign(
 		{
 			// Public properties & methods
+			// ---------------------------
 
 			// Should logger logs be exposed?
 			isEnabled: d("ew", true),
@@ -55,6 +56,8 @@ var loggerPrototype = Object.create(
 			disable: d(function () { return this._setEnabledState(false); }),
 
 			// Public meta methods (used by log writers)
+			// -----------------------------------------
+
 			isNamespaceInitialized: d("e", function (namespace) {
 				var namespaceTokens = ensureString(namespace).split(":");
 				var currentLogger = this;
@@ -79,7 +82,9 @@ var loggerPrototype = Object.create(
 				return objToArray(this._childNamespaceLoggers, identity);
 			}),
 
-			// Internal
+			// Internal properties and methods
+			// -----------------------------------------
+
 			_namespaceToken: d("", null),
 			_getLevelLogger: d(function (newLevel) {
 				newLevel = ensureString(newLevel);
@@ -118,6 +123,7 @@ var loggerPrototype = Object.create(
 		},
 
 		// Lazily resolved properties
+		// -----------------------------------------
 		lazy(
 			assign(
 				// Loggers for all levels
@@ -130,16 +136,18 @@ var loggerPrototype = Object.create(
 					return descriptors;
 				}, {}),
 				{
-					// Alias warn -> warning
+					// Alias `warn` to `warning`
 					warn: d(function () { return this._getLevelLogger("warning"); }, {
 						cacheName: "_warning"
 					}),
+
 					// Full namespace string e.g. foo:bar:elo
 					namespace: d(
 						"e",
 						function () { return this.namespaceTokens.join(":") || null; },
 						{ cacheName: "_namespace" }
 					),
+
 					// All namespace tokens e.g. ["foo", "bar", "elo"]
 					namespaceTokens: d(
 						"e",
@@ -152,7 +160,8 @@ var loggerPrototype = Object.create(
 						},
 						{ cacheName: "_namespaceTokens" }
 					),
-					// Map of children namespace loggers
+
+					// Internal: Map of children namespace loggers
 					_childNamespaceLoggers: d("", function () { return Object.create(null); }, {
 						cacheName: "__childNamespaceLoggers"
 					})
