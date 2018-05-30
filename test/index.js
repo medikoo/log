@@ -335,5 +335,12 @@ test("Logger", function (t) {
 		t.end();
 	});
 
+	t.test("Should expose level root", function (t) {
+		t.equal(log.notice.get("foo:bar").levelRoot, log.notice);
+		t.equal(log.error.levelRoot, log.error);
+		t.equal(log.warning.get("elo").levelRoot, log.warning);
+		t.end();
+	});
+
 	t.end();
 });

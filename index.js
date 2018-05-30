@@ -180,9 +180,11 @@ var createLogger = function (prototype) {
 
 createLevelLogger = function (levelName) {
 	if (levelLoggers[levelName]) return levelLoggers[levelName];
-	var logger = Object.defineProperties(createLogger(), {
+	var logger = createLogger();
+	Object.defineProperties(logger, {
 		level: d("e", levelName),
-		levelIndex: d("e", levelNames.indexOf(levelName))
+		levelIndex: d("e", levelNames.indexOf(levelName)),
+		levelRoot: d("e", logger)
 	});
 	levelLoggers[levelName] = logger;
 	emitter.emit("init", { logger: logger });
