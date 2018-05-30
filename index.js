@@ -11,7 +11,7 @@ var aFrom          = require("es5-ext/array/from")
   , toShortString  = require("es5-ext/to-short-string-representation")
   , d              = require("d")
   , lazy           = require("d/lazy")
-  , emitter        = require("./writer-util/emitter")
+  , emitter        = require("./writer-utils/emitter")
   , levelNames     = require("./levels");
 
 var isValidNamespaceToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);

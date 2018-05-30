@@ -2,7 +2,7 @@
 
 var test    = require("tape")
   , log     = require("../index")
-  , emitter = require("../writer-util/emitter");
+  , emitter = require("../writer-utils/emitter");
 
 test("Logger", function (t) {
 	var testArgs = ["foo", 12, null, {}];
