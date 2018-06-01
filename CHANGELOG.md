@@ -2,6 +2,73 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/medikoo/log4/compare/v2.0.0...v3.0.0) (2018-06-01)
+
+
+### Bug Fixes
+
+* coverage programs ([a4f2415](https://github.com/medikoo/log4/commit/a4f2415))
+* rely on imported assign ([12707e8](https://github.com/medikoo/log4/commit/12707e8))
+
+
+### Features
+
+* default symbols to represent levels ([dc2487b](https://github.com/medikoo/log4/commit/dc2487b))
+* do not allow custom named levels ([8c147d5](https://github.com/medikoo/log4/commit/8c147d5))
+* enable/disable methods return restpore function ([56b207a](https://github.com/medikoo/log4/commit/56b207a))
+* expose emitter as external module ([9101f2e](https://github.com/medikoo/log4/commit/9101f2e))
+* expose levelIndex on level ([aa480ee](https://github.com/medikoo/log4/commit/aa480ee))
+* introduce `logger.levelRoot` property ([d1b61c1](https://github.com/medikoo/log4/commit/d1b61c1))
+* isLogger and ensureLogger utils ([30d7ab6](https://github.com/medikoo/log4/commit/30d7ab6))
+* move levels to external module ([cf62d9e](https://github.com/medikoo/log4/commit/cf62d9e))
+* new setup visibility logic ([d34771e](https://github.com/medikoo/log4/commit/d34771e))
+* registerMaster writer util ([7a36ad8](https://github.com/medikoo/log4/commit/7a36ad8))
+* remove getLevel method ([5dd9798](https://github.com/medikoo/log4/commit/5dd9798))
+* rename `getNs` to `get` for brevity ([514335b](https://github.com/medikoo/log4/commit/514335b))
+* rename method ([863cd17](https://github.com/medikoo/log4/commit/863cd17))
+* rename method ([c6dad08](https://github.com/medikoo/log4/commit/c6dad08))
+* rename method ([3cd4a42](https://github.com/medikoo/log4/commit/3cd4a42))
+* rename method ([984d8d4](https://github.com/medikoo/log4/commit/984d8d4))
+* rename property ([23bdeb5](https://github.com/medikoo/log4/commit/23bdeb5))
+* rename property ([454fdc5](https://github.com/medikoo/log4/commit/454fdc5))
+
+
+### BREAKING CHANGES
+
+* Predefined levels are no longer accessible at `logger.predefinedLevels` property.
+Instead they should be required from `log4/levels`
+* For simplicity and to avoid compliance issues,
+only predefined levels are allowed (it's no
+longer possible to create custom named levels)
+* `enable()` and `disable()` methods no logger return own logger.
+Instead they return plain object with `restore` function.
+* `getNs` method has been renamed to
+`get`
+* `ns` property has been renamed to
+`namespace`
+* `nsTokens` property has been renamed to
+`namespaceTokens`
+* Emitter is not longer accessible at logger.emiter
+Instead it should be required from "log4/emitter"
+* `getAllLevels` method has been renamed to
+`getAllInitializedLevels`
+* `hasLevel` method has been renamed to
+`isLevelInitialized`
+* `hasNs` method has been renamed to
+`isNamespaceInitialized`
+* New setupVisibility accepts:
+- `levelThreshold` - on its basis  it's decided logs for which levels are
+enabled by default
+- `debugNamespaceToken` - List of  namespaces to be exposed for
+levels below threshold
+* `getLevel` method was removed.  Use direct property names:
+`log.error` instead of `log.getLevel("error")`
+* `getAllNs` method has been renamed to
+`getAllInitializedNamespaces`
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/medikoo/log4/compare/v1.2.0...v2.0.0) (2018-03-22)
 
