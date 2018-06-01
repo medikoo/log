@@ -10,7 +10,7 @@ _(name may be subject to change)_
 
 ## Universal logger utility
 
-**Configurable, environment and output agnostic, with implied log levels and namespacing ([debug](https://github.com/visionmedia/debug#debug) style) support**
+**Configurable, environment and presentation agnostic, with log levels and namespacing ([debug](https://github.com/visionmedia/debug#debug) style) support**
 
 ### Usage
 
@@ -23,7 +23,7 @@ const log = require("log4");
 // Log 'debug' level message:
 log("some debug message %s", "injected string");
 
-// Namespace logs (debug lib style)
+// Get namespaced logger (debug lib style)
 log = log.get("my-lib");
 
 // Log 'debug' level message in context of 'my-lib' namespace:
@@ -41,8 +41,7 @@ log.error("some error message");
 // log output can be dynamically enabled/disabled during runtime
 const { restore } = log.error.disable();
 log.error("error message not really logged");
-
-// To reliably restore previous state, best is to rely on provided `restore` function
+// Restore previous logs visibiity state
 restore();
 log.error("error message to be logged");
 ```
@@ -62,8 +61,8 @@ Mirror of syslog (in severity order):
 
 #### Output message formatting
 
-`log4` doesn't force any specific arguments handling. Still it is recommended to assume printf-like message
-format, as all available writers are setup to support it. Placeholders support follows Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
+`log4` doesn't force any specific arguments handling. Still it is recommended to assume [printf-like](https://en.wikipedia.org/wiki/Printf_format_string) message
+format, as all available writers are setup to support it. Placeholders support reflects one implemented in Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
 
 Excerpt from Node.js documentation:
 
@@ -78,11 +77,11 @@ _The first argument is a string containing zero or more placeholder tokens. Each
 *   _`%O` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() without options. This will show the full object not including non-enumerable symbols and properties._
 *   _`%%` - single percent sign ('%'). This does not consume an argument._
 
-Note to log writer configuration developers: For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)
+_Note to log writer configuration developers: For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)_
 
 #### Enabling log writing
 
-`log4` on its own doesn't write anything to the console on any other mean (it just emits events to be consumed by plugged in log writers)
+`log4` on its own doesn't write anything to the console on any other mean (it just emits events to be consumed by preloaded log writers)
 
 To have logs written, the pre-chosen log writer needs to be initialized in main (starting) module of a process.
 
@@ -91,7 +90,7 @@ To have logs written, the pre-chosen log writer needs to be initialized in main 
 *   [`log4-nodejs`](https://github.com/medikoo/log4-nodejs) - For typical Node.js processes
 *   [`log4-aws-lambda`](https://github.com/medikoo/log4-aws-lambda) - For AWS lambda environment
 
-_Note: please add any missing writers via PR_
+_Note: add any new writers via PR_
 
 #### Logs Visibility
 
@@ -107,7 +106,7 @@ Eventual list of namespaces to expose at levels below `LOG_LEVEL` threshold
 
 List is comma separated as e.g. `foo,-foo:bar` (expose all `foo` but not `foo:bar`).
 
-It follows convention configured within [debug](https://github.com/visionmedia/debug#windows-note). To ease eventual migration from [debug](https://github.com/visionmedia/debug), configuration is also read from `DEBUG` if `LOG_DEBUG` is not present.
+It follows convention configured within [debug](https://github.com/visionmedia/debug#windows-note). To ease eventual migration from [debug](https://github.com/visionmedia/debug), configuration fallbacks to `DEBUG` env var if `LOG_DEBUG` is not present.
 
 ### Tests
 
