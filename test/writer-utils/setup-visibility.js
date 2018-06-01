@@ -120,7 +120,7 @@ test("Logs visibility setup", function (t) {
 		t.end();
 	});
 
-	t.test("Fallbacks to warning level as threshold, if invalid one is provided", function (t) {
+	t.test("Fallbacks to notice level as threshold, if invalid one is provided", function (t) {
 		requireUncached(
 			[require.resolve("../../"), require.resolve("../../writer-utils/setup-visibility")],
 			function () {
@@ -131,8 +131,8 @@ test("Logs visibility setup", function (t) {
 
 		setupEnv("bla", [""]);
 
-		t.equal(log.notice.isEnabled, false);
-		t.equal(log.warning.isEnabled, true);
+		t.equal(log.info.isEnabled, false);
+		t.equal(log.notice.isEnabled, true);
 		t.end();
 	});
 

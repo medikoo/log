@@ -13,7 +13,7 @@ module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	// Resolve intended logging level configuration
 	// On this level and above all logs will be exposed
 	if (!thresholdLevelName || !includes.call(levels, thresholdLevelName)) {
-		thresholdLevelName = "warning";
+		thresholdLevelName = "notice";
 	}
 	var thresholdLevelIndex = levels.indexOf(thresholdLevelName);
 

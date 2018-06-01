@@ -98,7 +98,7 @@ Default visibility depends on the enviroment (see chosen log writer for more inf
 
 ###### `LOG_LEVEL`
 
-(defaults to `warning`) Lowest log level from which (upwards) all logs will be exposed.
+(defaults to `notice`) Lowest log level from which (upwards) all logs will be exposed.
 
 ###### `LOG_DEBUG`
 
