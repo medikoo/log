@@ -1,18 +1,19 @@
 "use strict";
 
-var aFrom          = require("es5-ext/array/from")
-  , identity       = require("es5-ext/function/identity")
-  , noop           = require("es5-ext/function/noop")
-  , assign         = require("es5-ext/object/assign")
-  , objForEach     = require("es5-ext/object/for-each")
-  , objToArray     = require("es5-ext/object/to-array")
-  , setPrototypeOf = require("es5-ext/object/set-prototype-of")
-  , ensureString   = require("es5-ext/object/validate-stringifiable-value")
-  , toShortString  = require("es5-ext/to-short-string-representation")
-  , d              = require("d")
-  , lazy           = require("d/lazy")
-  , emitter        = require("./writer-utils/emitter")
-  , levelNames     = require("./levels");
+var aFrom               = require("es5-ext/array/from")
+  , identity            = require("es5-ext/function/identity")
+  , noop                = require("es5-ext/function/noop")
+  , assign              = require("es5-ext/object/assign")
+  , objForEach          = require("es5-ext/object/for-each")
+  , objToArray          = require("es5-ext/object/to-array")
+  , setPrototypeOf      = require("es5-ext/object/set-prototype-of")
+  , ensureString        = require("es5-ext/object/validate-stringifiable-value")
+  , toShortString       = require("es5-ext/to-short-string-representation")
+  , d                   = require("d")
+  , lazy                = require("d/lazy")
+  , emitter             = require("./writer-utils/emitter")
+  , setDefaultNamespace = require("./writer-utils/get-default-namespace")._set
+  , levelNames          = require("./levels");
 
 var isValidNamespaceToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
 
@@ -54,6 +55,11 @@ var loggerPrototype = Object.create(
 
 			// Disables logger and all its namespaced children
 			disable: d(function () { return this._setEnabledState(false); }),
+
+			// Logs from default namespace have namespace token omitted
+			setCurrentNamespaceAsDefault: d(function () {
+				setDefaultNamespace(this.namespaceTokens[0] || null);
+			}),
 
 			// Public meta methods (used by log writers)
 			// -----------------------------------------

@@ -1,8 +1,9 @@
 "use strict";
 
-var test    = require("tape")
-  , log     = require("../index")
-  , emitter = require("../writer-utils/emitter");
+var test                = require("tape")
+  , log                 = require("../index")
+  , emitter             = require("../writer-utils/emitter")
+  , getDefaultNamespace = require("../writer-utils/get-default-namespace");
 
 test("Logger", function (t) {
 	var testArgs = ["foo", 12, null, {}];
@@ -185,6 +186,16 @@ test("Logger", function (t) {
 			[log.get("foo"), log.get("foorkot"), log.get("getlevel-test"), log.get("marko")],
 			"All child namespaces"
 		);
+		t.end();
+	});
+
+	t.test("Should expose .setCurrentNamespaceAsDefault() method that", function (t) {
+		log.get("default-namespace:foo").setCurrentNamespaceAsDefault();
+		t.equal(
+			getDefaultNamespace(), "default-namespace", "allows to set current namespace as default"
+		);
+		log.setCurrentNamespaceAsDefault();
+		t.equal(getDefaultNamespace(), null);
 		t.end();
 	});
 
