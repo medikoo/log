@@ -9,6 +9,18 @@ var ensureArray  = require("es5-ext/array/valid-array")
   , emitter      = require("./emitter")
   , levels       = require("../levels");
 
+var resolveDebugNamespaces = function (debugNamespacesTokens, debugNamespacesSettings) {
+	ensureArray(debugNamespacesTokens).forEach(function (ns) {
+		ns = ensureString(ns).trim();
+		if (!ns) return;
+		var isEnabled = ns[0] !== "-";
+		if (!isEnabled) ns = ns.slice(1);
+		if (endsWith.call(ns, ":*")) ns = ns.slice(0, -2);
+		ns = ns.split(":").filter(Boolean).join(":");
+		debugNamespacesSettings[ns] = isEnabled;
+	});
+};
+
 module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	// Resolve intended logging level configuration
 	// On this level and above all logs will be exposed
@@ -20,15 +32,7 @@ module.exports = function (thresholdLevelName, debugNamespacesTokens) {
 	// Resolve namespace based debug logging configuration
 	// Applies only to logs below level threshold (will expose logs just for chosen namespaces)
 	var debugNamespacesSettings = Object.create(null);
-	ensureArray(debugNamespacesTokens).forEach(function (ns) {
-		ns = ensureString(ns).trim();
-		if (!ns) return;
-		var isEnabled = ns[0] !== "-";
-		if (!isEnabled) ns = ns.slice(1);
-		if (endsWith.call(ns, ":*")) ns = ns.slice(0, -2);
-		ns = ns.split(":").filter(Boolean).join(":");
-		debugNamespacesSettings[ns] = isEnabled;
-	});
+	resolveDebugNamespaces(debugNamespacesTokens, debugNamespacesSettings);
 	var debugNamespacesList = Object.keys(debugNamespacesSettings);
 
 	// Apply resolved settings on existing loggers
