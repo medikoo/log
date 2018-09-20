@@ -62,7 +62,7 @@ var loggerPrototype = Object.create(
 				var namespaceTokens = ensureString(namespace).split(":");
 				var currentLogger = this;
 				return namespaceTokens.every(function (nsToken) {
-					return currentLogger = currentLogger._childNamespaceLoggers[nsToken];
+					return (currentLogger = currentLogger._childNamespaceLoggers[nsToken]);
 				});
 			}),
 			isLevelInitialized: d("e", function (level) {
