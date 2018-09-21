@@ -14,7 +14,7 @@ test("Register master", function (t) {
 		t.end();
 	});
 
-	t.test("Default namespace should be setable via internal _set method", function (t) {
+	t.test("Default namespace should be settable via `set` method", function (t) {
 		getDefaultNamespace.set("foo");
 		t.equal(getDefaultNamespace(), "foo");
 		t.end();
