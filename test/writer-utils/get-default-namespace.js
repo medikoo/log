@@ -3,7 +3,7 @@
 var test            = require("tape")
   , requireUncached = require("cjs-module/require-uncached");
 
-test("Register master", function (t) {
+test("getDefaultNamespace", function (t) {
 	var getDefaultNamespace = requireUncached(
 		require.resolve("../../writer-utils/get-default-namespace"),
 		function () { return require("../../writer-utils/get-default-namespace"); }
@@ -19,5 +19,6 @@ test("Register master", function (t) {
 		t.equal(getDefaultNamespace(), "foo");
 		t.end();
 	});
+
 	t.end();
 });
