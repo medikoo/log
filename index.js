@@ -1,20 +1,19 @@
 "use strict";
 
-var aFrom          = require("es5-ext/array/from")
-  , identity       = require("es5-ext/function/identity")
-  , noop           = require("es5-ext/function/noop")
-  , assign         = require("es5-ext/object/assign")
-  , objForEach     = require("es5-ext/object/for-each")
-  , objToArray     = require("es5-ext/object/to-array")
-  , setPrototypeOf = require("es5-ext/object/set-prototype-of")
-  , ensureString   = require("es5-ext/object/validate-stringifiable-value")
-  , toShortString  = require("es5-ext/to-short-string-representation")
-  , d              = require("d")
-  , lazy           = require("d/lazy")
-  , emitter        = require("./writer-utils/emitter")
-  , levelNames     = require("./levels");
-
-var isValidNamespaceToken = RegExp.prototype.test.bind(/^[a-z0-9-]+$/);
+var aFrom            = require("es5-ext/array/from")
+  , identity         = require("es5-ext/function/identity")
+  , noop             = require("es5-ext/function/noop")
+  , assign           = require("es5-ext/object/assign")
+  , objForEach       = require("es5-ext/object/for-each")
+  , objToArray       = require("es5-ext/object/to-array")
+  , setPrototypeOf   = require("es5-ext/object/set-prototype-of")
+  , ensureString     = require("es5-ext/object/validate-stringifiable-value")
+  , toShortString    = require("es5-ext/to-short-string-representation")
+  , d                = require("d")
+  , lazy             = require("d/lazy")
+  , isNamespaceToken = require("./lib/private/is-namespace-token")
+  , emitter          = require("./writer-utils/emitter")
+  , levelNames       = require("./levels");
 
 // Map of initialized top level loggers
 var levelLoggers = Object.create(null);
@@ -36,10 +35,10 @@ var loggerPrototype = Object.create(
 				namespace = ensureString(namespace);
 				var namespaceTokens = namespace.split(":");
 				namespaceTokens.forEach(function (namespaceToken) {
-					if (!isValidNamespaceToken(namespaceToken)) {
+					if (!isNamespaceToken(namespaceToken)) {
 						throw new TypeError(
 							toShortString(namespace) +
-								" is not a valid ns string " +
+								" is not a valid namespace string " +
 								"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
 						);
 					}

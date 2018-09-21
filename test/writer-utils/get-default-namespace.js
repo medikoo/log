@@ -20,5 +20,16 @@ test("getDefaultNamespace", function (t) {
 		t.end();
 	});
 
+	t.test("Should allow to reset default namespace to null", function (t) {
+		getDefaultNamespace.set(null);
+		t.equal(getDefaultNamespace(), null);
+		t.end();
+	});
+
+	t.test("Should reject invalid namespace token", function (t) {
+		t.throws(function () { getDefaultNamespace.set("foo:bar"); }, TypeError);
+		t.end();
+	});
+
 	t.end();
 });
