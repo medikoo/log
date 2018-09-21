@@ -3,7 +3,7 @@
 var test            = require("tape")
   , requireUncached = require("cjs-module/require-uncached");
 
-test("Logs visibility setup", function (t) {
+test("writerUtils.setupVisibility", function (t) {
 	var log, setupEnv;
 
 	requireUncached(

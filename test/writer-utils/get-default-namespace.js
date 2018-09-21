@@ -3,7 +3,7 @@
 var test            = require("tape")
   , requireUncached = require("cjs-module/require-uncached");
 
-test("getDefaultNamespace", function (t) {
+test("writerUtils.getDefaultNamespace", function (t) {
 	var getDefaultNamespace = requireUncached(
 		require.resolve("../../writer-utils/get-default-namespace"),
 		function () { return require("../../writer-utils/get-default-namespace"); }

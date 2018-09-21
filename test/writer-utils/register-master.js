@@ -3,7 +3,7 @@
 var test            = require("tape")
   , requireUncached = require("cjs-module/require-uncached");
 
-test("Register master", function (t) {
+test("writerUtils.registerMaster", function (t) {
 	var registerMaster;
 
 	requireUncached(require.resolve("../../writer-utils/register-master"), function () {

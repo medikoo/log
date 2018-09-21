@@ -4,7 +4,7 @@ var test    = require("tape")
   , log     = require("../index")
   , emitter = require("../writer-utils/emitter");
 
-test("Logger", function (t) {
+test("(main)", function (t) {
 	var testArgs = ["foo", 12, null, {}];
 
 	t.test("Should by default", function (t) {

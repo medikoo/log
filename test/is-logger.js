@@ -4,7 +4,7 @@ var test     = require("tape")
   , log      = require("../")
   , isLogger = require("../is-logger");
 
-test("Is Logger", function (t) {
+test("isLogger", function (t) {
 	t.equal(isLogger(log), true, "Should return true on logger");
 	t.equal(isLogger(), false, "Should return false on non-value");
 	t.equal(

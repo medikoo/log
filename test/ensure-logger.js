@@ -4,7 +4,7 @@ var test         = require("tape")
   , log          = require("../")
   , ensureLogger = require("../ensure-logger");
 
-test("Ensure Logger", function (t) {
+test("ensureLogger", function (t) {
 	t.equal(ensureLogger(log), log, "Should return logger when logger is an argument");
 	t.throws(
 		function () {
