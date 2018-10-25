@@ -8,7 +8,7 @@
 
 _(name may be subject to change)_
 
-## Universal logger utility
+## Universal logging utility
 
 **Configurable, environment and presentation agnostic, with log levels and namespacing ([debug](https://github.com/visionmedia/debug#debug) style) support**
 
@@ -62,7 +62,7 @@ Mirror of syslog (in severity order):
 #### Output message formatting
 
 `log4` doesn't force any specific arguments handling. Still it is recommended to assume [printf-like](https://en.wikipedia.org/wiki/Printf_format_string) message
-format, as all available writers are setup to support it. Placeholders support reflects one implemented in Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
+format, as all currently available writers are setup to support it. Placeholders support reflects one implemented in Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
 
 Excerpt from Node.js documentation:
 
@@ -90,7 +90,7 @@ To have logs written, the pre-chosen log writer needs to be initialized in main 
 -   [`log4-nodejs`](https://github.com/medikoo/log4-nodejs) - For typical Node.js processes
 -   [`log4-aws-lambda`](https://github.com/medikoo/log4-aws-lambda) - For AWS lambda environment
 
-_Note: add any new writers via PR_
+_Note: if some writer is missing, propose a PR_
 
 #### Logs Visibility
 
