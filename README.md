@@ -50,14 +50,14 @@ log.error("error message to be logged");
 
 Mirror of syslog (in severity order):
 
-*   `debug` - debugging information
-*   `info` - a purely informational message
-*   `notice` - condition normal, but significant
-*   `warning` (also aliased as `warn`) - condition warning
-*   `error` - condition error
-*   `critical` - condition critical
-*   `alert` - immediate action required
-*   `emergency` - system unusable
+-   `debug` - debugging information
+-   `info` - a purely informational message
+-   `notice` - condition normal, but significant
+-   `warning` (also aliased as `warn`) - condition warning
+-   `error` - condition error
+-   `critical` - condition critical
+-   `alert` - immediate action required
+-   `emergency` - system unusable
 
 #### Output message formatting
 
@@ -68,14 +68,14 @@ Excerpt from Node.js documentation:
 
 _The first argument is a string containing zero or more placeholder tokens. Each placeholder token is replaced with the converted value from the corresponding argument. Supported placeholders are:_
 
-*   _`%s` - String._
-*   _`%d` - Number (integer or floating point value)._
-*   _`%i` - Integer._
-*   _`%f` - Floating point value._
-*   _`%j` - JSON. Replaced with the string '[Circular]' if the argument contains circular references._
-*   _`%o` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() with options { showHidden: true, depth: 4, showProxy: true }. This will show the full object including non-enumerable symbols and properties._
-*   _`%O` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() without options. This will show the full object not including non-enumerable symbols and properties._
-*   _`%%` - single percent sign ('%'). This does not consume an argument._
+-   _`%s` - String._
+-   _`%d` - Number (integer or floating point value)._
+-   _`%i` - Integer._
+-   _`%f` - Floating point value._
+-   _`%j` - JSON. Replaced with the string '[Circular]' if the argument contains circular references._
+-   _`%o` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() with options { showHidden: true, depth: 4, showProxy: true }. This will show the full object including non-enumerable symbols and properties._
+-   _`%O` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() without options. This will show the full object not including non-enumerable symbols and properties._
+-   _`%%` - single percent sign ('%'). This does not consume an argument._
 
 _Note to log writer configuration developers: For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)_
 
@@ -87,8 +87,8 @@ To have logs written, the pre-chosen log writer needs to be initialized in main 
 
 ##### List of available log writers
 
-*   [`log4-nodejs`](https://github.com/medikoo/log4-nodejs) - For typical Node.js processes
-*   [`log4-aws-lambda`](https://github.com/medikoo/log4-aws-lambda) - For AWS lambda environment
+-   [`log4-nodejs`](https://github.com/medikoo/log4-nodejs) - For typical Node.js processes
+-   [`log4-aws-lambda`](https://github.com/medikoo/log4-aws-lambda) - For AWS lambda environment
 
 _Note: add any new writers via PR_
 
