@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/medikoo/log/compare/v3.1.0...v3.2.0) (2018-11-29)
+
+
+### Features
+
+* rename log4 to log ([84cd31a](https://github.com/medikoo/log/commit/84cd31a))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/medikoo/log4/compare/v3.0.1...v3.1.0) (2018-09-21)
 
