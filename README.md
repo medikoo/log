@@ -4,9 +4,7 @@
 ![Transpilation status][transpilation-image]
 [![npm version][npm-image]][npm-url]
 
-# log4
-
-_(name may be subject to change)_
+# log
 
 ## Universal logging utility
 
@@ -18,7 +16,7 @@ _(name may be subject to change)_
 
 ```javascript
 // Default logger writes at 'debug' level
-const log = require("log4");
+const log = require("log");
 
 // Log 'debug' level message:
 log("some debug message %s", "injected string");
@@ -61,7 +59,7 @@ Mirror of syslog (in severity order):
 
 #### Output message formatting
 
-`log4` doesn't force any specific arguments handling. Still it is recommended to assume [printf-like](https://en.wikipedia.org/wiki/Printf_format_string) message
+`log` doesn't force any specific arguments handling. Still it is recommended to assume [printf-like](https://en.wikipedia.org/wiki/Printf_format_string) message
 format, as all currently available writers are setup to support it. Placeholders support reflects one implemented in Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
 
 Excerpt from Node.js documentation:
@@ -81,14 +79,14 @@ _Note to log writer configuration developers: For cross-env compatibiity it is a
 
 #### Enabling log writing
 
-`log4` on its own doesn't write anything to the console on any other mean (it just emits events to be consumed by preloaded log writers)
+`log` on its own doesn't write anything to the console on any other mean (it just emits events to be consumed by preloaded log writers)
 
 To have logs written, the pre-chosen log writer needs to be initialized in main (starting) module of a process.
 
 ##### List of available log writers
 
--   [`log4-nodejs`](https://github.com/medikoo/log4-nodejs) - For typical Node.js processes
--   [`log4-aws-lambda`](https://github.com/medikoo/log4-aws-lambda) - For AWS lambda environment
+-   [`log-node`](https://github.com/medikoo/log-node) - For typical Node.js processes
+-   [`log-aws-lambda`](https://github.com/medikoo/log-aws-lambda) - For AWS lambda environment
 
 _Note: if some writer is missing, propose a PR_
 
@@ -116,12 +114,12 @@ Project cross-browser compatibility supported by:
 
 <a href="https://browserstack.com"><img src="https://bstacksupport.zendesk.com/attachments/token/Pj5uf2x5GU9BvWErqAr51Jh2R/?name=browserstack-logo-600x315.png" height="150" /></a>
 
-[nix-build-image]: https://semaphoreci.com/api/v1/medikoo-org/log4/branches/master/shields_badge.svg
-[nix-build-url]: https://semaphoreci.com/medikoo-org/log4
+[nix-build-image]: https://semaphoreci.com/api/v1/medikoo-org/log/branches/master/shields_badge.svg
+[nix-build-url]: https://semaphoreci.com/medikoo-org/log
 [win-build-image]: https://ci.appveyor.com/api/projects/status/i77xe4unnscrkews?svg=true
-[win-build-url]: https://ci.appveyor.com/project/medikoo/log4
-[cov-image]: https://img.shields.io/codecov/c/github/medikoo/log4.svg
-[cov-url]: https://codecov.io/gh/medikoo/log4
+[win-build-url]: https://ci.appveyor.com/project/medikoo/log
+[cov-image]: https://img.shields.io/codecov/c/github/medikoo/log.svg
+[cov-url]: https://codecov.io/gh/medikoo/log
 [transpilation-image]: https://img.shields.io/badge/transpilation-free-brightgreen.svg
-[npm-image]: https://img.shields.io/npm/v/log4.svg
-[npm-url]: https://www.npmjs.com/package/log4
+[npm-image]: https://img.shields.io/npm/v/log.svg
+[npm-url]: https://www.npmjs.com/package/log
