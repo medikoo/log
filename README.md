@@ -75,13 +75,13 @@ _The first argument is a string containing zero or more placeholder tokens. Each
 -   _`%O` - Object. A string representation of an object with generic JavaScript object formatting. Similar to util.inspect() without options. This will show the full object not including non-enumerable symbols and properties._
 -   _`%%` - single percent sign ('%'). This does not consume an argument._
 
-_Note to log writer configuration developers: For cross-env compatibiity it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)_
+_Note to log writer configuration developers: For cross-env compatibility it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)_
 
 #### Enabling log writing
 
-`log` on its own doesn't write anything to the console on any other mean (it just emits events to be consumed by preloaded log writers)
+`log` on its own doesn't write anything to the console or any other means (it just emits events to be consumed by preloaded log writers).
 
-To have logs written, the pre-chosen log writer needs to be initialized in main (starting) module of a process.
+To have logs written, the pre-chosen log writer needs to be initialized in the main (starting) module of a process.
 
 ##### List of available log writers
 
@@ -92,7 +92,7 @@ _Note: if some writer is missing, propose a PR_
 
 #### Logs Visibility
 
-Default visibility depends on the enviroment (see chosen log writer for more information), and in most cases is setup through following environment variables:
+Default visibility depends on the enviroment (see chosen log writer for more information), and in most cases is setup through the following environment variables:
 
 ###### `LOG_LEVEL`
 
