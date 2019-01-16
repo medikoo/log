@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "browserstack-tape-runner": "2",
-    "cjs-module": "1.4",
+    "cjs-module": "^1.4",
     "eslint": "^5.6",
     "eslint-config-medikoo-es5": "^1.7.1",
     "istanbul": "^0.4.5",
