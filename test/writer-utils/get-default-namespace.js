@@ -1,7 +1,7 @@
 "use strict";
 
 var test            = require("tape")
-  , requireUncached = require("cjs-module/require-uncached");
+  , requireUncached = require("ncjsm/require-uncached");
 
 test("writerUtils.getDefaultNamespace", function (t) {
 	var getDefaultNamespace = requireUncached(
