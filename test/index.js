@@ -162,6 +162,7 @@ test("(main)", function (t) {
 					log.get("marko").get("barko").apply(null, testArgs);
 				}
 			);
+			t.end();
 		});
 		t.end();
 	});
@@ -316,6 +317,7 @@ test("(main)", function (t) {
 			});
 			log.get("echi:marki");
 		});
+		t.end();
 	});
 
 	t.test("Should expose known (syslog) levels", function (t) {
