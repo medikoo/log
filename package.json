@@ -24,9 +24,10 @@
     "cjs-module": "^1.5",
     "eslint": "^5.13",
     "eslint-config-medikoo-es5": "^1.7.1",
+    "essentials": "1",
     "nyc": "^13.2",
     "tape": "^4.10",
-    "tape-index": "2"
+    "tape-index": "3"
   },
   "eslintConfig": {
     "extends": "medikoo-es5",
@@ -36,8 +37,10 @@
     "coverage": "nyc --reporter=lcov --reporter=html --reporter=text-summary npm test",
     "check-coverage": "npm run coverage && nyc check-coverage --statements 100 --function 100 --branches 100 --lines 100",
     "lint": "eslint --ignore-path=.gitignore .",
-    "test": "tape-index && node test.index.js",
-    "test-browsers": "tape-index && browserstack-tape-runner test.index.js"
+    "test": "npm run test-prepare && npm run test-run",
+    "test-browsers": "tape-index && browserstack-tape-runner test.index.js",
+    "test-prepare": "tape-index",
+    "test-run": "node test.index.js"
   },
   "browserstack": {
     "browsers": [
