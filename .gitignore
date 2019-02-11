@@ -1,3 +1,4 @@
+/.browserstack-runner
 /coverage
 /node_modules
 /test.index.js
