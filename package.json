@@ -23,7 +23,7 @@
     "browserstack-tape-runner": "3",
     "cjs-module": "^1.5",
     "eslint": "^5.13",
-    "eslint-config-medikoo-es5": "^1.7.1",
+    "eslint-config-medikoo-es5": "2",
     "essentials": "1",
     "git-list-updated": "^1.1.2",
     "nyc": "^13.2",
