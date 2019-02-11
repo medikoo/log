@@ -20,7 +20,7 @@
     "event-emitter": "^0.3.5"
   },
   "devDependencies": {
-    "browserstack-tape-runner": "2",
+    "browserstack-tape-runner": "3",
     "cjs-module": "^1.5",
     "eslint": "^5.13",
     "eslint-config-medikoo-es5": "^1.7.1",
