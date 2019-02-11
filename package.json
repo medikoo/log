@@ -16,16 +16,16 @@
   },
   "dependencies": {
     "d": "1",
-    "es5-ext": "^0.10.46",
+    "es5-ext": "^0.10.47",
     "event-emitter": "^0.3.5"
   },
   "devDependencies": {
     "browserstack-tape-runner": "2",
-    "cjs-module": "^1.4",
-    "eslint": "^5.6",
+    "cjs-module": "^1.5",
+    "eslint": "^5.13",
     "eslint-config-medikoo-es5": "^1.7.1",
     "istanbul": "^0.4.5",
-    "tape": "^4.9.1",
+    "tape": "^4.10",
     "tape-index": "2"
   },
   "eslintConfig": {
