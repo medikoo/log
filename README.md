@@ -116,7 +116,7 @@ Project cross-browser compatibility supported by:
 
 [nix-build-image]: https://semaphoreci.com/api/v1/medikoo-org/log/branches/master/shields_badge.svg
 [nix-build-url]: https://semaphoreci.com/medikoo-org/log
-[win-build-image]: https://ci.appveyor.com/api/projects/status/i77xe4unnscrkews?svg=true
+[win-build-image]: https://ci.appveyor.com/api/projects/status/jmw8p7g98x83itr0?svg=true
 [win-build-url]: https://ci.appveyor.com/project/medikoo/log
 [cov-image]: https://img.shields.io/codecov/c/github/medikoo/log.svg
 [cov-url]: https://codecov.io/gh/medikoo/log
