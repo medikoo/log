@@ -33,30 +33,19 @@ var loggerPrototype = Object.create(
 			// Initializes and returns namespaced logger
 			get: d(function (namespace) {
 				namespace = ensureString(namespace);
-				return namespace
-					.split(":")
-					.reduce(function (currentLogger, token) {
-						return currentLogger.createNamespace(token);
-					}, this);
-			}),
-
-			createNamespace: d(function (namespaceToken) {
-				namespaceToken = ensureString(namespaceToken);
-				if (!isNamespaceToken(namespaceToken)) {
-					throw new TypeError(
-						toShortString(namespaceToken) +
-							" is not a valid namespace token (only 'a-z0-9-' chars are allowed)"
-					);
-				}
-				if (this._childNamespaceLoggers[namespaceToken]) {
-					return this._childNamespaceLoggers[namespaceToken];
-				}
-				var logger = Object.defineProperties(this._createLogger(), {
-					_namespaceToken: d("", namespaceToken)
+				var namespaceTokens = namespace.split(":");
+				namespaceTokens.forEach(function (namespaceToken) {
+					if (!isNamespaceToken(namespaceToken)) {
+						throw new TypeError(
+							toShortString(namespace) +
+								" is not a valid namespace string " +
+								"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
+						);
+					}
 				});
-				this._childNamespaceLoggers[namespaceToken] = logger;
-				emitter.emit("init", { logger: logger });
-				return logger;
+				return namespaceTokens.reduce(function (currentLogger, token) {
+					return currentLogger._createNamespace(token);
+				}, this);
 			}),
 
 			// Enables logger and all its namespaced children
@@ -100,6 +89,17 @@ var loggerPrototype = Object.create(
 					emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
 				}, this);
 			}),
+			_createNamespace: d(function (namespaceToken) {
+				if (this._childNamespaceLoggers[namespaceToken]) {
+					return this._childNamespaceLoggers[namespaceToken];
+				}
+				var logger = Object.defineProperties(this._createLogger(), {
+					_namespaceToken: d("", namespaceToken)
+				});
+				this._childNamespaceLoggers[namespaceToken] = logger;
+				emitter.emit("init", { logger: logger });
+				return logger;
+			}),
 
 			_namespaceToken: d("", null),
 			_getLevelLogger: d(function (newLevel) {
@@ -107,7 +107,7 @@ var loggerPrototype = Object.create(
 				if (this.level === newLevel) return this;
 				var levelLogger = createLevelLogger(newLevel);
 				return this.namespaceTokens.reduce(function (currentLogger, token) {
-					return currentLogger.createNamespace(token);
+					return currentLogger._createNamespace(token);
 				}, levelLogger);
 			}),
 			_setEnabledState: d(function (state) {
