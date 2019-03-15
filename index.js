@@ -20,13 +20,6 @@ var levelLoggers = Object.create(null);
 
 var createLevelLogger;
 
-var createLogger = function (prototype) {
-	return setPrototypeOf(function self(msgItemIgnored/*, ...msgItemn*/) {
-		emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
-		// eslint-disable-next-line no-use-before-define
-	}, prototype || loggerPrototype);
-};
-
 var loggerPrototype = Object.create(
 	Function.prototype,
 	assign(
@@ -58,7 +51,7 @@ var loggerPrototype = Object.create(
 				if (this._childNamespaceLoggers[namespaceToken]) {
 					return this._childNamespaceLoggers[namespaceToken];
 				}
-				var logger = Object.defineProperties(createLogger(this), {
+				var logger = Object.defineProperties(this._createLogger(), {
 					_namespaceToken: d("", namespaceToken)
 				});
 				this._childNamespaceLoggers[namespaceToken] = logger;
@@ -101,6 +94,12 @@ var loggerPrototype = Object.create(
 
 			// Internal properties and methods
 			// -----------------------------------------
+
+			_createLogger: d(function () {
+				return setPrototypeOf(function self(msgItemIgnored/*, ...msgItemn*/) {
+					emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
+				}, this);
+			}),
 
 			_namespaceToken: d("", null),
 			_getLevelLogger: d(function (newLevel) {
@@ -190,7 +189,7 @@ var loggerPrototype = Object.create(
 
 createLevelLogger = function (levelName) {
 	if (levelLoggers[levelName]) return levelLoggers[levelName];
-	var logger = createLogger();
+	var logger = loggerPrototype._createLogger();
 	Object.defineProperties(logger, {
 		level: d("e", levelName),
 		levelIndex: d("e", levelNames.indexOf(levelName)),
