@@ -18,8 +18,6 @@ var aFrom            = require("es5-ext/array/from")
 // Map of initialized top level loggers
 var levelLoggers = Object.create(null);
 
-var createLevelLogger;
-
 var loggerPrototype = Object.create(
 	Function.prototype,
 	assign(
@@ -89,6 +87,18 @@ var loggerPrototype = Object.create(
 					emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
 				}, this);
 			}),
+			_createLevel: d(function (levelName) {
+				if (levelLoggers[levelName]) return levelLoggers[levelName];
+				var logger = loggerPrototype._createLogger();
+				Object.defineProperties(logger, {
+					level: d("e", levelName),
+					levelIndex: d("e", levelNames.indexOf(levelName)),
+					levelRoot: d("e", logger)
+				});
+				levelLoggers[levelName] = logger;
+				emitter.emit("init", { logger: logger });
+				return logger;
+			}),
 			_createNamespace: d(function (namespaceToken) {
 				if (this._childNamespaceLoggers[namespaceToken]) {
 					return this._childNamespaceLoggers[namespaceToken];
@@ -104,7 +114,7 @@ var loggerPrototype = Object.create(
 			_namespaceToken: d("", null),
 			_getLevelLogger: d(function (newLevel) {
 				if (this.level === newLevel) return this;
-				var levelLogger = createLevelLogger(newLevel);
+				var levelLogger = this._createLevel(newLevel);
 				return this.namespaceTokens.reduce(function (currentLogger, token) {
 					return currentLogger._createNamespace(token);
 				}, levelLogger);
@@ -186,18 +196,5 @@ var loggerPrototype = Object.create(
 	)
 );
 
-createLevelLogger = function (levelName) {
-	if (levelLoggers[levelName]) return levelLoggers[levelName];
-	var logger = loggerPrototype._createLogger();
-	Object.defineProperties(logger, {
-		level: d("e", levelName),
-		levelIndex: d("e", levelNames.indexOf(levelName)),
-		levelRoot: d("e", logger)
-	});
-	levelLoggers[levelName] = logger;
-	emitter.emit("init", { logger: logger });
-	return logger;
-};
-
 // Exports "debug" level logger as a starting point
-module.exports = createLevelLogger("debug");
+module.exports = loggerPrototype._createLevel("debug");
