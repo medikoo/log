@@ -171,8 +171,7 @@ var loggerPrototype = Object.create(
 );
 
 var createLogger = function (prototype) {
-	// eslint-disable-next-line no-unused-vars
-	return setPrototypeOf(function self(msgItem1/*, ...msgItemn*/) {
+	return setPrototypeOf(function self(msgItemIgnored/*, ...msgItemn*/) {
 		emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
 	}, prototype || loggerPrototype);
 };
