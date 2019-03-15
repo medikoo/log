@@ -18,7 +18,14 @@ var aFrom            = require("es5-ext/array/from")
 // Map of initialized top level loggers
 var levelLoggers = Object.create(null);
 
-var createLevelLogger, createNamespaceLogger;
+var createLevelLogger;
+
+var createLogger = function (prototype) {
+	return setPrototypeOf(function self(msgItemIgnored/*, ...msgItemn*/) {
+		emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
+		// eslint-disable-next-line no-use-before-define
+	}, prototype || loggerPrototype);
+};
 
 var loggerPrototype = Object.create(
 	Function.prototype,
@@ -33,19 +40,30 @@ var loggerPrototype = Object.create(
 			// Initializes and returns namespaced logger
 			get: d(function (namespace) {
 				namespace = ensureString(namespace);
-				var namespaceTokens = namespace.split(":");
-				namespaceTokens.forEach(function (namespaceToken) {
-					if (!isNamespaceToken(namespaceToken)) {
-						throw new TypeError(
-							toShortString(namespace) +
-								" is not a valid namespace string " +
-								"(only 'a-z0-9-' chars are allowed and ':' as delimiter)"
-						);
-					}
+				return namespace
+					.split(":")
+					.reduce(function (currentLogger, token) {
+						return currentLogger.createNamespace(token);
+					}, this);
+			}),
+
+			createNamespace: d(function (namespaceToken) {
+				namespaceToken = ensureString(namespaceToken);
+				if (!isNamespaceToken(namespaceToken)) {
+					throw new TypeError(
+						toShortString(namespaceToken) +
+							" is not a valid namespace token (only 'a-z0-9-' chars are allowed)"
+					);
+				}
+				if (this._childNamespaceLoggers[namespaceToken]) {
+					return this._childNamespaceLoggers[namespaceToken];
+				}
+				var logger = Object.defineProperties(createLogger(this), {
+					_namespaceToken: d("", namespaceToken)
 				});
-				return namespaceTokens.reduce(function (currentLogger, token) {
-					return createNamespaceLogger(currentLogger, token);
-				}, this);
+				this._childNamespaceLoggers[namespaceToken] = logger;
+				emitter.emit("init", { logger: logger });
+				return logger;
 			}),
 
 			// Enables logger and all its namespaced children
@@ -90,7 +108,7 @@ var loggerPrototype = Object.create(
 				if (this.level === newLevel) return this;
 				var levelLogger = createLevelLogger(newLevel);
 				return this.namespaceTokens.reduce(function (currentLogger, token) {
-					return createNamespaceLogger(currentLogger, token);
+					return currentLogger.createNamespace(token);
 				}, levelLogger);
 			}),
 			_setEnabledState: d(function (state) {
@@ -170,12 +188,6 @@ var loggerPrototype = Object.create(
 	)
 );
 
-var createLogger = function (prototype) {
-	return setPrototypeOf(function self(msgItemIgnored/*, ...msgItemn*/) {
-		emitter.emit("log", { logger: self, messageTokens: aFrom(arguments) });
-	}, prototype || loggerPrototype);
-};
-
 createLevelLogger = function (levelName) {
 	if (levelLoggers[levelName]) return levelLoggers[levelName];
 	var logger = createLogger();
@@ -185,18 +197,6 @@ createLevelLogger = function (levelName) {
 		levelRoot: d("e", logger)
 	});
 	levelLoggers[levelName] = logger;
-	emitter.emit("init", { logger: logger });
-	return logger;
-};
-
-createNamespaceLogger = function (parent, namespaceToken) {
-	if (parent._childNamespaceLoggers[namespaceToken]) {
-		return parent._childNamespaceLoggers[namespaceToken];
-	}
-	var logger = Object.defineProperties(createLogger(parent), {
-		_namespaceToken: d("", namespaceToken)
-	});
-	parent._childNamespaceLoggers[namespaceToken] = logger;
 	emitter.emit("init", { logger: logger });
 	return logger;
 };
