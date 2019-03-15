@@ -122,7 +122,10 @@ test("writerUtils.setupVisibility", function (t) {
 
 	t.test("Fallbacks to notice level as threshold, if invalid one is provided", function (t) {
 		requireUncached(
-			[require.resolve("../../"), require.resolve("../../lib/setup-visibility")],
+			[
+				require.resolve("../../"), require.resolve("../../lib/setup-visibility"),
+				require.resolve("../../lib/private/logger-prototype")
+			],
 			function () {
 				log = require("../..");
 				setupEnv = require("../../lib/setup-visibility");
