@@ -1,0 +1,10 @@
+{
+    "debug": "●",
+    "info": "ℹ",
+    "notice": "ℹ",
+    "warning": "⚠",
+    "error": "✖",
+    "critical": "✖",
+    "alert": "✖",
+    "emergency": "✖"
+}

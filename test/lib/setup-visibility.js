@@ -7,10 +7,10 @@ test("writerUtils.setupVisibility", function (t) {
 	var log, setupEnv;
 
 	requireUncached(
-		[require.resolve("../../"), require.resolve("../../writer-utils/setup-visibility")],
+		[require.resolve("../../"), require.resolve("../../lib/setup-visibility")],
 		function () {
-			log = require("../../");
-			setupEnv = require("../../writer-utils/setup-visibility");
+			log = require("../..");
+			setupEnv = require("../../lib/setup-visibility");
 		}
 	);
 
@@ -99,10 +99,10 @@ test("writerUtils.setupVisibility", function (t) {
 
 	t.test("Global '*' enables all debug logs", function (t) {
 		requireUncached(
-			[require.resolve("../../"), require.resolve("../../writer-utils/setup-visibility")],
+			[require.resolve("../../"), require.resolve("../../lib/setup-visibility")],
 			function () {
-				log = require("../../");
-				setupEnv = require("../../writer-utils/setup-visibility");
+				log = require("../..");
+				setupEnv = require("../../lib/setup-visibility");
 			}
 		);
 
@@ -122,10 +122,10 @@ test("writerUtils.setupVisibility", function (t) {
 
 	t.test("Fallbacks to notice level as threshold, if invalid one is provided", function (t) {
 		requireUncached(
-			[require.resolve("../../"), require.resolve("../../writer-utils/setup-visibility")],
+			[require.resolve("../../"), require.resolve("../../lib/setup-visibility")],
 			function () {
-				log = require("../../");
-				setupEnv = require("../../writer-utils/setup-visibility");
+				log = require("../..");
+				setupEnv = require("../../lib/setup-visibility");
 			}
 		);
 

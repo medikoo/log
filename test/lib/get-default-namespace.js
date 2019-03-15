@@ -5,8 +5,8 @@ var test            = require("tape")
 
 test("writerUtils.getDefaultNamespace", function (t) {
 	var getDefaultNamespace = requireUncached(
-		require.resolve("../../writer-utils/get-default-namespace"),
-		function () { return require("../../writer-utils/get-default-namespace"); }
+		require.resolve("../../lib/get-default-namespace"),
+		function () { return require("../../lib/get-default-namespace"); }
 	);
 
 	t.test("Preset default namespace is null", function (t) {

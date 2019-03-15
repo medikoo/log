@@ -6,8 +6,8 @@ var test            = require("tape")
 test("writerUtils.registerMaster", function (t) {
 	var registerMaster;
 
-	requireUncached(require.resolve("../../writer-utils/register-master"), function () {
-		registerMaster = require("../../writer-utils/register-master");
+	requireUncached(require.resolve("../../lib/register-master"), function () {
+		registerMaster = require("../../lib/register-master");
 	});
 
 	t.test("Should return true on first registration", function (t) {

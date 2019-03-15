@@ -12,7 +12,7 @@ var aFrom            = require("es5-ext/array/from")
   , d                = require("d")
   , lazy             = require("d/lazy")
   , isNamespaceToken = require("./lib/private/is-namespace-token")
-  , emitter          = require("./writer-utils/emitter")
+  , emitter          = require("./lib/emitter")
   , levelNames       = require("./levels");
 
 // Map of initialized top level loggers
