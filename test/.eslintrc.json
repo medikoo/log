@@ -1,6 +1,1 @@
-{
-  "rules": {
-    "max-lines": "off",
-    "max-statements": "off"
-  }
-}
+{ "rules": { "max-lines": "off", "max-statements": "off" } }
