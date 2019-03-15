@@ -103,7 +103,6 @@ var loggerPrototype = Object.create(
 
 			_namespaceToken: d("", null),
 			_getLevelLogger: d(function (newLevel) {
-				newLevel = ensureString(newLevel);
 				if (this.level === newLevel) return this;
 				var levelLogger = createLevelLogger(newLevel);
 				return this.namespaceTokens.reduce(function (currentLogger, token) {
