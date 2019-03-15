@@ -1,8 +1,8 @@
 "use strict";
 
 var test    = require("tape")
-  , log     = require("../index")
-  , emitter = require("../lib/emitter");
+  , log     = require("../../index")
+  , emitter = require("../../lib/emitter");
 
 test("(main)", function (t) {
 	var testArgs = ["foo", 12, null, {}];
