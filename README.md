@@ -110,7 +110,7 @@ It follows convention configured within [debug](https://github.com/visionmedia/d
 
 Writers are recommended to to expose timestamps aside each log when following env var is set
 
-##### `LOG_TIME`
+###### `LOG_TIME`
 
 -   `rel` (default) - Logs time elapsed since logger initialization
 -   `abs` - Logs absolute time in ISO 8601 format
