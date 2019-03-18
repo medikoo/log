@@ -42,7 +42,7 @@ test("(main): Namespace", function (t) {
 			var currentLog = log.get("marko:barko");
 
 			t.test("which expose", function (t) {
-				t.equal(currentLog.level, "debug", "expected level");
+				t.equal(currentLog.level, "info", "expected level");
 				t.equal(currentLog.namespace, "marko:barko", "expected namespace");
 				t.deepEqual(
 					currentLog.namespaceTokens, ["marko", "barko"], "expected namespace tokens list"
@@ -57,7 +57,7 @@ test("(main): Namespace", function (t) {
 			var currentLog = log.get("marko").get("barko");
 
 			t.test("which expose", function (t) {
-				t.equal(currentLog.level, "debug", "expected level");
+				t.equal(currentLog.level, "info", "expected level");
 				t.equal(currentLog.namespace, "marko:barko", "expected namespace");
 				t.deepEqual(
 					currentLog.namespaceTokens, ["marko", "barko"], "expected namespace tokens list"

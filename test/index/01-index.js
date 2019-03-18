@@ -5,11 +5,11 @@ var test = require("tape")
 
 test("(main)", function (t) {
 	t.test("Should by default", function (t) {
-		t.equal(log.level, "debug", "be at 'debug' level");
+		t.equal(log.level, "info", "be at 'info' level");
 		t.end();
 	});
 
-	t.equal(log.debug, log, "Should expose default 'debug' level at 'debug' property");
+	t.equal(log.info, log, "Should expose default 'debug' level at 'debug' property");
 
 	t.test("Should allow to create loggers of other levels", function (t) {
 		var currentLog = log.get("foo").error;
@@ -18,7 +18,7 @@ test("(main)", function (t) {
 			t.equal(currentLog.level, "error", "expected level");
 			t.equal(currentLog.namespace, "foo", "expected namespace");
 			t.deepEqual(currentLog.namespaceTokens, ["foo"], "expected namespace tokens list");
-			t.equal(currentLog.debug, log.get("foo"), "Other levels in same namespace");
+			t.equal(currentLog.info, log.get("foo"), "Other levels in same namespace");
 			t.equal(currentLog.error, currentLog, "Current level at it's name property");
 			t.end();
 		});
@@ -34,7 +34,7 @@ test("(main)", function (t) {
 			log.isLevelInitialized("critical"), false, "returns false on non setup predefined level"
 		);
 		t.equal(log.isLevelInitialized("error"), true, "returns true on setup predefined level");
-		t.equal(log.isLevelInitialized("debug"), true, "return true on self level");
+		t.equal(log.isLevelInitialized("info"), true, "return true on self level");
 		t.equal(
 			log.get("foorkot").isLevelInitialized("error"), false,
 			"returns false if there's no setup level logger for given namespace"
@@ -57,8 +57,8 @@ test("(main)", function (t) {
 	t.test(
 		"Should create single (reusable) logger instances per level/name configuration",
 		function (t) {
-			t.equal(log, log.debug);
-			t.notEqual(log, log.info);
+			t.equal(log, log.info);
+			t.notEqual(log, log.debug);
 			t.equal(log.info, log.info);
 			t.equal(log.info, log.info.info);
 			t.end();

@@ -15,23 +15,23 @@
 #### Writing logs
 
 ```javascript
-// Default logger writes at 'debug' level
+// Default logger writes at 'info' level
 const log = require("log");
 
-// Log 'debug' level message:
-log("some debug message %s", "injected string");
+// Log 'info' level message:
+log("some info message %s", "injected string");
 
 // Get namespaced logger (debug lib style)
 log = log.get("my-lib");
 
-// Log 'debug' level message in context of 'my-lib' namespace:
-log("some debug message in 'my-lib' namespace context");
+// Log 'info' level message in context of 'my-lib' namespace:
+log("some info message in 'my-lib' namespace context");
 
 // Namespaces can be nested
 log = log.get("func");
 
-// Log 'debug' level message in context of 'my-lib:func' namespace:
-log("some debug message in 'my-lib:func' namespace context");
+// Log 'info' level message in context of 'my-lib:func' namespace:
+log("some info message in 'my-lib:func' namespace context");
 
 // Log 'error' level message in context of 'my-lib:func' namespace:
 log.error("some error message");
