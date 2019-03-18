@@ -3,7 +3,7 @@
 var test            = require("tape")
   , requireUncached = require("ncjsm/require-uncached");
 
-test("writerUtils.registerMaster", function (t) {
+test("lib/registerMaster", function (t) {
 	var registerMaster;
 
 	requireUncached(require.resolve("../../lib/register-master"), function () {

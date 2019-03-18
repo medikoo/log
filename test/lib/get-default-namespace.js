@@ -3,7 +3,7 @@
 var test            = require("tape")
   , requireUncached = require("ncjsm/require-uncached");
 
-test("writerUtils.getDefaultNamespace", function (t) {
+test("lib/getDefaultNamespace", function (t) {
 	var getDefaultNamespace = requireUncached(
 		require.resolve("../../lib/get-default-namespace"),
 		function () { return require("../../lib/get-default-namespace"); }

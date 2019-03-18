@@ -3,7 +3,7 @@
 var test            = require("tape")
   , requireUncached = require("ncjsm/require-uncached");
 
-test("lib: setupVisibility: Affects already created loggers", function (t) {
+test("lib/setupVisibility: Affects already created loggers", function (t) {
 	var log, setupEnv;
 
 	requireUncached(

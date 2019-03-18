@@ -3,7 +3,7 @@
 var test            = require("tape")
   , requireUncached = require("ncjsm/require-uncached");
 
-test("lib: setupVisibility: Global '*' enables all debug logs", function (t) {
+test("lib/setupVisibility: Global '*' enables all debug logs", function (t) {
 	var log, setupEnv;
 
 	requireUncached(
