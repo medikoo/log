@@ -72,7 +72,7 @@ test("(main): Events", function (t) {
 		t.test("new level logger instance is created", function (t) {
 			var currentLog, caughtEvent;
 			emitter.once("init", function (event) { caughtEvent = event; });
-			currentLog = log.critical;
+			currentLog = log.warn;
 			t.equal(caughtEvent.logger, currentLog, "Event should expose initialized logger");
 			t.end();
 		});

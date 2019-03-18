@@ -72,9 +72,6 @@ test("(main)", function (t) {
 		t.equal(typeof log.notice, "function");
 		t.equal(typeof log.warning, "function");
 		t.equal(typeof log.error, "function");
-		t.equal(typeof log.critical, "function");
-		t.equal(typeof log.alert, "function");
-		t.equal(typeof log.emergency, "function");
 		t.end();
 	});
 

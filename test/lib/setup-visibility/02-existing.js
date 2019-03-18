@@ -22,7 +22,6 @@ test("lib: setupVisibility: Affects already created loggers", function (t) {
 	log.debug.get("e1:d");
 	log.warning.get("e2:e");
 	log.error.get("foo");
-	log.alert.get("foo");
 	log.warning.get("e1");
 
 	setupEnv("error", ["e1", "-e1:d", "n1:d", "-n1:d:foo:*"]);
@@ -30,7 +29,6 @@ test("lib: setupVisibility: Affects already created loggers", function (t) {
 	t.equal(log.debug.isEnabled, false, "Disables level logger deep below level threshold");
 	t.equal(log.warning.isEnabled, false, "Disables level logger just below threshold");
 	t.equal(log.error.isEnabled, true, "Keeps logger at the threshold enabled");
-	t.equal(log.alert.isEnabled, true, "Keeps loggers above threshold enabled");
 
 	t.test("Applies debug namespace map for level loggers below threshold", function (t) {
 		t.equal(log.warning.get("e1").isEnabled, true, "Enables directly mentioned namespace");

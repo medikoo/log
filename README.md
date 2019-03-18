@@ -46,16 +46,16 @@ log.error("error message to be logged");
 
 #### Available log levels
 
-Mirror of syslog (in severity order):
+Mirror of applicable syslog levels (in severity order):
 
--   `debug` - debugging information
--   `info` - a purely informational message
+-   `debug` - debugging information (hidden by default)
+-   `info` - a purely informational message (hidden by default)
 -   `notice` - condition normal, but significant
 -   `warning` (also aliased as `warn`) - condition warning
--   `error` - condition error
--   `critical` - condition critical
--   `alert` - immediate action required
--   `emergency` - system unusable
+-   `error` - condition error - to notify of errors accompanied with recovery mechanism (hence reported as log and not as uncaught exception)
+
+_Note: `critical`, `alert`, `emergency` are not exposed as seem to not serve a use case in context of JS applications,
+such errors should be exposed as typical exceptions_
 
 #### Output message formatting
 
