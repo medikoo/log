@@ -1,76 +1,76 @@
 {
-  "name": "log",
-  "version": "3.2.0",
-  "description": "Universal pluggable logging utility",
-  "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
-  "keywords": [
-    "log",
-    "logger",
-    "debug",
-    "bunyan",
-    "winston"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/medikoo/log.git"
-  },
-  "dependencies": {
-    "d": "^1.0.0",
-    "es5-ext": "^0.10.49",
-    "event-emitter": "^0.3.5"
-  },
-  "devDependencies": {
-    "browserstack-tape-runner": "^3.0.0",
-    "eslint": "^5.15.1",
-    "eslint-config-medikoo-es5": "^2.0.0",
-    "essentials": "^1.0.0",
-    "git-list-updated": "^1.1.2",
-    "husky": "^1.3.1",
-    "lint-staged": "^8.1.5",
-    "ncjsm": "^2.0.0",
-    "nyc": "^13.3.0",
-    "prettier-elastic": "^1.16.4",
-    "tape": "^4.10.1",
-    "tape-index": "^3.0.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint"
-    ],
-    "*.{css,html,js,json,md,yaml,yml}": [
-      "prettier -c"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "medikoo-es5",
-    "root": true
-  },
-  "scripts": {
-    "coverage": "nyc --reporter=lcov --reporter=html --reporter=text-summary npm test",
-    "check-coverage": "npm run coverage && nyc check-coverage --statements 100 --function 100 --branches 100 --lines 100",
-    "lint": "eslint --ignore-path=.gitignore .",
-    "lint-updated": "pipe-git-updated --ext=js -- eslint --ignore-pattern '!*'",
-    "prettier-check-updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
-    "prettify": "prettier --write --ignore-path .gitignore '**/*.{css,html,js,json,md,yaml,yml}'",
-    "test": "npm run test-prepare && npm run test-run",
-    "test-browsers": "tape-index && browserstack-tape-runner test.index.js",
-    "test-prepare": "tape-index",
-    "test-run": "node test.index.js"
-  },
-  "browserstack": {
-    "browsers": [
-      "chrome_current",
-      "firefox_current",
-      "safari_current",
-      "opera_current",
-      "ie_11",
-      "edge_current"
-    ]
-  },
-  "license": "ISC"
+	"name": "log",
+	"version": "3.2.0",
+	"description": "Universal pluggable logging utility",
+	"author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
+	"keywords": [
+		"log",
+		"logger",
+		"debug",
+		"bunyan",
+		"winston"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/medikoo/log.git"
+	},
+	"dependencies": {
+		"d": "^1.0.0",
+		"es5-ext": "^0.10.49",
+		"event-emitter": "^0.3.5"
+	},
+	"devDependencies": {
+		"browserstack-tape-runner": "^3.0.0",
+		"eslint": "^5.15.1",
+		"eslint-config-medikoo-es5": "^2.0.0",
+		"essentials": "^1.0.0",
+		"git-list-updated": "^1.1.2",
+		"husky": "^1.3.1",
+		"lint-staged": "^8.1.5",
+		"ncjsm": "^2.0.0",
+		"nyc": "^13.3.0",
+		"prettier-elastic": "^1.16.4",
+		"tape": "^4.10.1",
+		"tape-index": "^3.0.1"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.js": [
+			"eslint"
+		],
+		"*.{css,html,js,json,md,yaml,yml}": [
+			"prettier -c"
+		]
+	},
+	"eslintConfig": {
+		"extends": "medikoo-es5",
+		"root": true
+	},
+	"scripts": {
+		"coverage": "nyc --reporter=lcov --reporter=html --reporter=text-summary npm test",
+		"check-coverage": "npm run coverage && nyc check-coverage --statements 100 --function 100 --branches 100 --lines 100",
+		"lint": "eslint --ignore-path=.gitignore .",
+		"lint-updated": "pipe-git-updated --ext=js -- eslint --ignore-pattern '!*'",
+		"prettier-check-updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
+		"prettify": "prettier --write --ignore-path .gitignore '**/*.{css,html,js,json,md,yaml,yml}'",
+		"test": "npm run test-prepare && npm run test-run",
+		"test-browsers": "tape-index && browserstack-tape-runner test.index.js",
+		"test-prepare": "tape-index",
+		"test-run": "node test.index.js"
+	},
+	"browserstack": {
+		"browsers": [
+			"chrome_current",
+			"firefox_current",
+			"safari_current",
+			"opera_current",
+			"ie_11",
+			"edge_current"
+		]
+	},
+	"license": "ISC"
 }
