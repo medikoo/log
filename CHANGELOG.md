@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [4.0.0](https://github.com/medikoo/log/compare/v3.2.0...v4.0.0) (2019-03-18)
+
+### Code Refactoring
+
+-   move writer-utils to lib ([429aec5](https://github.com/medikoo/log/commit/429aec5))
+
+### Features
+
+-   LOG_TIME recommendation and utils ([6af9400](https://github.com/medikoo/log/commit/6af9400)), closes [#9](https://github.com/medikoo/log/issues/9)
+-   make 'info' level default ([4a1fa53](https://github.com/medikoo/log/commit/4a1fa53))
+-   not applicable syslog levels ([57c879a](https://github.com/medikoo/log/commit/57c879a))
+-   upgrade linter ([eba6bb4](https://github.com/medikoo/log/commit/eba6bb4))
+
+### BREAKING CHANGES
+
+-   'critical', 'alert' and 'emergency' levels were dropped as seem to
+    not serve a use case in context of JS apps
+-   Default level was changed from 'debug' to 'info'
+-   Or writer-utils were moved to lib
+
 <a name="3.2.0"></a>
 
 # [3.2.0](https://github.com/medikoo/log/compare/v3.1.0...v3.2.0) (2018-11-29)
