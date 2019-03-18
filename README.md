@@ -106,6 +106,15 @@ List is comma separated as e.g. `foo,-foo:bar` (expose all `foo` but not `foo:ba
 
 It follows convention configured within [debug](https://github.com/visionmedia/debug#windows-note). To ease eventual migration from [debug](https://github.com/visionmedia/debug), configuration fallbacks to `DEBUG` env var if `LOG_DEBUG` is not present.
 
+#### Timestamps logging
+
+Writers are recommended to to expose timestamps aside each log when following env var is set
+
+##### `LOG_TIME`
+
+-   `rel` (default) - Logs time elapsed since logger initialization
+-   `abs` - Logs absolute time in ISO 8601 format
+
 ### Tests
 
     $ npm test
