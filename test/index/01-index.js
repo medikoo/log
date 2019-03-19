@@ -77,7 +77,7 @@ test("(main)", function (t) {
 
 	t.test("Should expose level index", function (t) {
 		t.equal(log.notice.levelIndex, 2);
-		t.equal(log.error.levelIndex, 4);
+		t.equal(log.error.levelIndex, 0);
 		t.end();
 	});
 
