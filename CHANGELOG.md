@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [5.0.0](https://github.com/medikoo/log/compare/v4.0.1...v5.0.0) (2019-03-19)
+
+### Features
+
+-   reverse levels order ([d13c91e](https://github.com/medikoo/log/commit/d13c91e)), closes [#12](https://github.com/medikoo/log/issues/12)
+
+### BREAKING CHANGES
+
+-   Level indexes were reversed to match RFC 5424.
+    Now `error` level has `0` index , and `debug` `4`
+
 ## [4.0.1](https://github.com/medikoo/log/compare/v4.0.0...v4.0.1) (2019-03-18)
 
 # [4.0.0](https://github.com/medikoo/log/compare/v3.2.0...v4.0.0) (2019-03-18)
