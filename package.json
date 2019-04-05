@@ -22,7 +22,7 @@
 	},
 	"devDependencies": {
 		"browserstack-tape-runner": "^3.0.0",
-		"eslint": "^5.15.2",
+		"eslint": "^5.16.0",
 		"eslint-config-medikoo-es5": "^2.0.0",
 		"essentials": "^1.0.0",
 		"git-list-updated": "^1.1.2",
@@ -32,7 +32,7 @@
 		"nyc": "^13.3.0",
 		"prettier-elastic": "^1.16.4",
 		"tape": "^4.10.1",
-		"tape-index": "^3.0.1"
+		"tape-index": "^3.1.0"
 	},
 	"husky": {
 		"hooks": {
