@@ -18,7 +18,8 @@
 		"d": "^1.0.0",
 		"duration": "^0.2.2",
 		"es5-ext": "^0.10.49",
-		"event-emitter": "^0.3.5"
+		"event-emitter": "^0.3.5",
+		"type": "^1.0.0"
 	},
 	"devDependencies": {
 		"browserstack-tape-runner": "^3.0.0",

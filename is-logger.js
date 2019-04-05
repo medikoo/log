@@ -1,6 +1,6 @@
 "use strict";
 
-var isPlainFunction = require("es5-ext/object/is-plain-function");
+var isPlainFunction = require("type/plain-function/is");
 
 module.exports = function (logger) {
 	if (!isPlainFunction(logger)) return false;

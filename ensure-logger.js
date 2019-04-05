@@ -1,6 +1,6 @@
 "use strict";
 
-var toShortString = require("es5-ext/to-short-string-representation")
+var toShortString = require("type/lib/to-short-string")
   , isLogger      = require("./is-logger");
 
 module.exports = function (logger) {
