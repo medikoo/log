@@ -19,6 +19,7 @@
 		"duration": "^0.2.2",
 		"es5-ext": "^0.10.49",
 		"event-emitter": "^0.3.5",
+		"sprintf-kit": "^2.0.0",
 		"type": "^1.0.0"
 	},
 	"devDependencies": {
@@ -50,7 +51,21 @@
 	},
 	"eslintConfig": {
 		"extends": "medikoo-es5",
-		"root": true
+		"root": true,
+		"overrides": [
+			{
+				"files": "lib/printf-modifiers.js",
+				"rules": {
+					"id-length": "off"
+				}
+			},
+			{
+				"files": "test/lib/printf-modifiers.js",
+				"rules": {
+					"new-cap": "off"
+				}
+			}
+		]
 	},
 	"scripts": {
 		"coverage": "nyc --reporter=lcov --reporter=html --reporter=text-summary npm test",
