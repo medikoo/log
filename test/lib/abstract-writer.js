@@ -6,7 +6,7 @@ var test            = require("tape")
 var resolveUncached = function () {
 	return requireUncached(
 		[
-			require.resolve("../../"), require.resolve("../../lib/writer"),
+			require.resolve("../../"), require.resolve("../../lib/abstract-writer"),
 			require.resolve("../../lib/private/logger-prototype"),
 			require.resolve("../../lib/private/logger-prototype/namespace-props"),
 			require.resolve("../../lib/emitter"), require.resolve("../../lib/register-master"),
@@ -15,14 +15,14 @@ var resolveUncached = function () {
 		function () {
 			return {
 				log: require("../../"),
-				LogWriter: require("../../lib/writer"),
+				LogWriter: require("../../lib/abstract-writer"),
 				emitter: require("../../lib/emitter")
 			};
 		}
 	);
 };
 
-test("lib/writer", function (t) {
+test("lib/abstract-writer", function (t) {
 	t.test(function (t) {
 		var data = resolveUncached();
 		var log = data.log;
