@@ -1,27 +1,7 @@
 "use strict";
 
 var test            = require("tape")
-  , requireUncached = require("ncjsm/require-uncached");
-
-var resolveUncached = function () {
-	return requireUncached(
-		[
-			require.resolve("../../../"), require.resolve("../../../lib/abstract-writer"),
-			require.resolve("../../../lib/private/logger-prototype"),
-			require.resolve("../../../lib/private/logger-prototype/namespace-props"),
-			require.resolve("../../../lib/emitter"),
-			require.resolve("../../../lib/get-master-writer"),
-			require.resolve("../../../lib/setup-visibility")
-		],
-		function () {
-			return {
-				log: require("../../.."),
-				LogWriter: require("../../../lib/abstract-writer"),
-				emitter: require("../../../lib/emitter")
-			};
-		}
-	);
-};
+  , resolveUncached = require("./_resolve-uncached");
 
 test("lib/abstract-writer", function (t) {
 	t.test(function (t) {

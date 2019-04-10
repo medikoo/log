@@ -61,7 +61,7 @@
 			},
 			{
 				"files": [
-					"test/lib/abstract-writer.js",
+					"test/lib/abstract-writer/index.js",
 					"test/lib/printf-modifiers.js"
 				],
 				"rules": {
