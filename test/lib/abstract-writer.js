@@ -9,7 +9,7 @@ var resolveUncached = function () {
 			require.resolve("../../"), require.resolve("../../lib/abstract-writer"),
 			require.resolve("../../lib/private/logger-prototype"),
 			require.resolve("../../lib/private/logger-prototype/namespace-props"),
-			require.resolve("../../lib/emitter"), require.resolve("../../lib/register-master"),
+			require.resolve("../../lib/emitter"), require.resolve("../../lib/get-master-writer"),
 			require.resolve("../../lib/setup-visibility")
 		],
 		function () {
@@ -58,11 +58,15 @@ test("lib/abstract-writer", function (t) {
 		t.end();
 	});
 	t.test(function (t) {
-		t.plan(5);
+		t.plan(6);
 		var data = resolveUncached();
 		var log = data.log;
 		var LogWriter = data.LogWriter;
 		var emitter = data.emitter;
+		t.throws(
+			function () { LogWriter(); }, "cannot be invoked without new",
+			"Shold enforce new invocation"
+		);
 		var logWriter = new LogWriter({}, { defaultNamespace: "elo" });
 		var isInvoked = false;
 		logWriter.writeMessage = function (event) {

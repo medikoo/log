@@ -60,7 +60,10 @@
 				}
 			},
 			{
-				"files": "test/lib/printf-modifiers.js",
+				"files": [
+					"test/lib/abstract-writer.js",
+					"test/lib/printf-modifiers.js"
+				],
 				"rules": {
 					"new-cap": "off"
 				}
