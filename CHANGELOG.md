@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [6.0.0](https://github.com/medikoo/log/compare/v5.1.0...v6.0.0) (2019-04-10)
+
+### Features
+
+-   rename lib/writer to lib/abstract-writer ([60388cb](https://github.com/medikoo/log/commit/60388cb))
+-   replace registerMaster with getMasterWriter ([432b73e](https://github.com/medikoo/log/commit/432b73e))
+
+### BREAKING CHANGES
+
+-   lib/register-master was removed in favor of
+    lib/get-master-writer
+    Writer should be registered using 'register' function
+    as returned by get-master-writer
+-   Writer base class was moved from lib/writer to lib/abstract-writer
+
 # [5.1.0](https://github.com/medikoo/log/compare/v5.0.0...v5.1.0) (2019-04-08)
 
 ### Features
