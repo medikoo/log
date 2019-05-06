@@ -12,7 +12,7 @@
 
 ### Usage
 
-#### Writing logs
+#### 1. Write application/library logs
 
 ```javascript
 // Default logger writes at 'info' level
@@ -44,7 +44,15 @@ restore();
 log.error("error message to be logged");
 ```
 
-#### Available log levels
+#### 2. Initialize log writer in main (starting) process module
+
+e.g. in main Node.js program.
+
+```javascript
+require("log-node")();
+```
+
+### Available log levels
 
 Mirror of applicable syslog levels (in severity order):
 
@@ -57,7 +65,7 @@ Mirror of applicable syslog levels (in severity order):
 _Note: `critical`, `alert`, `emergency` are not exposed as seem to not serve a use case in context of JS applications,
 such errors should be exposed as typical exceptions_
 
-#### Output message formatting
+### Output message formatting
 
 `log` doesn't force any specific arguments handling. Still it is recommended to assume [printf-like](https://en.wikipedia.org/wiki/Printf_format_string) message
 format, as all currently available writers are setup to support it. Placeholders support reflects one implemented in Node.js [format](https://nodejs.org/api/util.html#util_util_format_format_args) util
@@ -77,28 +85,28 @@ _The first argument is a string containing zero or more placeholder tokens. Each
 
 _Note to log writer configuration developers: For cross-env compatibility it is advised to base implementation on [sprintf-kit](https://github.com/medikoo/sprintf-kit)_
 
-#### Enabling log writing
+### Enabling log writing
 
 `log` on its own doesn't write anything to the console or any other means (it just emits events to be consumed by preloaded log writers).
 
 To have logs written, the pre-chosen log writer needs to be initialized in the main (starting) module of a process.
 
-##### List of available log writers
+#### List of available log writers
 
 - [`log-node`](https://github.com/medikoo/log-node) - For typical Node.js processes
 - [`log-aws-lambda`](https://github.com/medikoo/log-aws-lambda) - For AWS lambda environment
 
 _Note: if some writer is missing, propose a PR_
 
-#### Logs Visibility
+### Logs Visibility
 
 Default visibility depends on the enviroment (see chosen log writer for more information), and in most cases is setup through the following environment variables:
 
-###### `LOG_LEVEL`
+##### `LOG_LEVEL`
 
 (defaults to `notice`) Lowest log level from which (upwards) all logs will be exposed.
 
-###### `LOG_DEBUG`
+##### `LOG_DEBUG`
 
 Eventual list of namespaces to expose at levels below `LOG_LEVEL` threshold
 
@@ -106,16 +114,16 @@ List is comma separated as e.g. `foo,-foo:bar` (expose all `foo` but not `foo:ba
 
 It follows convention configured within [debug](https://github.com/visionmedia/debug#windows-note). To ease eventual migration from [debug](https://github.com/visionmedia/debug), configuration fallbacks to `DEBUG` env var if `LOG_DEBUG` is not present.
 
-#### Timestamps logging
+### Timestamps logging
 
 Writers are recommended to to expose timestamps aside each log when following env var is set
 
-###### `LOG_TIME`
+##### `LOG_TIME`
 
 - `rel` (default) - Logs time elapsed since logger initialization
 - `abs` - Logs absolute time in ISO 8601 format
 
-### Tests
+## Tests
 
     $ npm test
 
