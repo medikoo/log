@@ -46,7 +46,7 @@ log.error("error message to be logged");
 
 #### 2. Initialize log writer in main (starting) process module
 
-e.g. in main Node.js program.
+e.g. in main module of Node.js process:
 
 ```javascript
 require("log-node")();
