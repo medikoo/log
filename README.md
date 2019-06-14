@@ -131,6 +131,22 @@ Project cross-browser compatibility supported by:
 
 <a href="https://browserstack.com"><img src="https://bstacksupport.zendesk.com/attachments/token/Pj5uf2x5GU9BvWErqAr51Jh2R/?name=browserstack-logo-600x315.png" height="150" /></a>
 
+## Security contact information
+
+To report a security vulnerability, please use the [Tidelift security contact](https://tidelift.com/security). Tidelift will coordinate the fix and disclosure.
+
+---
+
+<div align="center">
+	<b>
+		<a href="https://tidelift.com/subscription/pkg/npm-log?utm_source=npm-log&utm_medium=referral&utm_campaign=readme">Get professional support for d with a Tidelift subscription</a>
+	</b>
+	<br>
+	<sub>
+		Tidelift helps make open source sustainable for maintainers while giving companies<br>assurances about security, maintenance, and licensing for their dependencies.
+	</sub>
+</div>
+
 [nix-build-image]: https://semaphoreci.com/api/v1/medikoo-org/log/branches/master/shields_badge.svg
 [nix-build-url]: https://semaphoreci.com/medikoo-org/log
 [win-build-image]: https://ci.appveyor.com/api/projects/status/jmw8p7g98x83itr0?svg=true
