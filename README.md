@@ -116,7 +116,7 @@ It follows convention configured within [debug](https://github.com/visionmedia/d
 
 ### Timestamps logging
 
-Writers are recommended to to expose timestamps aside each log when following env var is set
+When following env var is set writers are recommended to expose timestamps aside each log message
 
 ##### `LOG_TIME`
 
