@@ -15,33 +15,33 @@
 #### 1. Write application/library logs
 
 ```javascript
-// Default logger writes at 'info' level
+// Default logger (writes at 'info' level)
 const log = require("log");
 
 // Log 'info' level message:
-log("some info message %s", "injected string");
+log.info("some info message %s", "injected string");
 
 // Get namespaced logger (debug lib style)
-log = log.get("my-lib");
+const myLibLog = log.get("my-lib");
 
 // Log 'info' level message in context of 'my-lib' namespace:
-log("some info message in 'my-lib' namespace context");
+myLibLog.info("some info message in 'my-lib' namespace context");
 
-// Namespaces can be nested
-log = log.get("func");
+// Namespaces can be further nested
+const myLibFuncLog = log.get("func");
 
 // Log 'info' level message in context of 'my-lib:func' namespace:
-log("some info message in 'my-lib:func' namespace context");
+myLibFuncLog.info("some info message in 'my-lib:func' namespace context");
 
 // Log 'error' level message in context of 'my-lib:func' namespace:
-log.error("some error message");
+myLibFuncLog.error("some error message");
 
 // log output can be dynamically enabled/disabled during runtime
-const { restore } = log.error.disable();
-log.error("error message not really logged");
+const { restore } = myLibFuncLog.error.disable();
+myLibFuncLog.error("error message not really logged");
 // Restore previous logs visibiity state
 restore();
-log.error("error message to be logged");
+myLibFuncLog.error("error message to be logged");
 ```
 
 #### 2. Initialize log writer in main (starting) process module
