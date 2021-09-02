@@ -24,7 +24,7 @@
 	},
 	"devDependencies": {
 		"browserstack-tape-runner": "^3.0.0",
-		"eslint": "^5.16.0",
+		"eslint": "^7.32.0",
 		"eslint-config-medikoo-es5": "^2.0.0",
 		"essentials": "^1.0.0",
 		"git-list-updated": "^1.1.2",
