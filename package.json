@@ -33,7 +33,7 @@
 		"ncjsm": "^4.2.0",
 		"nyc": "^15.1.0",
 		"prettier-elastic": "^1.18.2",
-		"tape": "^4.10.2",
+		"tape": "^5.3.1",
 		"tape-index": "^3.1.0"
 	},
 	"husky": {
