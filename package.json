@@ -20,7 +20,7 @@
 		"es5-ext": "^0.10.50",
 		"event-emitter": "^0.3.5",
 		"sprintf-kit": "^2.0.0",
-		"type": "^1.0.1"
+		"type": "^2.5.0"
 	},
 	"devDependencies": {
 		"browserstack-tape-runner": "^3.0.0",
