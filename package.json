@@ -25,7 +25,7 @@
 	"devDependencies": {
 		"browserstack-tape-runner": "^3.0.0",
 		"eslint": "^7.32.0",
-		"eslint-config-medikoo-es5": "^2.0.0",
+		"eslint-config-medikoo": "^4.1.0",
 		"essentials": "^1.0.0",
 		"git-list-updated": "^1.1.2",
 		"husky": "^4.3.8",
@@ -50,7 +50,7 @@
 		]
 	},
 	"eslintConfig": {
-		"extends": "medikoo-es5",
+		"extends": "medikoo/es5",
 		"root": true,
 		"overrides": [
 			{
