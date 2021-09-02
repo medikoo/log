@@ -1,6 +1,6 @@
 {
 	"name": "log",
-	"version": "6.0.0",
+	"version": "6.1.0",
 	"description": "Universal pluggable logging utility",
 	"author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
 	"keywords": [
@@ -79,6 +79,30 @@
 				"options": {
 					"tabWidth": 2
 				}
+			}
+		]
+	},
+	"standard-version": {
+		"skip": {
+			"commit": true,
+			"tag": true
+		},
+		"types": [
+			{
+				"type": "feat",
+				"section": "Features"
+			},
+			{
+				"type": "fix",
+				"section": "Bug Fixes"
+			},
+			{
+				"type": "perf",
+				"section": "Performance Improvements"
+			},
+			{
+				"type": "chore",
+				"section": "Maintenance Improvements"
 			}
 		]
 	},

@@ -1,6 +1,17 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [6.1.0](https://github.com/medikoo/log/compare/v6.0.0...v6.1.0) (2021-09-02)
+
+### Features
+
+- **Writer:** Allow to customize logger applicability ([8d2a4e6](https://github.com/medikoo/log/commit/8d2a4e65b7ef32df2b401a894e6c2eb85ee96f13))
+
+### Maintenance Improvements
+
+- Upgrade `ncjsm` to v4 ([44f1f9a](https://github.com/medikoo/log/commit/44f1f9adca909009796506614420d69c52dbcf02))
+- Upgrade `type` to v2 ([e3d4aae](https://github.com/medikoo/log/commit/e3d4aaec4756b78fc678635dd5ec6f47c8d65c68))
 
 # [6.0.0](https://github.com/medikoo/log/compare/v5.1.0...v6.0.0) (2019-04-10)
 
