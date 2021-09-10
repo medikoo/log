@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/medikoo/log/compare/v6.1.0...v6.2.0) (2021-09-10)
+
+### Features
+
+- **Log:** Allow to inject undecorated new lines ([140ddfe](https://github.com/medikoo/log/commit/140ddfe42446eec75727c5ca0cdf68eae29838ea))
+
+### Maintenance Improvements
+
+- Bump dependencies ([4415866](https://github.com/medikoo/log/commit/4415866b43ff5ffadfbcea0b8d87f923d075d1a9))
+
 ## [6.1.0](https://github.com/medikoo/log/compare/v6.0.0...v6.1.0) (2021-09-02)
 
 ### Features
