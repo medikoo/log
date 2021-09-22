@@ -46,7 +46,7 @@ myLibFuncLog.error("error message to be logged");
 
 #### 2. Initialize log writer in main (starting) process module
 
-e.g. in main module of Node.js process:
+e.g. if target is Node.js, then install `log-node`, and at the top of main module initialize it
 
 ```javascript
 require("log-node")();
