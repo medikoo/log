@@ -1,6 +1,6 @@
 {
 	"name": "log",
-	"version": "6.2.0",
+	"version": "6.3.0",
 	"description": "Universal pluggable logging utility",
 	"author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
 	"keywords": [
