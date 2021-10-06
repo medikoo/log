@@ -1,7 +1,5 @@
-[![*nix build status][nix-build-image]][nix-build-url]
-[![Windows build status][win-build-image]][win-build-url]
+[![Build status][build-image]][build-url]
 [![Tests coverage][cov-image]][cov-url]
-![Transpilation status][transpilation-image]
 [![npm version][npm-image]][npm-url]
 
 # log
@@ -147,12 +145,9 @@ To report a security vulnerability, please use the [Tidelift security contact](h
 	</sub>
 </div>
 
-[nix-build-image]: https://semaphoreci.com/api/v1/medikoo-org/log/branches/master/shields_badge.svg
-[nix-build-url]: https://semaphoreci.com/medikoo-org/log
-[win-build-image]: https://ci.appveyor.com/api/projects/status/jmw8p7g98x83itr0?svg=true
-[win-build-url]: https://ci.appveyor.com/project/medikoo/log
+[build-image]: https://github.com/medikoo/log/workflows/Integrate/badge.svg
+[build-url]: https://github.com/medikoo/log/actions?query=workflow%3AIntegrate
 [cov-image]: https://img.shields.io/codecov/c/github/medikoo/log.svg
 [cov-url]: https://codecov.io/gh/medikoo/log
-[transpilation-image]: https://img.shields.io/badge/transpilation-free-brightgreen.svg
 [npm-image]: https://img.shields.io/npm/v/log.svg
 [npm-url]: https://www.npmjs.com/package/log
