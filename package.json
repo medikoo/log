@@ -23,6 +23,7 @@
 		"type": "^2.5.0"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^13.2.0",
 		"browserstack-tape-runner": "^3.0.0",
 		"eslint": "^7.32.0",
 		"eslint-config-medikoo": "^4.1.0",
@@ -38,6 +39,7 @@
 	},
 	"husky": {
 		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
 			"pre-commit": "lint-staged"
 		}
 	},
@@ -110,6 +112,7 @@
 		]
 	},
 	"scripts": {
+		"commitlint": "commitlint -f HEAD@{15}",
 		"coverage": "nyc --reporter=lcov --reporter=html --reporter=text-summary npm test",
 		"check-coverage": "npm run coverage && nyc check-coverage --statements 100 --function 100 --branches 100 --lines 100",
 		"lint": "eslint --ignore-path=.gitignore .",
