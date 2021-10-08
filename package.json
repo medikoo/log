@@ -32,12 +32,12 @@
 		"git-list-updated": "^1.2.1",
 		"github-release-from-cc-changelog": "^2.2.0",
 		"husky": "^4.3.8",
-		"lint-staged": "^11.1.2",
+		"lint-staged": "^11.2.0",
 		"ncjsm": "^4.2.0",
 		"nyc": "^15.1.0",
 		"prettier-elastic": "^2.2.1",
 		"tape": "^5.3.1",
-		"tape-index": "^3.1.0"
+		"tape-index": "^3.2.0"
 	},
 	"husky": {
 		"hooks": {
