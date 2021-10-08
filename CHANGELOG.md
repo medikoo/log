@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.1](https://github.com/medikoo/log/compare/v6.3.0...v6.3.1) (2021-10-08)
+
+### Bug Fixes
+
+- Ensure emitter is also shared across different instances ([3a315ac](https://github.com/medikoo/log/commit/3a315ac37a3aa95b0e9fb558b0cbbad4c97188b5)), closes [#11](https://github.com/medikoo/log/issues/11)
+
 ## [6.3.0](https://github.com/medikoo/log/compare/v6.2.0...v6.3.0) (2021-10-06)
 
 ### Features
