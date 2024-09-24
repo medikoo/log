@@ -98,34 +98,6 @@
 			"text-summary"
 		]
 	},
-	"standard-version": {
-		"skip": {
-			"commit": true,
-			"tag": true
-		},
-		"types": [
-			{
-				"type": "feat",
-				"section": "Features"
-			},
-			{
-				"type": "fix",
-				"section": "Bug Fixes"
-			},
-			{
-				"type": "perf",
-				"section": "Performance Improvements"
-			},
-			{
-				"type": "refactor",
-				"section": "Maintenance Improvements"
-			},
-			{
-				"type": "chore",
-				"section": "Maintenance Improvements"
-			}
-		]
-	},
 	"scripts": {
 		"coverage": "nyc npm test",
 		"check-coverage": "npm run coverage && nyc check-coverage --statements 100 --function 100 --branches 100 --lines 100",
