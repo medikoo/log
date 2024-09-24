@@ -21,7 +21,7 @@
 		"uni-global": "^1.0.0"
 	},
 	"devDependencies": {
-		"eslint": "^7.32.0",
+		"eslint": "^8.57.1",
 		"eslint-config-medikoo": "^4.1.0",
 		"essentials": "^1.1.1",
 		"git-list-updated": "^1.2.1",
