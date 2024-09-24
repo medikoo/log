@@ -17,7 +17,7 @@
 	"dependencies": {
 		"d": "^1.0.1",
 		"duration": "^0.2.2",
-		"es5-ext": "^0.10.53",
+		"es5-ext": "^0.10.63",
 		"event-emitter": "^0.3.5",
 		"sprintf-kit": "^2.0.1",
 		"type": "^2.5.0",
