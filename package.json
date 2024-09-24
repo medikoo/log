@@ -10,10 +10,7 @@
 		"bunyan",
 		"winston"
 	],
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/medikoo/log.git"
-	},
+	"repository": "medikoo/log",
 	"dependencies": {
 		"d": "^1.0.1",
 		"duration": "^0.2.2",
