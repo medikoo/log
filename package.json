@@ -21,7 +21,6 @@
 		"uni-global": "^1.0.0"
 	},
 	"devDependencies": {
-		"browserstack-tape-runner": "^3.0.0",
 		"eslint": "^7.32.0",
 		"eslint-config-medikoo": "^4.1.0",
 		"essentials": "^1.1.1",
@@ -136,19 +135,8 @@
 		"prettier-check-updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
 		"prettify": "prettier --write --ignore-path .gitignore '**/*.{css,html,js,json,md,yaml,yml}'",
 		"test": "npm run test-prepare && npm run test-run",
-		"test-browsers": "tape-index && browserstack-tape-runner test.index.js",
 		"test-prepare": "tape-index",
 		"test-run": "node test.index.js"
-	},
-	"browserstack": {
-		"browsers": [
-			"chrome_current",
-			"firefox_current",
-			"safari_current",
-			"opera_current",
-			"ie_11",
-			"edge_current"
-		]
 	},
 	"engines": {
 		"node": ">=0.12"
