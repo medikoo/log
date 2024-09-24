@@ -14,3 +14,4 @@ jobs:
     uses: medikoo/github-actions-workflows/.github/workflows/8-integrate.yml@main
     secrets:
       USER_GITHUB_TOKEN: ${{ secrets.USER_GITHUB_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
