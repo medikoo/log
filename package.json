@@ -155,5 +155,8 @@
 			"edge_current"
 		]
 	},
+	"engines": {
+		"node": ">=0.12"
+	},
 	"license": "ISC"
 }
