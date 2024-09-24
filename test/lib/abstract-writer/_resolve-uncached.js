@@ -9,7 +9,7 @@ module.exports = function () {
 		return {
 			log: require("../../../"),
 			LogWriter: require("../../../lib/abstract-writer"),
-			emitter: require("../../../lib/emitter")
+			emitter: require("../../../lib/emitter"),
 		};
 	});
 };

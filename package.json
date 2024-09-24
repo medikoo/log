@@ -30,7 +30,7 @@
 		"lint-staged": "^15.2.10",
 		"ncjsm": "^4.2.0",
 		"nyc": "^17.1.0",
-		"prettier-elastic": "^2.2.1",
+		"prettier-elastic": "^3.2.5",
 		"tape": "^5.3.1",
 		"tape-index": "^3.2.0"
 	},

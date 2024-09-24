@@ -11,7 +11,7 @@ test("lib/setupVisibility: Affects already created loggers", function (t) {
 			require.resolve("../../.."), require.resolve("../../../lib/emitter"),
 			require.resolve("../../../lib/setup-visibility"),
 			require.resolve("../../../lib/private/logger-prototype"),
-			require.resolve("../../../lib/private/logger-prototype/namespace-props")
+			require.resolve("../../../lib/private/logger-prototype/namespace-props"),
 		],
 		function () {
 			log = require("../../..");

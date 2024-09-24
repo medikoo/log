@@ -9,9 +9,7 @@ test("ensureLogger", function (t) {
 	t.throws(
 		function () {
 			ensureLogger(function () { return "foo"; });
-		},
-		TypeError,
-		"Should throw on non logger values"
+		}, TypeError, "Should throw on non logger values"
 	);
 	t.end();
 });

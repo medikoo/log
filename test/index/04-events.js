@@ -12,7 +12,7 @@ test("(main): Events", function (t) {
 		[
 			require.resolve("../../"), require.resolve("../../lib/private/logger-prototype"),
 			require.resolve("../../lib/emitter"),
-			require.resolve("../../lib/private/logger-prototype/namespace-props")
+			require.resolve("../../lib/private/logger-prototype/namespace-props"),
 		],
 		function () {
 			log = require("../..");

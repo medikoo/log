@@ -15,7 +15,7 @@ test("lib/resolveFormatParts", function (t) {
 		t.deepEqual(normalizeParts(resolveFormatParts("foo bar %d %f", 20.2, 21.21)), {
 			literals: ["foo bar ", " ", ""],
 			substitutions: ["20.2", "21.21"],
-			rest: null
+			rest: null,
 		});
 		t.end();
 	});
